@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Gégé on the road</title>
+    <link rel="stylesheet" href="src/css/style.css">
+</head>
+
+<body class="bg-air_superiority_blue-900 flex flex-col min-h-screen">
+    <nav class="bg-white p-4 shadow-md flex items-center justify-between">
+        <div class="flex items-center space-x-3">
+            <img src="src/4l.svg" alt="Logo Gégé on the road" class="w-10 h-10" />
+            <span class="font-Grechen text-3xl font-bold text-rich_black tracking-wide">Gégé on the road</span>
+        </div>
+        <div>
+            <a href="connexion.html">
+                <button
+                    class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-500 shadow transition-all duration-200">Connexion</button>
+            </a>
+        </div>
+    </nav>
+
+
+    <main class="flex-grow container mx-auto p-6 bg-white shadow-md rounded-md mt-6">
+        <h1 class="text-2xl font-bold text-rich_black mb-4">Gestion des utilisateurs</h1>
+        <table class="min-w-full table-auto border-collapse border border-gray-200">
+            <thead>
+                <tr class="bg-gray-100 text-left">
+                    <th class="border px-4 py-2">Nom</th>
+                    <th class="border px-4 py-2">Email</th>
+                    <th class="border px-4 py-2">Statut</th>
+                    <th class="border px-4 py-2">Actions</th>
+                </tr>
+            </thead>
+            <tbody id="user-list">
+                <!-- Les utilisateurs seront affichés ici via PHP et/ou JS -->
+            </tbody>
+        </table>
+    </main>
+
+
+    <footer class="bg-rich_black text-white py-6 mt-auto">
+        <div class="max-w-6xl mx-auto px-4 text-center">
+            <p class="mb-2">&copy; 2025 Gégé on the road. Tous droits réservés.</p>
+            <p class="text-sm text-gray-400">Suivez nos aventures sur <a href="https://instagram.com/gege_4l"
+                    class="text-blue-400 hover:text-blue-300">Instagram</a>.</p>
+        </div>
+    </footer>
+
+    <script type="module" src="src/js/liste.js"></script>
+</body>
+
+</html>
