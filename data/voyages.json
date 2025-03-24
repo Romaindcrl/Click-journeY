@@ -1,0 +1,46 @@
+{
+    "voyages": [
+        {
+            "id": "1",
+            "nom": "Roadtrip Californie",
+            "description": "Découvrez la côte ouest des États-Unis, de San Francisco à Los Angeles en passant par la mythique Route 1.",
+            "prix": 2999,
+            "image": "californie.jpg",
+            "activites": [
+                "Visite de San Francisco",
+                "Route 1 Pacific Coast",
+                "Parc national de Yosemite",
+                "Hollywood Boulevard",
+                "Universal Studios"
+            ]
+        },
+        {
+            "id": "2",
+            "nom": "Aventure Islande",
+            "description": "Explorez les paysages volcaniques et les glaciers majestueux de l'Islande lors d'un circuit inoubliable.",
+            "prix": 3499,
+            "image": "islande.jpg",
+            "activites": [
+                "Cercle d'Or",
+                "Blue Lagoon",
+                "Randonnée sur glacier",
+                "Observation des aurores boréales",
+                "Sources chaudes naturelles"
+            ]
+        },
+        {
+            "id": "3",
+            "nom": "Route 66 Express",
+            "description": "Parcourez la mythique Route 66 d'est en ouest et découvrez l'Amérique authentique.",
+            "prix": 2499,
+            "image": "route66.jpg",
+            "activites": [
+                "Chicago Downtown",
+                "Gateway Arch St. Louis",
+                "Grand Canyon",
+                "Las Vegas",
+                "Santa Monica Pier"
+            ]
+        }
+    ]
+} 

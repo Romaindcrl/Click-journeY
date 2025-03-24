@@ -1,0 +1,13 @@
+{
+    "users": [
+        {
+            "id": 1,
+            "login": "victor",
+            "password": "$2y$10$\/O8A17LQr5sr66ax0DZbI.32P4jobvOxxzfmE6.WGR0VnkCF7KCk2",
+            "email": "victor.haegeman@gmail.com",
+            "nom": "Haegeman",
+            "prenom": "Victor",
+            "role": "user"
+        }
+    ]
+}

@@ -1,0 +1,35 @@
+# Définir index.php comme page par défaut
+DirectoryIndex index.php
+
+# Activer le moteur de réécriture
+RewriteEngine On
+
+# Rediriger les requêtes sans extension vers les fichiers PHP
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}.php -f
+RewriteRule ^([^\.]+)$ $1.php [NC,L]
+
+# Rediriger .html vers .php
+RewriteCond %{REQUEST_FILENAME}.php -f
+RewriteRule ^(.*)\.html$ $1.php [NC,L]
+
+# Autoriser l'accès aux images
+<FilesMatch "\.(jpg|jpeg|png|gif)$">
+    Order Allow,Deny
+    Allow from all
+</FilesMatch>
+
+# Protection des fichiers sensibles
+<FilesMatch "^\.">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Redirection des erreurs
+ErrorDocument 404 /404.php
+ErrorDocument 403 /403.php
+
+# Types MIME pour les images
+AddType image/jpeg .jpg .jpeg
+AddType image/png .png
+AddType image/gif .gif 
