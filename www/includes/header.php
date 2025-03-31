@@ -8,12 +8,18 @@ session_start();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Click-journeY - Voyages sur mesure</title>
     <link rel="stylesheet" href="src/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <?php if (isset($_SESSION['flash'])): ?>
         <div class="flash-message <?php echo $_SESSION['flash']['type']; ?>">
             <?php echo $_SESSION['flash']['message']; ?>
         </div>
+        <script>
+            setTimeout(function() {
+                document.querySelector('.flash-message').remove();
+            }, 3000);
+        </script>
         <?php unset($_SESSION['flash']); ?>
     <?php endif; ?>
 
@@ -25,19 +31,20 @@ session_start();
                 <li><a href="voyages.php">Voyages</a></li>
                 <?php if (isset($_SESSION['user'])): ?>
                     <li><a href="profil.php">Profil</a></li>
+                    <li><a href="logout.php" class="btn btn-danger">Déconnexion</a></li>
                     <?php if ($_SESSION['user']['role'] === 'admin'): ?>
                         <li><a href="admin.php">Administration</a></li>
                     <?php endif; ?>
-                    <li><a href="logout.php" class="btn btn-danger">Déconnexion</a></li>
                 <?php else: ?>
-                    <li><a href="connexion.php" class="btn btn-primary">Connexion</a></li>
-                    <li><a href="inscription.php" class="btn btn-warning">Inscription</a></li>
+                    <li><a href="connexion.php">Connexion</a></li>
+                    <li><a href="inscription.php" class="btn btn-inscription">Inscription</a></li>
                 <?php endif; ?>
                 <li>
                     <div class="theme-switch">
                         <input type="checkbox" id="theme-toggle">
                         <label for="theme-toggle">
-                            <span class="theme-icon">🌙</span>
+                            <i class="fas fa-sun"></i>
+                            <i class="fas fa-moon"></i>
                         </label>
                     </div>
                 </li>
@@ -53,22 +60,20 @@ session_start();
 
     <main>
     <script>
-    // Gestion du thème sombre/clair
+    // Gestion du thème
     const themeToggle = document.getElementById('theme-toggle');
-    const html = document.documentElement;
-    const themeIcon = document.querySelector('.theme-icon');
-
-    // Charger le thème depuis localStorage
-    const savedTheme = localStorage.getItem('theme') || 'light';
-    html.setAttribute('data-theme', savedTheme);
-    themeToggle.checked = savedTheme === 'dark';
-    themeIcon.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
-
+    const htmlElement = document.documentElement;
+    
+    // Vérifier le thème stocké ou utiliser le thème clair par défaut
+    const currentTheme = localStorage.getItem('theme') || 'light';
+    htmlElement.setAttribute('data-theme', currentTheme);
+    themeToggle.checked = currentTheme === 'dark';
+    
+    // Changer le thème lorsque l'utilisateur clique sur le toggle
     themeToggle.addEventListener('change', function() {
-        const newTheme = this.checked ? 'dark' : 'light';
-        html.setAttribute('data-theme', newTheme);
-        localStorage.setItem('theme', newTheme);
-        themeIcon.textContent = newTheme === 'dark' ? '☀️' : '🌙';
+        const theme = this.checked ? 'dark' : 'light';
+        htmlElement.setAttribute('data-theme', theme);
+        localStorage.setItem('theme', theme);
     });
 
     // Gestion des flash messages

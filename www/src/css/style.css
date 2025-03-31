@@ -149,12 +149,33 @@ nav {
     padding: 0 2rem;
 }
 
+.logo-container {
+    display: flex;
+    align-items: center;
+}
+
 .logo {
     font-family: var(--font-Amarante);
-    font-size: 1.8rem;
+    font-size: 1.5rem;
     color: var(--primary-color);
     text-decoration: none;
     font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.logo-img {
+    width: 22px;
+    height: 22px;
+    object-fit: contain;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+.logo-text {
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: #4169E1;
 }
 
 .nav-links {
@@ -162,7 +183,7 @@ nav {
     list-style: none;
     margin: 0;
     padding: 0;
-    gap: 1rem;
+    gap: 1.5rem;
     align-items: center;
 }
 
@@ -170,14 +191,14 @@ nav {
     color: var(--text-color);
     text-decoration: none;
     font-weight: 500;
-    padding: 0.5rem 1rem;
-    border-radius: 8px;
+    padding: 0.5rem 0.8rem;
+    border-radius: 4px;
     transition: all 0.3s ease;
 }
 
 .nav-links a:hover {
-    background-color: var(--primary-color);
-    color: white;
+    color: #4169E1;
+    background-color: rgba(65, 105, 225, 0.1);
 }
 
 /* Boutons */
@@ -203,14 +224,41 @@ nav {
     transform: translateY(-1px);
 }
 
-.btn-danger {
-    background-color: #dc3545;
+.btn-inscription {
+    background-color: #4169E1;
     color: white;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(65, 105, 225, 0.2);
+    font-weight: 600;
 }
 
-.btn-danger:hover {
-    background-color: #c82333;
-    transform: translateY(-1px);
+.btn-inscription:hover {
+    background-color: #3251AC;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(65, 105, 225, 0.3);
+}
+
+.btn-connexion {
+    background-color: #4169E1;
+    color: white;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(65, 105, 225, 0.2);
+    font-weight: 600;
+}
+
+.btn-connexion:hover {
+    background-color: #3251AC;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(65, 105, 225, 0.3);
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    color: white !important;
+    border-radius: 4px !important;
+    padding: 0.5rem 1rem !important;
 }
 
 .btn-warning {
@@ -227,7 +275,7 @@ nav {
 .page-container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 2rem;
+    padding: 2rem 1.5rem;
 }
 
 .page-title {
@@ -247,37 +295,48 @@ nav {
 
 /* Formulaires */
 .form-container {
-    max-width: 400px;
+    max-width: 420px;
     margin: 2rem auto;
-    padding: 0 1rem;
-    min-height: calc(100vh - 200px);
+    padding: 0;
     display: flex;
+    justify-content: center;
     align-items: center;
+    min-height: calc(100vh - 200px);
+    box-sizing: border-box;
 }
 
 .form-card {
     background: var(--card-bg);
-    border-radius: 12px;
-    box-shadow: var(--shadow-md);
-    padding: 2.5rem;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    padding: 2rem;
     width: 100%;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-sizing: border-box;
+}
+
+.form-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
 }
 
 .form-header {
     text-align: center;
     margin-bottom: 2rem;
+    padding: 0 1rem;
 }
 
 .form-header h2 {
     font-family: var(--font-Amarante);
-    font-size: 2rem;
-    color: var(--text-color);
-    margin-bottom: 0.5rem;
+    font-size: 2.2rem;
+    color: var(--primary-color);
+    margin-bottom: 0.8rem;
 }
 
 .form-header p {
     color: var(--text-light);
-    font-size: 1.1rem;
+    font-size: 1rem;
+    line-height: 1.4;
 }
 
 .form-group {
@@ -286,37 +345,88 @@ nav {
 
 .form-group label {
     display: block;
-    margin-bottom: 0.5rem;
-    color: var(--text-color);
+    margin-bottom: 0.8rem;
     font-weight: 500;
 }
 
-.form-group input {
+.form-group input,
+.form-group select,
+.form-group textarea {
     width: 100%;
-    padding: 0.75rem 1rem;
-    border: 2px solid var(--border-color);
+    padding: 1rem 1.2rem;
+    border: 1px solid var(--border-color);
     border-radius: 8px;
     font-size: 1rem;
     transition: all 0.3s ease;
 }
 
-.form-group input:focus {
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
     outline: none;
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(59, 91, 219, 0.1);
+    box-shadow: 0 0 0 3px rgba(65, 105, 225, 0.1);
 }
 
 .form-group input::placeholder {
     color: var(--text-light);
+    opacity: 0.7;
 }
 
 .form-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
     margin-top: 2rem;
+}
+
+.btn {
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
     text-align: center;
+    display: inline-block;
+    text-decoration: none;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-color-dark);
+}
+
+.btn-secondary {
+    background-color: var(--secondary-color);
+    color: var(--text-color);
+}
+
+.btn-secondary:hover {
+    background-color: var(--secondary-color-dark);
+}
+
+.btn-inscription, .btn-connexion {
+    background-color: #4169E1 !important;
+    color: white;
+    border-radius: 6px !important;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(65, 105, 225, 0.2);
+    font-weight: 600;
+}
+
+.btn-inscription:hover, .btn-connexion:hover {
+    background-color: #3251AC !important;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(65, 105, 225, 0.3);
 }
 
 .form-footer {
-    margin-top: 2rem;
+    margin-top: 1.5rem;
     text-align: center;
     padding-top: 1.5rem;
     border-top: 1px solid var(--border-color);
@@ -324,36 +434,81 @@ nav {
 
 .form-footer p {
     color: var(--text-light);
+    font-size: 0.9rem;
+    margin: 0;
 }
 
 .form-footer a {
     color: var(--primary-color);
     text-decoration: none;
-    font-weight: 500;
+    font-weight: 600;
+    transition: color 0.2s ease;
 }
 
 .form-footer a:hover {
     text-decoration: underline;
+    color: var(--primary-hover);
 }
 
 /* Alertes */
 .alert {
     padding: 1rem;
-    border-radius: 8px;
+    border-radius: 6px;
     margin-bottom: 1.5rem;
     text-align: center;
+    font-weight: 500;
+    font-size: 0.95rem;
+    animation: fadeIn 0.3s ease-out;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .alert-danger {
-    background-color: var(--color-tomato-900);
-    color: var(--color-rich_black);
-    border: 1px solid var(--color-tomato-800);
+    background-color: #ffe5e8;
+    color: #d32f2f;
+    border-left: 4px solid #d32f2f;
 }
 
 .alert-success {
-    background-color: var(--color-celestial_blue-900);
-    color: var(--color-rich_black);
-    border: 1px solid var(--color-celestial_blue-800);
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border-left: 4px solid #2e7d32;
+}
+
+/* Dark mode pour les formulaires */
+[data-theme="dark"] .form-card {
+    background-color: var(--card-bg);
+}
+
+[data-theme="dark"] .form-group input {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] .form-group input::placeholder {
+    color: var(--text-light);
+}
+
+[data-theme="dark"] .alert-danger {
+    background-color: rgba(211, 47, 47, 0.2);
+    color: #ef9a9a;
+}
+
+[data-theme="dark"] .alert-success {
+    background-color: rgba(46, 125, 50, 0.2);
+    color: #a5d6a7;
 }
 
 /* Profil */
@@ -859,13 +1014,14 @@ footer a:hover {
 
 /* Personnalisation */
 .voyage-summary {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    background: var(--card-bg);
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
     margin-bottom: 2rem;
-    padding: 1rem;
-    background: var(--background-color);
-    border-radius: 8px;
 }
 
 .voyage-summary .voyage-image {
@@ -883,9 +1039,8 @@ footer a:hover {
 
 .activities-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: 1fr;
     gap: 1rem;
-    margin-top: 1rem;
 }
 
 .activity-checkbox {
@@ -914,84 +1069,107 @@ footer a:hover {
 }
 
 .customization-form {
-    margin-top: 2rem;
+    max-width: 600px;
+    margin: 0 auto;
+    background: var(--card-bg);
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
 }
 
-@media (max-width: 768px) {
+@media (min-width: 768px) {
     .voyage-summary {
-        grid-template-columns: 1fr;
+        flex-direction: row;
     }
-
-    .voyage-summary .voyage-image {
-        height: 200px;
+    
+    .voyage-image {
+        flex: 0 0 40%;
     }
+    
+    .voyage-details {
+        flex: 1;
+    }
+}
 
+.activities-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+}
+
+@media (min-width: 768px) {
     .activities-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr 1fr;
     }
 }
 
 /* Paiement */
-.payment-summary {
-    background: var(--background-color);
-    border-radius: 8px;
-    padding: 1.5rem;
-    margin-bottom: 2rem;
-}
-
-.payment-summary h3 {
-    color: var(--color-rich_black);
-    margin-bottom: 1rem;
-    font-size: 1.2rem;
-}
-
-.summary-item {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 1rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 1px solid var(--border-color);
-}
-
-.summary-item:last-child {
-    border-bottom: none;
-}
-
-.summary-item.total {
-    font-weight: 600;
-    font-size: 1.2rem;
-    color: var(--primary-color);
-}
-
-.summary-item ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.summary-item li {
-    color: var(--color-rich_black-600);
-    margin-bottom: 0.25rem;
-}
-
-.payment-form {
+.payment-container {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 2rem;
     margin-top: 2rem;
 }
 
-.payment-form input[readonly] {
-    background-color: var(--background-color);
-    cursor: not-allowed;
+.payment-summary, .payment-form-container {
+    background: var(--card-bg);
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
 }
 
-@media (max-width: 768px) {
-    .payment-summary {
-        padding: 1rem;
-    }
+.payment-header {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 1.25rem;
+    font-weight: 600;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 
-    .summary-item {
-        flex-direction: column;
-        gap: 0.5rem;
-    }
+.payment-header h3 {
+    margin: 0;
+    font-size: 1.2rem;
+}
+
+.payment-form {
+    padding: 1.5rem;
+}
+
+.card-details {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 0;
+}
+
+.payment-form .form-group {
+    margin-bottom: 1.5rem;
+}
+
+.payment-form .form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    padding: 0;
+}
+
+.payment-form .form-group input {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    margin: 0;
+}
+
+.card-number-input {
+    position: relative;
+}
+
+.pay-button {
+    width: 100%;
+    padding: 0.9rem 0;
+    font-size: 1rem;
+    margin: 0;
+    border-radius: 6px !important;
 }
 
 /* Confirmation */
@@ -1356,11 +1534,33 @@ textarea#comment:focus {
     background: var(--background-color);
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    font-size: 1.2rem;
+    justify-content: space-between;
+    width: 60px;
+    height: 28px;
+    position: relative;
     transition: all 0.3s ease;
 }
 
 .theme-switch label:hover {
     background: var(--border-color);
+}
+
+.theme-switch label .fa-sun {
+    color: #f1c40f;
+    font-size: 14px;
+    margin-left: 4px;
+}
+
+.theme-switch label .fa-moon {
+    color: #9b59b6;
+    font-size: 14px;
+    margin-right: 4px;
+}
+
+.theme-switch input:checked + label .fa-sun {
+    color: #f39c12;
+}
+
+.theme-switch input:checked + label .fa-moon {
+    color: #8e44ad;
 }

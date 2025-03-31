@@ -39,6 +39,7 @@ $success = $status === 'success';
         <div class="confirmation-actions">
             <a href="paiement.php" class="btn btn-primary">Réessayer le paiement</a>
             <a href="voyages.php" class="btn btn-secondary">Retour aux voyages</a>
+            
         </div>
     <?php endif; ?>
 </div>

@@ -9,5 +9,14 @@
             "prenom": "Victor",
             "role": "user"
         }
-    ]
+    ],
+    "0": {
+        "id": 1,
+        "login": "victor",
+        "password": "$2y$10$tCUQRf0gn84TQf1X2IScF.5jK8CeztA6CoVjOjzFMhey1Dfv9FL7i",
+        "email": "victor.haegeman@gmail.com",
+        "nom": "Haegeman",
+        "prenom": "victor",
+        "role": "normal"
+    }
 }

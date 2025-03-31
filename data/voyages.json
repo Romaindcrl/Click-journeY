@@ -2,44 +2,44 @@
     "voyages": [
         {
             "id": "1",
-            "nom": "Roadtrip Californie",
-            "description": "Découvrez la côte ouest des États-Unis, de San Francisco à Los Angeles en passant par la mythique Route 1.",
-            "prix": 2999,
-            "image": "californie.jpg",
+            "nom": "Japon Traditionnel",
+            "description": "Découvrez la culture millénaire japonaise à travers ses temples, jardins zen et villages traditionnels.",
+            "prix": 3599,
+            "image": "voyages/japon.jpg",
             "activites": [
-                "Visite de San Francisco",
-                "Route 1 Pacific Coast",
-                "Parc national de Yosemite",
-                "Hollywood Boulevard",
-                "Universal Studios"
+                {"id": "1-1", "nom": "Cérémonie du thé traditionnelle", "prix": 120},
+                {"id": "1-2", "nom": "Visite des temples de Kyoto", "prix": 150},
+                {"id": "1-3", "nom": "Expérience en ryokan", "prix": 250},
+                {"id": "1-4", "nom": "Cours de cuisine japonaise", "prix": 180},
+                {"id": "1-5", "nom": "Excursion au Mont Fuji", "prix": 200}
             ]
         },
         {
             "id": "2",
-            "nom": "Aventure Islande",
-            "description": "Explorez les paysages volcaniques et les glaciers majestueux de l'Islande lors d'un circuit inoubliable.",
-            "prix": 3499,
-            "image": "islande.jpg",
+            "nom": "Tour d'Italie",
+            "description": "Un voyage gastronomique et culturel à travers les plus belles villes d'Italie, de Rome à Venise.",
+            "prix": 2899,
+            "image": "voyages/italie.jpg",
             "activites": [
-                "Cercle d'Or",
-                "Blue Lagoon",
-                "Randonnée sur glacier",
-                "Observation des aurores boréales",
-                "Sources chaudes naturelles"
+                {"id": "2-1", "nom": "Visite guidée du Colisée", "prix": 120},
+                {"id": "2-2", "nom": "Cours de cuisine italienne", "prix": 160},
+                {"id": "2-3", "nom": "Tour en gondole à Venise", "prix": 180},
+                {"id": "2-4", "nom": "Dégustation de vins en Toscane", "prix": 210},
+                {"id": "2-5", "nom": "Visite de Pompéi", "prix": 140}
             ]
         },
         {
             "id": "3",
-            "nom": "Route 66 Express",
-            "description": "Parcourez la mythique Route 66 d'est en ouest et découvrez l'Amérique authentique.",
-            "prix": 2499,
-            "image": "route66.jpg",
+            "nom": "Aventure Australienne",
+            "description": "Explorez les merveilles naturelles de l'Australie, de la Grande Barrière de Corail à l'Outback.",
+            "prix": 4299,
+            "image": "voyages/australie.jpg",
             "activites": [
-                "Chicago Downtown",
-                "Gateway Arch St. Louis",
-                "Grand Canyon",
-                "Las Vegas",
-                "Santa Monica Pier"
+                {"id": "3-1", "nom": "Plongée sur la Grande Barrière de Corail", "prix": 250},
+                {"id": "3-2", "nom": "Visite de l'Opéra de Sydney", "prix": 120},
+                {"id": "3-3", "nom": "Safari dans l'Outback", "prix": 320},
+                {"id": "3-4", "nom": "Randonnée dans les Blue Mountains", "prix": 180},
+                {"id": "3-5", "nom": "Découverte de la culture aborigène", "prix": 150}
             ]
         }
     ]
