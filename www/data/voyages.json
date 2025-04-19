@@ -1,0 +1,263 @@
+[
+  {
+    "id": 1,
+    "titre": "Tour de France en 4L",
+    "description": "Partez à la découverte des plus beaux paysages français à bord d'une mythique Renault 4L.",
+    "image": "src/images/4L/france.jpg",
+    "prix_base": 1200,
+    "duree": 7,
+    "disponible": true,
+    "activites": [
+      {
+        "id": 1,
+        "nom": "Dégustation de vins",
+        "description": "Découvrez les meilleurs vins français lors d'une dégustation guidée.",
+        "prix": 50
+      },
+      {
+        "id": 2,
+        "nom": "Visite de châteaux",
+        "description": "Explorez l'histoire de France à travers ses châteaux les plus emblématiques.",
+        "prix": 80
+      },
+      {
+        "id": 3,
+        "nom": "Parcours gastronomique",
+        "description": "Un tour des meilleures spécialités culinaires régionales.",
+        "prix": 65
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "titre": "Aventure Méditerranéenne",
+    "description": "Longez la côte méditerranéenne et ses villages pittoresques en 4L.",
+    "image": "src/images/4L/mediterranee.jpg",
+    "prix_base": 1400,
+    "duree": 10,
+    "disponible": true,
+    "activites": [
+      {
+        "id": 1,
+        "nom": "Plongée sous-marine",
+        "description": "Découvrez les fonds marins de la Méditerranée.",
+        "prix": 90
+      },
+      {
+        "id": 2,
+        "nom": "Randonnée côtière",
+        "description": "Parcourez les plus beaux sentiers côtiers à pied.",
+        "prix": 40
+      },
+      {
+        "id": 3,
+        "nom": "Cours de cuisine locale",
+        "description": "Apprenez à préparer les spécialités méditerranéennes.",
+        "prix": 60
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "titre": "Routes des Alpes",
+    "description": "Traversez les majestueuses Alpes à bord de votre 4L pour une aventure inoubliable.",
+    "image": "src/images/4L/alpes.jpg",
+    "prix_base": 1600,
+    "duree": 12,
+    "disponible": true,
+    "activites": [
+      {
+        "id": 1,
+        "nom": "Ski d'été",
+        "description": "Profitez des glaciers pour skier même en été.",
+        "prix": 120
+      },
+      {
+        "id": 2,
+        "nom": "Parapente",
+        "description": "Survolez les Alpes en parapente pour une vue imprenable.",
+        "prix": 150
+      },
+      {
+        "id": 3,
+        "nom": "Visite de fromagers",
+        "description": "Découvrez la fabrication des fromages alpins traditionnels.",
+        "prix": 45
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "titre": "Périple Atlantique",
+    "description": "De Biarritz à Brest, découvrez la côte Atlantique et ses merveilles en 4L.",
+    "image": "src/images/4L/atlantique.jpg",
+    "prix_base": 1300,
+    "duree": 9,
+    "disponible": true,
+    "activites": [
+      {
+        "id": 1,
+        "nom": "Cours de surf",
+        "description": "Initiez-vous au surf sur les meilleures vagues de l'Atlantique.",
+        "prix": 70
+      },
+      {
+        "id": 2,
+        "nom": "Excursion en bateau",
+        "description": "Partez observer les dauphins et la faune marine locale.",
+        "prix": 85
+      },
+      {
+        "id": 3,
+        "nom": "Dégustation de fruits de mer",
+        "description": "Savourez les meilleurs fruits de mer fraîchement pêchés.",
+        "prix": 55
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "titre": "Japon en 4L",
+    "description": "Découvrez le Japon et sa culture fascinante au volant d'une authentique Renault 4L.",
+    "image": "src/images/4L/japon.jpg",
+    "prix_base": 2500,
+    "duree": 15,
+    "disponible": true,
+    "activites": [
+      {
+        "id": 1,
+        "nom": "Cérémonie du thé",
+        "description": "Participez à une authentique cérémonie du thé japonaise.",
+        "prix": 60
+      },
+      {
+        "id": 2,
+        "nom": "Visite de temples",
+        "description": "Explorez les temples et sanctuaires ancestraux.",
+        "prix": 70
+      },
+      {
+        "id": 3,
+        "nom": "Cours de cuisine japonaise",
+        "description": "Apprenez à préparer des sushis et autres spécialités.",
+        "prix": 85
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "titre": "Italie en 4L",
+    "description": "Parcourez l'Italie et ses trésors culturels dans votre Renault 4L vintage.",
+    "image": "src/images/4L/italie.jpg",
+    "prix_base": 1700,
+    "duree": 12,
+    "disponible": true,
+    "activites": [
+      {
+        "id": 1,
+        "nom": "Cours de fabrication de pâtes",
+        "description": "Apprenez à faire des pâtes fraîches comme un vrai Italien.",
+        "prix": 65
+      },
+      {
+        "id": 2,
+        "nom": "Visite de vignobles toscans",
+        "description": "Découvrez les secrets des vins toscans lors d'une dégustation.",
+        "prix": 80
+      },
+      {
+        "id": 3,
+        "nom": "Tour des villes historiques",
+        "description": "Visitez Rome, Florence et Venise avec un guide local.",
+        "prix": 120
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "titre": "Australie en 4L",
+    "description": "Explorez l'immensité australienne et ses paysages uniques à bord d'une 4L préparée.",
+    "image": "src/images/4L/australie.jpg",
+    "prix_base": 2800,
+    "duree": 21,
+    "disponible": true,
+    "activites": [
+      {
+        "id": 1,
+        "nom": "Plongée sur la Grande Barrière de Corail",
+        "description": "Découvrez l'un des plus beaux récifs coralliens au monde.",
+        "prix": 150
+      },
+      {
+        "id": 2,
+        "nom": "Safari dans l'Outback",
+        "description": "Observez la faune unique de l'Australie dans son habitat naturel.",
+        "prix": 120
+      },
+      {
+        "id": 3,
+        "nom": "Surf à Bondi Beach",
+        "description": "Initiez-vous au surf sur l'une des plages les plus célèbres au monde.",
+        "prix": 70
+      }
+    ]
+  },
+  {
+    "id": 8,
+    "titre": "Tour des Pyrénées",
+    "description": "Découvrez les magnifiques montagnes des Pyrénées et leurs villages authentiques en 4L.",
+    "image": "src/images/4L/pyrenees.jpg",
+    "prix_base": 1500,
+    "duree": 8,
+    "disponible": true,
+    "activites": [
+      {
+        "id": 1,
+        "nom": "Randonnée en montagne",
+        "description": "Explorez les plus beaux sentiers pyrénéens avec un guide local.",
+        "prix": 60
+      },
+      {
+        "id": 2,
+        "nom": "Thermalisme traditionnel",
+        "description": "Détendez-vous dans les bains thermaux historiques des Pyrénées.",
+        "prix": 75
+      },
+      {
+        "id": 3,
+        "nom": "Découverte des fromages locaux",
+        "description": "Visitez les bergeries et goûtez les fromages traditionnels de montagne.",
+        "prix": 45
+      }
+    ]
+  },
+  {
+    "id": 9,
+    "titre": "Tour d'Europe",
+    "description": "Traversez plusieurs pays européens lors d'un périple inoubliable en Renault 4L.",
+    "image": "src/images/4L/europe.jpg",
+    "prix_base": 3200,
+    "duree": 25,
+    "disponible": true,
+    "activites": [
+      {
+        "id": 1,
+        "nom": "Visite de capitales européennes",
+        "description": "Découvrez Paris, Berlin, Prague et Rome avec des guides locaux.",
+        "prix": 200
+      },
+      {
+        "id": 2,
+        "nom": "Parcours gastronomique européen",
+        "description": "Goûtez aux spécialités culinaires de chaque pays visité.",
+        "prix": 150
+      },
+      {
+        "id": 3,
+        "nom": "Pass musées européens",
+        "description": "Accédez aux plus grands musées d'Europe avec un pass spécial.",
+        "prix": 180
+      }
+    ]
+  }
+] 

@@ -1,406 +1,620 @@
 <?php
-require_once __DIR__ . '/includes/header.php';
-require_once __DIR__ . '/check_auth.php';
+// Activer l'affichage des erreurs pour le débogage
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
-// Vérifier si l'utilisateur est connecté
-checkAuth();
+// Démarrer la session si elle n'est pas déjà démarrée
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 
-// Vérifier si le voyageId et la date de départ sont définis dans la session
-if (!isset($_SESSION['reservation']) || !isset($_SESSION['reservation']['voyageId']) || !isset($_SESSION['reservation']['date_depart'])) {
-    // Rediriger vers la page des voyages si aucune réservation n'est en cours
-    header("Location: voyages.php");
+// Traitement des redirections et logique métier AVANT require_once header.php
+// car header.php génère du HTML
+
+// Vérifier si l'utilisateur est connecté (sans nécessiter de require check_auth.php pour l'instant)
+if (!isset($_SESSION['user'])) {
+    $_SESSION['redirect_after_login'] = $_SERVER['REQUEST_URI'];
+    $_SESSION['flash_message'] = 'Veuillez vous connecter pour accéder à cette page.';
+    $_SESSION['flash_type'] = 'info';
+    header("Location: connexion.php");
     exit();
 }
 
-// Récupération des infos de réservation
+// Vérifier si le formulaire a été soumis directement à cette page
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['card_number'])) {
+    // Récupérer les données du formulaire de personnalisation
+    $voyageId = isset($_POST['voyage_id']) ? intval($_POST['voyage_id']) : 0;
+    $dateDepart = isset($_POST['date_depart']) ? $_POST['date_depart'] : '';
+    $nbParticipants = isset($_POST['nb_participants']) ? intval($_POST['nb_participants']) : 1;
+    $prixTotal = isset($_POST['prix_total']) ? intval($_POST['prix_total']) : 0;
+    
+    if (empty($dateDepart) || $voyageId === 0) {
+        $_SESSION['flash_message'] = 'Informations de réservation incomplètes.';
+        $_SESSION['flash_type'] = 'error';
+        header('Location: voyages.php');
+        exit;
+    }
+    
+    // Récupérer les données du voyage
+    $voyagesFile = __DIR__ . '/../data/voyages.json';
+    if (!file_exists($voyagesFile)) {
+        $voyagesFile = __DIR__ . '/data/voyages.json';
+    }
+    
+    if (!file_exists($voyagesFile)) {
+        $_SESSION['flash_message'] = 'Erreur: fichier de voyages introuvable.';
+        $_SESSION['flash_type'] = 'error';
+        header('Location: voyages.php');
+        exit;
+    }
+    
+    $voyagesJson = file_get_contents($voyagesFile);
+    $voyagesData = json_decode($voyagesJson, true);
+    $voyages = $voyagesData['voyages'] ?? [];
+    
+    // Rechercher le voyage
+    $voyage = null;
+    foreach ($voyages as $v) {
+        if ($v['id'] == $voyageId) {
+            $voyage = $v;
+            break;
+        }
+    }
+    
+    if (!$voyage) {
+        $_SESSION['flash_message'] = 'Voyage non trouvé.';
+        $_SESSION['flash_type'] = 'error';
+        header('Location: voyages.php');
+        exit;
+    }
+    
+    // Traiter les activités sélectionnées
+    $activites = [];
+    if (isset($voyage['activites']) && is_array($voyage['activites'])) {
+        foreach ($voyage['activites'] as $index => $activite) {
+            $activiteId = 'activite_' . $index;
+            if (isset($_POST[$activiteId])) {
+                $activites[] = [
+                    'nom' => $activite['nom'],
+                    'prix' => $activite['prix']
+                ];
+            }
+        }
+    }
+    
+    // Calculer le prix total si pas fourni
+    if ($prixTotal === 0) {
+        $prixTotal = $voyage['prix'] * $nbParticipants;
+        foreach ($activites as $activite) {
+            $prixTotal += $activite['prix'] * $nbParticipants;
+        }
+    }
+    
+    // Créer la réservation dans la session
+    $_SESSION['reservation'] = [
+        'voyage_id' => $voyageId,
+        'voyage_nom' => $voyage['nom'],
+        'voyage_image' => $voyage['image'],
+        'date_depart' => $dateDepart,
+        'nb_participants' => $nbParticipants,
+        'activites' => $activites,
+        'prix_total' => $prixTotal
+    ];
+    
+    error_log("Nouvelle réservation créée depuis le formulaire: " . print_r($_SESSION['reservation'], true));
+} 
+// Traitement du formulaire de paiement
+else if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['card_number'])) {
+    // Simulation d'un paiement (90% de réussite)
+    $paymentSuccess = (mt_rand(1, 10) <= 9);
+    
+    if ($paymentSuccess) {
+        // Générer un identifiant de transaction unique
+        $transactionId = 'TR-' . date('YmdHis') . '-' . mt_rand(1000, 9999);
+        
+        // Créer une nouvelle commande
+        $commandesFile = __DIR__ . '/../data/commandes.json';
+        if (!file_exists($commandesFile)) {
+            $commandesFile = __DIR__ . '/data/commandes.json';
+        }
+        
+        $commandes = [];
+        
+        if (file_exists($commandesFile)) {
+            $commandesJson = file_get_contents($commandesFile);
+            $commandesData = json_decode($commandesJson, true);
+            $commandes = $commandesData['commandes'] ?? [];
+        }
+        
+        // Récupérer les données de réservation
+        $reservation = $_SESSION['reservation'];
+        
+        // Calculer la date de retour basée sur la durée du voyage
+        $voyagesFile = __DIR__ . '/../data/voyages.json';
+        if (!file_exists($voyagesFile)) {
+            $voyagesFile = __DIR__ . '/data/voyages.json';
+        }
+        
+        $voyagesJson = file_get_contents($voyagesFile);
+        $voyagesData = json_decode($voyagesJson, true);
+        $voyages = $voyagesData['voyages'] ?? [];
+        
+        $voyage = null;
+        foreach ($voyages as $v) {
+            if ($v['id'] == $reservation['voyage_id']) {
+                $voyage = $v;
+                break;
+            }
+        }
+        
+        $duree = $voyage ? ($voyage['duree'] ?? 7) : 7; // Durée par défaut si non spécifiée
+        $dateRetour = date('Y-m-d', strtotime($reservation['date_depart'] . ' + ' . $duree . ' days'));
+        
+        // Créer la structure des activités choisies pour la commande
+        $optionsChoisies = [];
+        if (!empty($reservation['activites'])) {
+            $optionsChoisies['etape_1'] = [
+                'activites' => $reservation['activites']
+            ];
+        }
+        
+        // Créer la nouvelle commande
+        $nouvelleCommande = [
+            'id' => count($commandes) + 1,
+            'transaction_id' => $transactionId,
+            'user_id' => $_SESSION['user']['id'],
+            'voyage_id' => $reservation['voyage_id'],
+            'date_commande' => date('Y-m-d'),
+            'date_depart' => $reservation['date_depart'],
+            'date_retour' => $dateRetour,
+            'nb_participants' => $reservation['nb_participants'],
+            'prix_total' => $reservation['prix_total'],
+            'options_choisies' => $optionsChoisies,
+            'statut' => 'confirmé'
+        ];
+        
+        // Ajouter la commande à la liste
+        $commandes[] = $nouvelleCommande;
+        
+        // Enregistrer les commandes
+        $commandesData = ['commandes' => $commandes];
+        file_put_contents($commandesFile, json_encode($commandesData, JSON_PRETTY_PRINT));
+        
+        // Vider la réservation en cours
+        unset($_SESSION['reservation']);
+        
+        // Définir un message de succès
+        $_SESSION['flash_message'] = 'Paiement réussi ! Votre voyage est confirmé.';
+        $_SESSION['flash_type'] = 'success';
+        
+        // Rediriger vers la page de confirmation
+        header('Location: confirmation.php?id=' . $nouvelleCommande['id']);
+        exit;
+    } else {
+        // Paiement échoué
+        $_SESSION['flash_message'] = 'Le paiement a échoué. Veuillez réessayer ou contacter le service client.';
+        $_SESSION['flash_type'] = 'error';
+        
+        // Rediriger vers la même page pour réessayer
+        header('Location: paiement.php');
+        exit;
+    }
+}
+
+// Vérifier si une réservation est en cours
+if (!isset($_SESSION['reservation'])) {
+    // Ajouter un message d'erreur
+    $_SESSION['flash_message'] = 'Aucune réservation trouvée. Veuillez choisir un voyage.';
+    $_SESSION['flash_type'] = 'error';
+    
+    // Rediriger vers la page des voyages
+    header('Location: voyages.php');
+    exit;
+}
+
+// À ce stade, toutes les redirections sont terminées et nous pouvons inclure le header
+require_once __DIR__ . '/includes/header.php';
+
+// Récupérer les données de réservation
 $reservation = $_SESSION['reservation'];
-$voyageId = $reservation['voyageId'];
-$dateDepart = $reservation['date_depart'];
+$voyage_id = $reservation['voyage_id'];
+$date_depart = $reservation['date_depart'];
+$nb_participants = $reservation['nb_participants'];
 $activites = $reservation['activites'] ?? [];
-$prixTotal = $reservation['prix_total'] ?? 0;
+$prix_total = $reservation['prix_total'];
 
-// Chargement des voyages
-$voyagesJson = file_get_contents(__DIR__ . '/../data/voyages.json');
-$data = json_decode($voyagesJson, true);
-$voyages = $data['voyages'] ?? [];
+// Charger les données du voyage
+$voyagesFile = __DIR__ . '/../data/voyages.json';
+if (!file_exists($voyagesFile)) {
+    $voyagesFile = __DIR__ . '/data/voyages.json';
+}
 
-// Récupération du voyage spécifique
+$voyagesJson = file_get_contents($voyagesFile);
+$voyagesData = json_decode($voyagesJson, true);
+$voyages = $voyagesData['voyages'] ?? [];
+
+// Rechercher le voyage correspondant
 $voyage = null;
 foreach ($voyages as $v) {
-    if ($v['id'] == $voyageId) {
+    if ($v['id'] == $voyage_id) {
         $voyage = $v;
         break;
     }
 }
 
-// Si le voyage n'existe pas, rediriger vers la page des voyages
-if (!$voyage) {
-    header("Location: voyages.php");
-    exit();
-}
+// Calculer la date de retour prévue
+$duree = $voyage['duree'] ?? 7; // Durée par défaut si non spécifiée
+$dateRetour = date('Y-m-d', strtotime($date_depart . ' + ' . $duree . ' days'));
 
-// Prix de base
-$prixBase = $voyage['prix'];
-
-// Traitement du formulaire de paiement
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $erreur = false;
-    
-    // Simuler une vérification de paiement (toujours accepté dans cette démo)
-    // Génération d'un identifiant de transaction unique
-    $transactionId = uniqid('TRANS_');
-    
-    // Si le paiement est réussi
-    if (!$erreur) {
-        // Création de la commande
-        $command = [
-            'id' => uniqid(),
-            'user_id' => $_SESSION['user']['id'],
-            'voyage_id' => $voyageId,
-            'date_reservation' => date('Y-m-d H:i:s'),
-            'date_depart' => $dateDepart,
-            'activites' => $activites,
-            'prix_total' => $prixTotal,
-            'status' => 'confirmé',
-            'transaction_id' => $transactionId
-        ];
-        
-        // Chargement des commandes existantes
-        $commandsFile = __DIR__ . '/../data/commandes.json';
-        if (file_exists($commandsFile)) {
-            $commandsJson = file_get_contents($commandsFile);
-            $commands = json_decode($commandsJson, true) ?: [];
-        } else {
-            $commands = [];
-        }
-        
-        // Ajout de la nouvelle commande
-        $commands[] = $command;
-        
-        // Sauvegarde du fichier de commandes
-        file_put_contents($commandsFile, json_encode($commands, JSON_PRETTY_PRINT));
-        
-        // Suppression des infos de réservation de la session
-        unset($_SESSION['reservation']);
-        
-        // Création d'un message flash pour indiquer le succès
-        $_SESSION['flash'] = [
-            'type' => 'success',
-            'message' => 'Votre paiement a été accepté. Votre voyage est confirmé!'
-        ];
-        
-        // Redirection vers la page de confirmation
-        header("Location: confirmation.php?status=success");
-        exit();
-    } else {
-        // Création d'un message flash pour indiquer l'échec
-        $_SESSION['flash'] = [
-            'type' => 'error',
-            'message' => 'Une erreur est survenue lors du traitement de votre paiement. Veuillez réessayer.'
-        ];
-        
-        // Redirection en cas d'échec
-        header("Location: confirmation.php?status=error");
-        exit();
-    }
-}
+// Formater les dates pour l'affichage
+$dateDepartFormatted = DateTime::createFromFormat('Y-m-d', $date_depart);
+$dateRetourFormatted = DateTime::createFromFormat('Y-m-d', $dateRetour);
 ?>
 
 <div class="page-container">
-    <h1 class="page-title">Finaliser votre réservation</h1>
+    <h1 class="page-title">Paiement</h1>
     
     <div class="payment-container">
         <div class="payment-summary">
-            <div class="payment-header">
-                <h3>Récapitulatif de votre commande</h3>
+            <div class="card-header">
+                <h2>Récapitulatif de votre réservation</h2>
             </div>
-            <div class="payment-image">
-                <?php 
-                // Utiliser des URLs externes pour s'assurer que les images s'affichent
-                $imageUrl = "";
-                if ($voyage['id'] == "1") {
-                    $imageUrl = "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?q=80&w=2070&auto=format&fit=crop";
-                } else if ($voyage['id'] == "2") {
-                    $imageUrl = "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?q=80&w=2036&auto=format&fit=crop";
-                } else if ($voyage['id'] == "3") {
-                    $imageUrl = "https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?q=80&w=2070&auto=format&fit=crop";
-                }
-                ?>
-                <img src="<?php echo $imageUrl; ?>" 
-                     alt="<?php echo htmlspecialchars($voyage['nom']); ?>">
-            </div>
-            <div class="payment-content" style="padding: 1.5rem;">
-                <div class="summary-item">
-                    <strong>Voyage:</strong> 
-                    <span><?php echo htmlspecialchars($voyage['nom']); ?></span>
-                </div>
-                
-                <div class="summary-item">
-                    <strong>Date de départ:</strong> 
-                    <span><?php echo htmlspecialchars($dateDepart); ?></span>
-                </div>
-                
-                <div class="summary-item">
-                    <strong>Prix de base:</strong> 
-                    <span><?php echo number_format($prixBase, 0, ',', ' '); ?> €</span>
+            <div class="card-body">
+                <div class="trip-summary">
+                    <div class="trip-image">
+                        <img src="<?php echo htmlspecialchars($voyage['image']); ?>" alt="<?php echo htmlspecialchars($voyage['nom']); ?>">
+                    </div>
+                    <div class="trip-details">
+                        <h3><?php echo htmlspecialchars($voyage['nom']); ?></h3>
+                        <p><?php echo htmlspecialchars(substr($voyage['description'], 0, 100)); ?>...</p>
+                        
+                        <div class="trip-info">
+                            <div class="info-item">
+                                <i class="fas fa-calendar-alt"></i>
+                                <span>Départ: <?php echo $dateDepartFormatted->format('d/m/Y'); ?></span>
+                            </div>
+                            <div class="info-item">
+                                <i class="fas fa-calendar-check"></i>
+                                <span>Retour: <?php echo $dateRetourFormatted->format('d/m/Y'); ?></span>
+                            </div>
+                            <div class="info-item">
+                                <i class="fas fa-users"></i>
+                                <span>Participants: <?php echo $nb_participants; ?></span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 
                 <?php if (!empty($activites)): ?>
-                <div class="summary-item">
-                    <strong>Activités sélectionnées:</strong>
+                <div class="selected-activities">
+                    <h4>Activités sélectionnées</h4>
                     <ul>
-                        <?php 
-                        $prixActivites = 0;
-                        foreach ($activites as $activiteId): 
-                            foreach ($voyage['activites'] as $activite): 
-                                if ($activite['id'] == $activiteId): 
-                                    $prixActivites += $activite['prix'];
-                        ?>
-                                    <li>
-                                        <?php echo htmlspecialchars($activite['nom']); ?> 
-                                        (+<?php echo number_format($activite['prix'], 0, ',', ' '); ?> €)
-                                    </li>
-                        <?php 
-                                endif; 
-                            endforeach; 
-                        endforeach; 
-                        ?>
+                        <?php foreach ($activites as $activite): ?>
+                        <li>
+                            <span class="activity-name"><?php echo htmlspecialchars($activite['nom']); ?></span>
+                            <span class="activity-price"><?php echo number_format($activite['prix'] * $nb_participants, 0, ',', ' '); ?> €</span>
+                        </li>
+                        <?php endforeach; ?>
                     </ul>
                 </div>
                 <?php endif; ?>
                 
-                <div class="summary-item total" style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border-color);">
-                    <strong>Total à payer:</strong> 
-                    <span><?php echo number_format($prixTotal, 0, ',', ' '); ?> €</span>
+                <div class="price-summary">
+                    <div class="price-item">
+                        <span>Prix du voyage (<?php echo $nb_participants; ?> personne<?php echo $nb_participants > 1 ? 's' : ''; ?>)</span>
+                        <span><?php echo number_format($voyage['prix'] * $nb_participants, 0, ',', ' '); ?> €</span>
+                    </div>
+                    
+                    <?php if (!empty($activites)): ?>
+                    <div class="price-item">
+                        <span>Options additionnelles</span>
+                        <?php
+                        $activitesTotal = 0;
+                        foreach ($activites as $activite) {
+                            $activitesTotal += $activite['prix'] * $nb_participants;
+                        }
+                        ?>
+                        <span><?php echo number_format($activitesTotal, 0, ',', ' '); ?> €</span>
+                    </div>
+                    <?php endif; ?>
+                    
+                    <div class="price-item total">
+                        <span>Total</span>
+                        <span><?php echo number_format($prix_total, 0, ',', ' '); ?> €</span>
+                    </div>
                 </div>
             </div>
         </div>
         
-        <div class="payment-form-container">
-            <div class="payment-header">
-                <h3>Détails de paiement</h3>
-            </div>
-            <form class="payment-form" method="POST" action="">
-                <div class="form-group">
-                    <label for="cardholder">Nom du titulaire de la carte</label>
-                    <input type="text" id="cardholder" name="cardholder" placeholder="John Doe" required>
+        <div class="payment-form">
+            <form method="post" action="">
+                <h2>Informations de paiement</h2>
+                
+                <div class="form-row">
+                    <label class="form-label" for="card_holder">Nom sur la carte</label>
+                    <input type="text" id="card_holder" name="card_holder" class="form-control" required autocomplete="off">
                 </div>
                 
-                <div class="form-group">
-                    <label for="card_number">Numéro de carte</label>
-                    <input type="text" id="card_number" name="card_number" placeholder="1234 5678 9012 3456" maxlength="19" required>
+                <div class="form-row">
+                    <label class="form-label" for="card_number">Numéro de carte</label>
+                    <input type="text" id="card_number" name="card_number" class="form-control" placeholder="XXXX XXXX XXXX XXXX" required autocomplete="off">
                 </div>
                 
-                <div class="card-details">
-                    <div class="form-group">
-                        <label for="expiry_date">Date d'expiration (MM/AA)</label>
-                        <input type="text" id="expiry_date" name="expiry_date" placeholder="MM/AA" maxlength="5" required>
+                <div class="form-row-inline">
+                    <div class="form-row">
+                        <label class="form-label" for="expiry_month">Date d'expiration</label>
+                        <div class="expiry-inputs">
+                            <select id="expiry_month" name="expiry_month" class="form-control" required>
+                                <option value="">Mois</option>
+                                <?php for ($i = 1; $i <= 12; $i++): ?>
+                                <option value="<?php echo sprintf('%02d', $i); ?>"><?php echo sprintf('%02d', $i); ?></option>
+                                <?php endfor; ?>
+                            </select>
+                            <select id="expiry_year" name="expiry_year" class="form-control" required>
+                                <option value="">Année</option>
+                                <?php for ($i = date('Y'); $i <= date('Y') + 10; $i++): ?>
+                                <option value="<?php echo $i; ?>"><?php echo $i; ?></option>
+                                <?php endfor; ?>
+                            </select>
+                        </div>
                     </div>
                     
-                    <div class="form-group">
-                        <label for="cvv">CVV</label>
-                        <input type="text" id="cvv" name="cvv" placeholder="123" maxlength="3" required>
+                    <div class="form-row">
+                        <label class="form-label" for="cvv">CVV</label>
+                        <input type="text" id="cvv" name="cvv" class="form-control" placeholder="XXX" required autocomplete="off">
                     </div>
                 </div>
                 
-                <div class="form-group" style="margin-bottom: 0.5rem;">
-                    <label for="montant">Montant à payer</label>
-                    <input type="text" id="montant" name="montant" value="<?php echo number_format($prixTotal, 0, ',', ' '); ?> €" readonly>
+                <div class="form-check">
+                    <input type="checkbox" id="terms" name="terms" required>
+                    <label for="terms">J'accepte les <a href="conditions.php" target="_blank">conditions générales de vente</a></label>
                 </div>
                 
-                <div class="form-actions">
-                    <button type="submit" class="btn btn-primary pay-button">Procéder au paiement</button>
-                </div>
-                
-                <p style="text-align: center; margin-top: 1rem; font-size: 0.9rem; color: var(--text-light);">
-                    Cette transaction est 100% sécurisée.
-                </p>
+                <button type="submit" class="btn-payment">Payer <?php echo number_format($prix_total, 0, ',', ' '); ?> €</button>
             </form>
         </div>
     </div>
 </div>
 
-<script>
-// Formatage automatique du numéro de carte
-document.getElementById('card_number').addEventListener('input', function(e) {
-    let value = e.target.value.replace(/\D/g, '');
-    let formatted = '';
-    
-    for (let i = 0; i < value.length; i++) {
-        if (i > 0 && i % 4 === 0) {
-            formatted += ' ';
-        }
-        formatted += value[i];
-    }
-    
-    e.target.value = formatted;
-});
-
-// Formatage de la date d'expiration
-document.getElementById('expiry_date').addEventListener('input', function(e) {
-    let value = e.target.value.replace(/\D/g, '');
-    let formatted = '';
-    
-    if (value.length > 0) {
-        formatted = value.substring(0, 2);
-        if (value.length > 2) {
-            formatted += '/' + value.substring(2, 4);
-        }
-    }
-    
-    e.target.value = formatted;
-});
-
-// Validation du CVV (seulement des chiffres)
-document.getElementById('cvv').addEventListener('input', function(e) {
-    e.target.value = e.target.value.replace(/\D/g, '').substring(0, 3);
-});
-</script>
-
 <style>
 .payment-container {
     display: grid;
-    grid-template-columns: 1fr 1.5fr;
+    grid-template-columns: 1fr;
     gap: 2rem;
-    margin: 2rem auto;
+    margin: 2rem 0;
 }
 
-.payment-summary, .payment-form-container {
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-}
-
-.payment-header {
-    background: var(--primary-color);
-    color: white;
-    padding: 1rem 1.5rem;
-}
-
-.payment-header h3 {
-    margin: 0;
-    font-size: 1.2rem;
-}
-
-.payment-image {
-    width: 100%;
-    height: 200px;
-    overflow: hidden;
-}
-
-.payment-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.payment-content {
-    padding: 1.5rem;
-}
-
-.summary-item {
-    margin-bottom: 1rem;
-    display: flex;
-    justify-content: space-between;
-}
-
-.summary-item:last-child {
-    margin-bottom: 0;
-}
-
-.summary-item ul {
-    margin: 0.5rem 0 0;
-    padding-left: 1.5rem;
-}
-
-.summary-item li {
-    margin-bottom: 0.25rem;
-}
-
-.summary-item.total {
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: var(--primary-color);
-    margin-top: 1rem;
-    padding-top: 1rem;
-    border-top: 1px solid var(--border-color);
-}
-
+.payment-summary,
 .payment-form {
+    background-color: var(--card-bg);
+    border-radius: 12px;
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+}
+
+.card-header {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 1.25rem;
+}
+
+.card-header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+.card-body {
     padding: 1.5rem;
 }
 
-.form-group {
+.trip-summary {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
     margin-bottom: 1.5rem;
 }
 
-.form-group label {
+.trip-image {
+    width: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.trip-image img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+.trip-details h3 {
+    color: var(--primary-color);
+    margin-top: 0;
+    margin-bottom: 0.75rem;
+}
+
+.trip-info {
+    margin-top: 1rem;
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+}
+
+.info-item i {
+    color: var(--primary-color);
+}
+
+.selected-activities {
+    margin: 1.5rem 0;
+}
+
+.selected-activities h4 {
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+.selected-activities ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.selected-activities li {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.75rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.selected-activities li:last-child {
+    border-bottom: none;
+}
+
+.price-summary {
+    background-color: var(--background-color);
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-top: 1.5rem;
+}
+
+.price-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+}
+
+.price-item.total {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--primary-color);
+    border-top: 1px solid var(--border-color);
+    padding-top: 0.75rem;
+    margin-top: 0.75rem;
+}
+
+/* Formulaire de paiement */
+.payment-form {
+    padding: 1.5rem;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.payment-form h2 {
+    color: var(--primary-color);
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.form-row {
+    margin-bottom: 1.5rem;
+}
+
+.form-label {
     display: block;
     margin-bottom: 0.5rem;
     font-weight: 500;
+    text-align: left;
 }
 
-.form-group input {
+.form-control {
     width: 100%;
-    padding: 0.75rem 1rem;
-    border: 1px solid #ddd;
-    border-radius: 5px;
+    padding: 0.8rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
     font-size: 1rem;
+    text-align: center;
+    box-sizing: border-box;
 }
 
-.card-details {
+.form-row-inline {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 1rem;
 }
 
-.form-actions {
-    margin-top: 2rem;
+.form-check {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    justify-content: center;
 }
 
-.pay-button {
+.form-check input {
+    margin-right: 0.5rem;
+}
+
+.form-check a {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+.form-check a:hover {
+    text-decoration: underline;
+}
+
+.btn-payment {
     width: 100%;
     padding: 1rem;
-    font-size: 1rem;
-    font-weight: bold;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
     text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
-/* Dark mode */
-[data-theme="dark"] .payment-summary, 
-[data-theme="dark"] .payment-form-container {
-    background: #2d2d2d;
-    color: #e1e1e1;
+.btn-payment:hover {
+    background-color: var(--primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-[data-theme="dark"] .payment-header {
-    background: #4169E1;
-}
-
-[data-theme="dark"] .form-group input {
-    background: #1a1a1a;
-    border-color: #404040;
-    color: #e1e1e1;
-}
-
-[data-theme="dark"] .summary-item.total {
-    color: #5d8aff;
-    border-color: #404040;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
+@media (min-width: 768px) {
     .payment-container {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr 1fr;
     }
     
-    .card-details {
-        grid-template-columns: 1fr;
+    .trip-summary {
+        flex-direction: row;
     }
+    
+    .trip-image {
+        flex: 0 0 40%;
+    }
+    
+    .trip-details {
+        flex: 1;
+    }
+}
+
+.expiry-inputs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+}
+
+/* Styles pour centrer les sélecteurs de date */
+select.form-control {
+    text-align: center;
+    text-align-last: center;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="6" viewBox="0 0 12 6"><path d="M0 0l6 6 6-6z" fill="%23666"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 12px 6px;
+    padding-right: 1.75rem;
 }
 </style>
 
-<?php
-require_once __DIR__ . '/includes/footer.php';
-?> 
+<script src="src/js/form-validation.js"></script>
+
+<?php require_once __DIR__ . '/includes/footer.php'; ?> 

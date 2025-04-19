@@ -1,0 +1,199 @@
+/* Styles pour la validation des formulaires */
+
+.error {
+    border-color: #dc3545 !important;
+}
+
+.error-message {
+    color: #dc3545;
+    font-size: 0.85rem;
+    margin-top: 0.25rem;
+    display: block;
+}
+
+/* Styles pour le compteur de caractères */
+.char-counter {
+    font-size: 0.8rem;
+    color: #6c757d;
+    text-align: right;
+    margin-top: 0.25rem;
+}
+
+.char-counter.exceeded {
+    color: #dc3545;
+    font-weight: bold;
+}
+
+/* Styles pour les champs de mot de passe */
+.password-field-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.password-field-container input {
+    flex: 1;
+    padding-right: 40px;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    color: #6c757d;
+    font-size: 1rem;
+}
+
+.password-toggle:hover {
+    color: var(--primary-color);
+}
+
+/* Styles pour les champs éditables */
+.editable-field {
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
+.editable-field input,
+.editable-field textarea,
+.editable-field select {
+    background-color: #f8f9fa;
+    border: 1px solid #ced4da;
+    padding: 10px;
+    border-radius: 5px;
+    width: 100%;
+}
+
+.editable-field input:disabled,
+.editable-field textarea:disabled,
+.editable-field select:disabled {
+    background-color: #e9ecef;
+    cursor: not-allowed;
+}
+
+.editable-field .edit-btn,
+.editable-field .save-btn,
+.editable-field .cancel-btn {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #6c757d;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px;
+}
+
+.editable-field .edit-btn:hover {
+    color: var(--primary-color);
+}
+
+.editable-field .save-btn {
+    color: #28a745;
+}
+
+.editable-field .save-btn:hover {
+    color: #218838;
+}
+
+.editable-field .cancel-btn {
+    right: 50px;
+    color: #dc3545;
+}
+
+.editable-field .cancel-btn:hover {
+    color: #c82333;
+}
+
+.editable-field.modified label {
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+.editable-field.modified::after {
+    content: '✓';
+    position: absolute;
+    right: -20px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #28a745;
+}
+
+/* Styles pour le formulaire de paiement */
+.card-info-container {
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
+.card-number-input {
+    font-family: 'Courier New', monospace;
+    letter-spacing: 1px;
+}
+
+.card-expiry {
+    display: flex;
+    gap: 1rem;
+}
+
+.card-expiry .form-group {
+    flex: 1;
+}
+
+.cvv-group {
+    position: relative;
+}
+
+.cvv-info {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #6c757d;
+    cursor: help;
+}
+
+.cvv-tooltip {
+    display: none;
+    position: absolute;
+    background: white;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    padding: 10px;
+    width: 200px;
+    right: 30px;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.cvv-info:hover .cvv-tooltip {
+    display: block;
+}
+
+/* Adaptation pour le mode sombre */
+[data-theme="dark"] .editable-field input:disabled,
+[data-theme="dark"] .editable-field textarea:disabled,
+[data-theme="dark"] .editable-field select:disabled {
+    background-color: #343a40;
+    color: #adb5bd;
+}
+
+[data-theme="dark"] .char-counter {
+    color: #adb5bd;
+}
+
+[data-theme="dark"] .cvv-tooltip {
+    background: #343a40;
+    border-color: #495057;
+    color: #e9ecef;
+} 

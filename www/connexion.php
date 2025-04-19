@@ -4,7 +4,7 @@ require_once __DIR__ . '/includes/header.php';
 $error = '';
 $login = '';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['connexion'])) {
     $login = trim($_POST['login'] ?? '');
     $password = trim($_POST['password'] ?? '');
     
@@ -42,9 +42,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         'message' => 'Connexion réussie !'
                     ];
                     
-                    // Redirection vers la page des voyages
-                    header("Location: voyages.php");
-                    exit();
+                    // Si connexion réussie et qu'il y a une redirection en attente
+                    if (isset($_SESSION['redirect_after_login'])) {
+                        $redirect = $_SESSION['redirect_after_login'];
+                        unset($_SESSION['redirect_after_login']);
+                        header("Location: $redirect");
+                        exit();
+                    } else {
+                        header("Location: /Click-journeY/www/index.php");
+                        exit();
+                    }
                 } else {
                     $error = 'Login ou mot de passe incorrect';
                 }
@@ -105,7 +112,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
                 
                 <div class="auth-form-actions">
-                    <button type="submit" class="btn-auth btn-login">Se connecter</button>
+                    <button type="submit" name="connexion" class="btn-auth btn-login">Se connecter</button>
                 </div>
             </form>
 
@@ -123,7 +130,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         justify-content: center;
         align-items: center;
         min-height: calc(100vh - 200px);
-        padding: 2rem 1rem;
+        padding: 2rem 0;
     }
     
     .auth-card {
@@ -131,9 +138,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         border-radius: 10px;
         box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
         width: 100%;
-        max-width: 420px;
+        max-width: 480px;
         padding: 2rem;
         transition: transform 0.3s ease;
+        margin: 0 auto;
     }
     
     .auth-header {
@@ -214,16 +222,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     
     .auth-form-group {
-        margin-bottom: 1.25rem;
+        margin-bottom: 1rem;
+        width: 100%;
+        max-width: 400px;
+        margin-left: auto;
+        margin-right: auto;
     }
     
     .auth-form-group input {
         width: 100%;
-        padding: 0.85rem 1rem;
-        border: 1px solid #e1e4e8;
+        padding: 0.9rem 1rem;
+        border: 1px solid #dde2e8;
         border-radius: 8px;
+        background-color: #f8f9fa;
         font-size: 1rem;
         transition: all 0.3s ease;
+        text-align: center;
+        box-sizing: border-box;
     }
     
     .auth-form-group input:focus {
@@ -238,8 +253,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     .password-options {
         display: flex;
-        justify-content: flex-end;
+        justify-content: center;
         margin-top: 0.5rem;
+        text-align: center;
     }
     
     .forgot-password {
@@ -253,20 +269,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     
     .auth-form-actions {
+        text-align: center;
         margin-top: 1.5rem;
     }
     
     .btn-auth {
         width: 100%;
-        padding: 0.9rem 1.5rem;
+        max-width: 400px;
+        padding: 1rem;
         border: none;
         border-radius: 8px;
         font-weight: 600;
-        text-transform: uppercase;
-        font-size: 0.9rem;
-        letter-spacing: 0.5px;
         cursor: pointer;
         transition: all 0.3s ease;
+        font-size: 1rem;
+        text-transform: uppercase;
+        margin: 0 auto;
+        display: block;
     }
     
     .btn-login {
@@ -333,6 +352,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     [data-theme="dark"] .auth-footer {
         color: #a0a0a0;
     }
+    
+    @media (max-width: 576px) {
+        .auth-card {
 </style>
 
 <?php

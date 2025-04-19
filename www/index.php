@@ -1,12 +1,17 @@
 <?php
 require_once __DIR__ . '/includes/header.php';
+
+// Lecture du fichier voyages.json
+$voyagesJson = file_get_contents(__DIR__ . '/../data/voyages.json');
+$data = json_decode($voyagesJson, true);
+$voyages = $data['voyages'] ?? [];
 ?>
 
-<div class="hero">
+<div class="hero" style="background-image: url('src/images/4L/hero.jpg');">
     <div class="hero-content">
-        <h1>Découvrez des destinations uniques</h1>
-        <p>Voyages sur mesure pour des expériences inoubliables</p>
-        <a href="voyages.php" class="btn btn-primary btn-large">Explorer nos voyages</a>
+        <h1>Aventures en 4L</h1>
+        <p>Découvrez le monde au rythme de votre Renault 4L, une expérience authentique et inoubliable</p>
+        <a href="voyages.php" class="btn btn-primary btn-large">Découvrir nos circuits</a>
     </div>
 </div>
 
@@ -15,38 +20,21 @@ require_once __DIR__ . '/includes/header.php';
         <h2 class="section-title">Destinations populaires</h2>
         
         <div class="destination-slider">
+            <?php foreach (array_slice($voyages, 0, 3) as $voyage): ?>
             <div class="destination-card">
                 <div class="destination-image">
-                    <img src="https://images.unsplash.com/photo-1589394760151-b4c9895088e5?q=80&w=1974&auto=format&fit=crop" alt="Paris">
+                    <img src="<?php echo htmlspecialchars($voyage['image']); ?>" 
+                         alt="<?php echo htmlspecialchars($voyage['nom']); ?>" 
+                         loading="lazy">
                 </div>
                 <div class="destination-info">
-                    <h3>Paris</h3>
-                    <p>La ville de l'amour et de la lumière</p>
+                    <h3><?php echo htmlspecialchars($voyage['nom']); ?></h3>
+                    <p><?php echo htmlspecialchars($voyage['description']); ?></p>
+                    <div class="destination-price">À partir de <?php echo number_format($voyage['prix'], 0, ',', ' '); ?> €</div>
                     <a href="voyages.php" class="btn btn-outline">Découvrir</a>
                 </div>
             </div>
-            
-            <div class="destination-card">
-                <div class="destination-image">
-                    <img src="https://images.unsplash.com/photo-1597910037310-7dd8ddb93e24?q=80&w=2070&auto=format&fit=crop" alt="Bali">
-                </div>
-                <div class="destination-info">
-                    <h3>Bali</h3>
-                    <p>Plages paradisiaques et temples spirituels</p>
-                    <a href="voyages.php" class="btn btn-outline">Découvrir</a>
-                </div>
-            </div>
-            
-            <div class="destination-card">
-                <div class="destination-image">
-                    <img src="https://images.unsplash.com/photo-1555992457-b8fefdd46da2?q=80&w=2064&auto=format&fit=crop" alt="New York">
-                </div>
-                <div class="destination-info">
-                    <h3>New York</h3>
-                    <p>La ville qui ne dort jamais</p>
-                    <a href="voyages.php" class="btn btn-outline">Découvrir</a>
-                </div>
-            </div>
+            <?php endforeach; ?>
         </div>
     </div>
 </section>
@@ -129,7 +117,7 @@ require_once __DIR__ . '/includes/header.php';
 <style>
 /* Styles de la page d'accueil */
 .hero {
-    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1488085061387-422e29b40080?q=80&w=2031&auto=format&fit=crop');
+    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('src/images/4L/hero.jpg');
     background-size: cover;
     background-position: center;
     height: 80vh;
@@ -146,7 +134,7 @@ require_once __DIR__ . '/includes/header.php';
 }
 
 .hero h1 {
-    font-size: 3rem;
+    font-size: 3.5rem;
     margin-bottom: 1rem;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
@@ -158,38 +146,42 @@ require_once __DIR__ . '/includes/header.php';
 }
 
 .btn-large {
-    padding: 1rem 2rem;
+    padding: 1rem 2.5rem;
     font-size: 1.2rem;
+    border-radius: 50px;
 }
 
 .section-title {
     text-align: center;
     margin: 3rem 0;
-    font-size: 2.2rem;
+    font-size: 2.5rem;
     color: var(--primary-color);
+    font-family: var(--font-Amarante);
 }
 
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 1rem;
+    padding: 0 1.5rem;
 }
 
 section {
-    padding: 4rem 0;
+    padding: 5rem 0;
 }
 
 /* Styles des cartes de destination */
 .destination-slider {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2.5rem;
+    margin-top: 2rem;
 }
 
 .destination-card {
-    border-radius: 10px;
+    border-radius: 15px;
     overflow: hidden;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    background: white;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -199,7 +191,7 @@ section {
 }
 
 .destination-image {
-    height: 200px;
+    height: 250px;
     overflow: hidden;
 }
 
@@ -215,19 +207,44 @@ section {
 }
 
 .destination-info {
-    padding: 1.5rem;
-    background: white;
+    padding: 2rem;
 }
 
 .destination-info h3 {
-    margin-bottom: 0.5rem;
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     color: var(--primary-color);
+    margin-bottom: 1rem;
+    font-family: var(--font-Amarante);
 }
 
 .destination-info p {
-    margin-bottom: 1rem;
     color: var(--text-color);
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+}
+
+.destination-price {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--primary-color);
+    margin-bottom: 1.5rem;
+}
+
+.btn-outline {
+    display: inline-block;
+    padding: 0.8rem 2rem;
+    border: 2px solid var(--primary-color);
+    color: var(--primary-color);
+    border-radius: 50px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.btn-outline:hover {
+    background: var(--primary-color);
+    color: white;
+    transform: translateY(-2px);
 }
 
 /* Styles des caractéristiques */

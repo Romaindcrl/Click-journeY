@@ -2,44 +2,132 @@
     "voyages": [
         {
             "id": "1",
-            "nom": "Japon Traditionnel",
-            "description": "Découvrez la culture millénaire japonaise à travers ses temples, jardins zen et villages traditionnels.",
-            "prix": 3599,
-            "image": "voyages/japon.jpg",
+            "nom": "Maroc en 4L",
+            "description": "Traversez le désert marocain en 4L, entre dunes majestueuses et oasis paisibles. Une aventure authentique au cœur du Sahara.",
+            "prix": 1499,
+            "image": "src/images/4L/maroc.jpg",
             "activites": [
-                {"id": "1-1", "nom": "Cérémonie du thé traditionnelle", "prix": 120},
-                {"id": "1-2", "nom": "Visite des temples de Kyoto", "prix": 150},
-                {"id": "1-3", "nom": "Expérience en ryokan", "prix": 250},
-                {"id": "1-4", "nom": "Cours de cuisine japonaise", "prix": 180},
-                {"id": "1-5", "nom": "Excursion au Mont Fuji", "prix": 200}
+                {"id": "1-1", "nom": "Nuit dans le désert sous les étoiles", "prix": 80},
+                {"id": "1-2", "nom": "Visite des kasbahs", "prix": 60},
+                {"id": "1-3", "nom": "Cours de mécanique 4L", "prix": 120},
+                {"id": "1-4", "nom": "Dîner traditionnel berbère", "prix": 45}
             ]
         },
         {
             "id": "2",
-            "nom": "Tour d'Italie",
-            "description": "Un voyage gastronomique et culturel à travers les plus belles villes d'Italie, de Rome à Venise.",
-            "prix": 2899,
-            "image": "voyages/italie.jpg",
+            "nom": "Les Alpes en 4L",
+            "description": "Parcourez les routes mythiques des Alpes en 4L. Des cols légendaires aux lacs de montagne, vivez l'aventure en altitude.",
+            "prix": 1299,
+            "image": "src/images/4L/alpes.jpg",
             "activites": [
-                {"id": "2-1", "nom": "Visite guidée du Colisée", "prix": 120},
-                {"id": "2-2", "nom": "Cours de cuisine italienne", "prix": 160},
-                {"id": "2-3", "nom": "Tour en gondole à Venise", "prix": 180},
-                {"id": "2-4", "nom": "Dégustation de vins en Toscane", "prix": 210},
-                {"id": "2-5", "nom": "Visite de Pompéi", "prix": 140}
+                {"id": "2-1", "nom": "Passage des cols alpins", "prix": 90},
+                {"id": "2-2", "nom": "Fondue en refuge", "prix": 55},
+                {"id": "2-3", "nom": "Visite de villages montagnards", "prix": 40},
+                {"id": "2-4", "nom": "Atelier photo en montagne", "prix": 75}
             ]
         },
         {
             "id": "3",
-            "nom": "Aventure Australienne",
-            "description": "Explorez les merveilles naturelles de l'Australie, de la Grande Barrière de Corail à l'Outback.",
-            "prix": 4299,
-            "image": "voyages/australie.jpg",
+            "nom": "Côte Méditerranéenne",
+            "description": "De Marseille à Nice en 4L, découvrez les plus belles criques et villages du littoral méditerranéen.",
+            "prix": 1199,
+            "image": "src/images/4L/mediterranee.jpg",
             "activites": [
-                {"id": "3-1", "nom": "Plongée sur la Grande Barrière de Corail", "prix": 250},
-                {"id": "3-2", "nom": "Visite de l'Opéra de Sydney", "prix": 120},
-                {"id": "3-3", "nom": "Safari dans l'Outback", "prix": 320},
-                {"id": "3-4", "nom": "Randonnée dans les Blue Mountains", "prix": 180},
-                {"id": "3-5", "nom": "Découverte de la culture aborigène", "prix": 150}
+                {"id": "3-1", "nom": "Baignade dans les calanques", "prix": 40},
+                {"id": "3-2", "nom": "Dégustation de vins locaux", "prix": 65},
+                {"id": "3-3", "nom": "Visite de villages perchés", "prix": 50},
+                {"id": "3-4", "nom": "Cours de cuisine provençale", "prix": 85}
+            ]
+        },
+        {
+            "id": "4",
+            "nom": "Portugal en 4L",
+            "description": "De Porto à l'Algarve, explorez les routes côtières et les villages historiques du Portugal.",
+            "prix": 1399,
+            "image": "src/images/4L/portugal.jpg",
+            "activites": [
+                {"id": "4-1", "nom": "Dégustation de Porto", "prix": 55},
+                {"id": "4-2", "nom": "Surf sur la côte", "prix": 70},
+                {"id": "4-3", "nom": "Visite de caves historiques", "prix": 45},
+                {"id": "4-4", "nom": "Balade en bateau", "prix": 80}
+            ]
+        },
+        {
+            "id": "5",
+            "nom": "Andalousie Authentique",
+            "description": "Parcourez l'Andalousie en 4L, des villages blancs aux plages sauvages de la Costa de la Luz.",
+            "prix": 1599,
+            "image": "src/images/4L/andalousie.jpg",
+            "activites": [
+                {"id": "5-1", "nom": "Spectacle de flamenco", "prix": 60},
+                {"id": "5-2", "nom": "Visite de l'Alhambra", "prix": 85},
+                {"id": "5-3", "nom": "Cours de tapas", "prix": 50},
+                {"id": "5-4", "nom": "Route des villages blancs", "prix": 70}
+            ]
+        },
+        {
+            "id": "6",
+            "nom": "Bretagne Sauvage",
+            "description": "Explorez la côte bretonne en 4L, entre phares majestueux et plages secrètes.",
+            "prix": 999,
+            "image": "src/images/4L/bretagne.jpg",
+            "activites": [
+                {"id": "6-1", "nom": "Dégustation de fruits de mer", "prix": 65},
+                {"id": "6-2", "nom": "Visite de phares", "prix": 40},
+                {"id": "6-3", "nom": "Randonnée côtière", "prix": 35},
+                {"id": "6-4", "nom": "Initiation à la voile", "prix": 90}
+            ]
+        },
+        {
+            "id": "7",
+            "nom": "Corse en 4L",
+            "description": "Tour de Corse en 4L : plages paradisiaques, montagnes escarpées et villages authentiques.",
+            "prix": 1699,
+            "image": "src/images/4L/corse.jpg",
+            "activites": [
+                {"id": "7-1", "nom": "Randonnée GR20", "prix": 95},
+                {"id": "7-2", "nom": "Plongée en mer", "prix": 120},
+                {"id": "7-3", "nom": "Dégustation de charcuterie", "prix": 45},
+                {"id": "7-4", "nom": "Excursion en bateau", "prix": 85}
+            ]
+        },
+        {
+            "id": "8",
+            "nom": "Grèce Continentale",
+            "description": "Des Météores au Péloponnèse, découvrez la Grèce authentique au volant de votre 4L.",
+            "prix": 1899,
+            "image": "src/images/4L/grece.jpg",
+            "activites": [
+                {"id": "8-1", "nom": "Visite des Météores", "prix": 75},
+                {"id": "8-2", "nom": "Cours de cuisine grecque", "prix": 60},
+                {"id": "8-3", "nom": "Site de Delphes", "prix": 55},
+                {"id": "8-4", "nom": "Olympie antique", "prix": 65}
+            ]
+        },
+        {
+            "id": "9",
+            "nom": "Ecosse Mystérieuse",
+            "description": "Des Highlands aux îles Hébrides, vivez l'aventure écossaise en 4L.",
+            "prix": 1799,
+            "image": "src/images/4L/ecosse.jpg",
+            "activites": [
+                {"id": "9-1", "nom": "Visite de distillerie", "prix": 85},
+                {"id": "9-2", "nom": "Château hanté", "prix": 65},
+                {"id": "9-3", "nom": "Randonnée dans les Highlands", "prix": 70},
+                {"id": "9-4", "nom": "Observation de phoques", "prix": 90}
+            ]
+        },
+        {
+            "id": "10",
+            "nom": "Irlande Verdoyante",
+            "description": "Parcourez l'anneau du Kerry et la côte sauvage irlandaise en 4L.",
+            "prix": 1599,
+            "image": "src/images/4L/irlande.jpg",
+            "activites": [
+                {"id": "10-1", "nom": "Soirée pub traditionnelle", "prix": 45},
+                {"id": "10-2", "nom": "Falaises de Moher", "prix": 60},
+                {"id": "10-3", "nom": "Château de Blarney", "prix": 55},
+                {"id": "10-4", "nom": "Balade en bateau", "prix": 75}
             ]
         }
     ]

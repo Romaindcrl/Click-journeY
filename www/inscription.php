@@ -195,7 +195,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         justify-content: center;
         align-items: center;
         min-height: calc(100vh - 200px);
-        padding: 2rem 1rem;
+        padding: 2rem 0;
     }
     
     .auth-card {
@@ -206,6 +206,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         max-width: 480px;
         padding: 2rem;
         transition: transform 0.3s ease;
+        margin: 0 auto;
     }
     
     .auth-header {
@@ -286,22 +287,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     
     .auth-form-row {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
+        display: flex;
         gap: 1rem;
+        margin-bottom: 1rem;
+        width: 100%;
+        justify-content: center;
     }
     
     .auth-form-group {
-        margin-bottom: 1.25rem;
+        margin-bottom: 1rem;
+        width: 100%;
+        max-width: 400px;
+        margin-left: auto;
+        margin-right: auto;
     }
     
     .auth-form-group input {
         width: 100%;
-        padding: 0.85rem 1rem;
-        border: 1px solid #e1e4e8;
+        padding: 0.9rem 1rem;
+        border: 1px solid #dde2e8;
         border-radius: 8px;
+        background-color: #f8f9fa;
         font-size: 1rem;
         transition: all 0.3s ease;
+        text-align: center;
+        box-sizing: border-box;
     }
     
     .auth-form-group input:focus {
@@ -315,20 +325,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     
     .auth-form-actions {
+        text-align: center;
         margin-top: 1.5rem;
     }
     
     .btn-auth {
         width: 100%;
-        padding: 0.9rem 1.5rem;
+        max-width: 400px;
+        padding: 1rem;
         border: none;
         border-radius: 8px;
         font-weight: 600;
-        text-transform: uppercase;
-        font-size: 0.9rem;
-        letter-spacing: 0.5px;
         cursor: pointer;
         transition: all 0.3s ease;
+        font-size: 1rem;
+        text-transform: uppercase;
+        margin: 0 auto;
+        display: block;
     }
     
     .btn-signup {
@@ -362,7 +375,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     /* Responsive */
     @media (max-width: 576px) {
         .auth-form-row {
-            grid-template-columns: 1fr;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .auth-card {
+            padding: 1.5rem;
+            margin: 0 1rem;
         }
     }
     

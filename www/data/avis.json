@@ -1,0 +1,134 @@
+{
+    "avis": [
+        {
+            "id": "avis1651234567",
+            "voyage_id": 1,
+            "user_id": 1,
+            "user_name": "Jean Dupont",
+            "note": 5,
+            "commentaire": "Voyage incroyable en 4L, une expérience authentique et inoubliable !",
+            "date": "2023-06-15",
+            "statut": "publié"
+        },
+        {
+            "id": "avis1651234568",
+            "voyage_id": 1,
+            "user_id": 2,
+            "user_name": "Marie Martin",
+            "note": 4,
+            "commentaire": "Très belle découverte, la 4L est vraiment confortable pour ce type de voyage.",
+            "date": "2023-07-20",
+            "statut": "publié"
+        },
+        {
+            "id": "avis1651234569",
+            "voyage_id": 2,
+            "user_id": 3,
+            "user_name": "Pierre Durand",
+            "note": 5,
+            "commentaire": "Un roadtrip parfait, je recommande vivement !",
+            "date": "2023-05-10",
+            "statut": "publié"
+        },
+        {
+            "id": "avis1",
+            "voyage_id": 1,
+            "user_id": 1,
+            "user_name": "Jean Dupont",
+            "note": 5,
+            "commentaire": "Un voyage extraordinaire ! La 4L est vraiment le meilleur moyen de découvrir les paysages magnifiques. Je recommande vivement cette expérience à tous les amateurs d'aventure.",
+            "date": "2023-05-15 10:30:00",
+            "statut": "publié"
+        },
+        {
+            "id": "avis2",
+            "voyage_id": 1,
+            "user_id": 2,
+            "user_name": "Marie Martin",
+            "note": 4,
+            "commentaire": "Très belle expérience en 4L. Le parcours est bien pensé et les arrêts sont intéressants. Seul petit bémol : le confort de la voiture sur les longues distances, mais cela fait partie du charme !",
+            "date": "2023-06-10 14:22:00",
+            "statut": "publié"
+        },
+        {
+            "id": "avis3",
+            "voyage_id": 2,
+            "user_id": 3,
+            "user_name": "Sophie Moreau",
+            "note": 5,
+            "commentaire": "Le Japon en 4L est une expérience unique ! On découvre des endroits magnifiques, loin des sentiers battus. L'itinéraire est parfait et l'équipe est très professionnelle.",
+            "date": "2023-04-20 09:15:00",
+            "statut": "publié"
+        },
+        {
+            "id": "avis4",
+            "voyage_id": 3,
+            "user_id": 1,
+            "user_name": "Jean Dupont",
+            "note": 3,
+            "commentaire": "L'Italie est superbe mais la chaleur en été rend le voyage en 4L un peu difficile. Je conseille de partir au printemps ou à l'automne pour plus de confort.",
+            "date": "2023-07-30 16:45:00",
+            "statut": "publié"
+        },
+        {
+            "id": "avis5",
+            "voyage_id": 3,
+            "user_id": 4,
+            "user_name": "Pierre Leroy",
+            "note": 4,
+            "commentaire": "Les paysages d'Italie sont à couper le souffle et la 4L ajoute un charme vintage à l'expérience. L'organisation est impeccable et les hébergements sont confortables.",
+            "date": "2023-08-12 11:20:00",
+            "statut": "publié"
+        },
+        {
+            "id": "avis6",
+            "voyage_id": 4,
+            "user_id": 5,
+            "user_name": "Lucie Bernard",
+            "note": 5,
+            "commentaire": "L'Australie en 4L est une aventure inoubliable ! Les paysages sont époustouflants et les rencontres avec la faune locale sont magiques. Je recommande cette expérience à 100% !",
+            "date": "2023-09-05 15:10:00",
+            "statut": "publié"
+        },
+        {
+            "id": "avis7",
+            "voyage_id": 5,
+            "user_id": 2,
+            "user_name": "Marie Martin",
+            "note": 2,
+            "commentaire": "La Norvège est superbe mais le parcours en 4L est très exigeant en hiver. Je n'étais pas suffisamment préparée pour les conditions météorologiques difficiles.",
+            "date": "2023-02-18 13:30:00",
+            "statut": "publié"
+        },
+        {
+            "id": "avis8",
+            "voyage_id": 5,
+            "user_id": 6,
+            "user_name": "Thomas Petit",
+            "note": 4,
+            "commentaire": "Les aurores boréales vues depuis la 4L en Norvège valent tout l'or du monde ! Expérience unique malgré le froid intense. L'équipement fourni est de qualité et l'assistance est rassurante.",
+            "date": "2023-03-22 10:05:00",
+            "statut": "publié"
+        },
+        {
+            "id": "avis9",
+            "voyage_id": 6,
+            "user_id": 4,
+            "user_name": "Pierre Leroy",
+            "note": 5,
+            "commentaire": "Le Maroc en 4L est une expérience authentique ! Les paysages désertiques et les nuits étoilées sont inoubliables. La préparation du voyage était parfaite.",
+            "date": "2023-10-15 17:40:00",
+            "statut": "publié"
+        },
+        {
+            "id": "avis10",
+            "voyage_id": 6,
+            "user_id": 7,
+            "user_name": "Émilie Dubois",
+            "note": 4,
+            "commentaire": "J'ai adoré traverser le Maroc en 4L ! C'est une façon idéale de découvrir la culture locale et de s'aventurer hors des sentiers touristiques classiques.",
+            "date": "2023-11-08 14:15:00",
+            "statut": "publié"
+        }
+    ]
+} 
