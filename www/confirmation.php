@@ -1,58 +1,60 @@
 <?php
-require_once 'includes/header.php';
-require_once 'includes/auth.php';
+require_once __DIR__ . '/check_auth.php';
 
 // Vérifier si l'utilisateur est connecté
 checkAuth();
 
-// Vérifier si l'ID de commande est présent dans l'URL
-if (!isset($_GET['id']) || empty($_GET['id'])) {
-    // Rediriger vers la page d'accueil si aucun ID n'est fourni
-    setFlashMessage('error', 'Aucune commande spécifiée.');
+// Récupérer et valider l'ID de commande depuis la requête
+$orderIdRaw = $_GET['id'] ?? null;
+if ($orderIdRaw === null || trim((string)$orderIdRaw) === '') {
+    // Rediriger vers la page d'accueil si aucun ID valide n'est fourni
+    $_SESSION['flash_message'] = 'Aucune commande spécifiée.';
+    $_SESSION['flash_type'] = 'error';
     header('Location: index.php');
     exit;
 }
+$orderId = intval($orderIdRaw);
 
-$orderId = $_GET['id'];
-
-// Charger les données des commandes
-$commandesFile = 'data/commandes.json';
-$commandes = [];
-
-if (file_exists($commandesFile)) {
-    $commandesData = file_get_contents($commandesFile);
-    $commandes = json_decode($commandesData, true);
-}
+// Charger les données des commandes (depuis le dossier data racine)
+$commandesFile = __DIR__ . '/../data/commandes.json';
+$commandesJson = file_get_contents($commandesFile);
+$commandesData = json_decode($commandesJson, true);
+$commandes = $commandesData['commandes'] ?? [];
 
 // Rechercher la commande spécifique
 $commande = null;
 foreach ($commandes as $cmd) {
-    if ($cmd['id'] === $orderId) {
+    if (!is_array($cmd) || !isset($cmd['id'])) {
+        continue;
+    }
+    if ($cmd['id'] == $orderId) {
         $commande = $cmd;
         break;
     }
 }
 
 // Vérifier si la commande existe et appartient à l'utilisateur connecté
-if (!$commande || $commande['user_id'] !== $_SESSION['user']['id']) {
-    setFlashMessage('error', 'Commande introuvable ou accès non autorisé.');
+$sessionUserId = $_SESSION['user']['id'] ?? null;
+if (!$commande || $commande['user_id'] != $sessionUserId) {
+    $_SESSION['flash_message'] = 'Commande introuvable ou accès non autorisé.';
+    $_SESSION['flash_type'] = 'error';
     header('Location: index.php');
     exit;
 }
 
-// Charger les données du voyage
-$voyagesFile = 'data/voyages.json';
-$voyages = [];
-
-if (file_exists($voyagesFile)) {
-    $voyagesData = file_get_contents($voyagesFile);
-    $voyages = json_decode($voyagesData, true);
-}
+// Charger les données du voyage (depuis le dossier data racine)
+$voyagesFile = __DIR__ . '/../data/voyages.json';
+$voyagesJson = file_get_contents($voyagesFile);
+$voyagesData = json_decode($voyagesJson, true);
+$voyages = $voyagesData['voyages'] ?? [];
 
 // Rechercher le voyage associé à la commande
 $voyage = null;
 foreach ($voyages as $v) {
-    if ($v['id'] === $commande['voyage_id']) {
+    if (!is_array($v) || !isset($v['id'])) {
+        continue;
+    }
+    if ($v['id'] == $commande['voyage_id']) {
         $voyage = $v;
         break;
     }
@@ -66,6 +68,8 @@ $dateDepartFormatted = new DateTime($commande['date_depart']);
 $dateRetour = clone $dateDepartFormatted;
 $dateRetour->modify('+' . $voyage['duree'] . ' days');
 ?>
+
+<?php require_once __DIR__ . '/includes/header.php'; ?>
 
 <div class="container mt-5">
     <div class="row">
@@ -90,10 +94,10 @@ $dateRetour->modify('+' . $voyage['duree'] . ' days');
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-4">
-                            <img src="<?php echo $voyage['image']; ?>" alt="<?php echo $voyage['titre']; ?>" class="img-fluid rounded">
+                            <img src="<?php echo htmlspecialchars($voyage['image']); ?>" alt="<?php echo htmlspecialchars($voyage['nom']); ?>" class="img-fluid rounded">
                         </div>
                         <div class="col-md-8">
-                            <h4><?php echo $voyage['titre']; ?></h4>
+                            <h4><?php echo htmlspecialchars($voyage['nom']); ?></h4>
                             <p class="text-muted"><?php echo $voyage['description']; ?></p>
                             
                             <div class="trip-details mt-3">
@@ -186,4 +190,4 @@ $dateRetour->modify('+' . $voyage['duree'] . ' days');
     </div>
 </div>
 
-<?php require_once 'includes/footer.php'; ?> 
+<?php require_once __DIR__ . '/includes/footer.php'; ?> 

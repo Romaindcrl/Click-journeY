@@ -90,6 +90,172 @@
                 }
             },
             "statut": "confirm\u00e9"
+        },
+        {
+            "id": 4,
+            "transaction_id": "TR-20250507203153-1425",
+            "user_id": null,
+            "voyage_id": 2,
+            "date_commande": "2025-05-07",
+            "date_depart": "2025-05-15",
+            "date_retour": "2025-05-22",
+            "nb_participants": 1,
+            "prix_total": 1464,
+            "options_choisies": {
+                "etape_1": {
+                    "activites": [
+                        {
+                            "nom": "Passage des cols alpins",
+                            "prix": 90
+                        },
+                        {
+                            "nom": "Atelier photo en montagne",
+                            "prix": 75
+                        }
+                    ]
+                }
+            },
+            "statut": "confirm\u00e9"
+        },
+        {
+            "id": 5,
+            "transaction_id": "TR-20250507203739-8797",
+            "user_id": null,
+            "voyage_id": 2,
+            "date_commande": "2025-05-07",
+            "date_depart": "2025-05-15",
+            "date_retour": "2025-05-22",
+            "nb_participants": 1,
+            "prix_total": 1464,
+            "options_choisies": {
+                "etape_1": {
+                    "activites": [
+                        {
+                            "nom": "Passage des cols alpins",
+                            "prix": 90
+                        },
+                        {
+                            "nom": "Atelier photo en montagne",
+                            "prix": 75
+                        }
+                    ]
+                }
+            },
+            "statut": "confirm\u00e9"
+        },
+        {
+            "id": 6,
+            "transaction_id": "TR-20250507204430-7504",
+            "user_id": null,
+            "voyage_id": 2,
+            "date_commande": "2025-05-07",
+            "date_depart": "2025-05-21",
+            "date_retour": "2025-05-28",
+            "nb_participants": 1,
+            "prix_total": 1299,
+            "options_choisies": [],
+            "statut": "confirm\u00e9"
+        },
+        {
+            "id": 7,
+            "transaction_id": "TR-20250507204723-2986",
+            "user_id": null,
+            "voyage_id": 2,
+            "date_commande": "2025-05-07",
+            "date_depart": "2025-05-21",
+            "date_retour": "2025-05-28",
+            "nb_participants": 1,
+            "prix_total": 1299,
+            "options_choisies": [],
+            "statut": "confirm\u00e9"
+        },
+        {
+            "id": 8,
+            "transaction_id": "TR-20250507204755-5611",
+            "user_id": null,
+            "voyage_id": 2,
+            "date_commande": "2025-05-07",
+            "date_depart": "2025-06-07",
+            "date_retour": "2025-06-14",
+            "nb_participants": 1,
+            "prix_total": 1339,
+            "options_choisies": {
+                "etape_1": {
+                    "activites": [
+                        {
+                            "nom": "Visite de villages montagnards",
+                            "prix": 40
+                        }
+                    ]
+                }
+            },
+            "statut": "confirm\u00e9"
+        },
+        {
+            "id": 9,
+            "transaction_id": "TR-20250507204946-6226",
+            "user_id": null,
+            "voyage_id": 2,
+            "date_commande": "2025-05-07",
+            "date_depart": "2025-06-07",
+            "date_retour": "2025-06-14",
+            "nb_participants": 1,
+            "prix_total": 1299,
+            "options_choisies": {
+                "etape_1": {
+                    "activites": [
+                        {
+                            "nom": "Visite de villages montagnards",
+                            "prix": 40
+                        }
+                    ]
+                }
+            },
+            "statut": "confirm\u00e9"
+        },
+        {
+            "id": 10,
+            "transaction_id": "TR-20250509213459-2604",
+            "user_id": null,
+            "voyage_id": 2,
+            "date_commande": "2025-05-09",
+            "date_depart": "2025-05-29",
+            "date_retour": "2025-06-05",
+            "nb_participants": 1,
+            "prix_total": 1389,
+            "options_choisies": {
+                "etape_1": {
+                    "activites": [
+                        {
+                            "nom": "Passage des cols alpins",
+                            "prix": 90
+                        }
+                    ]
+                }
+            },
+            "statut": "confirm\u00e9"
+        },
+        {
+            "id": 11,
+            "transaction_id": "TR-20250509214151-7021",
+            "user_id": null,
+            "voyage_id": 2,
+            "date_commande": "2025-05-09",
+            "date_depart": "2025-05-11",
+            "date_retour": "2025-05-18",
+            "nb_participants": 1,
+            "prix_total": 1389,
+            "options_choisies": {
+                "etape_1": {
+                    "activites": [
+                        {
+                            "nom": "Passage des cols alpins",
+                            "prix": 90
+                        }
+                    ]
+                }
+            },
+            "statut": "confirm\u00e9"
         }
     ]
 }
