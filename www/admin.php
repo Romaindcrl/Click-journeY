@@ -1,15 +1,15 @@
 <?php
+// Vérifier si l'utilisateur est connecté et est un administrateur avant tout envoi de HTML
+require_once __DIR__ . '/check_auth.php';
+require_once __DIR__ . '/check_admin.php';
+checkAuth();
+checkAdmin();
+// Inclure le header après la vérification d'authentification
 require_once __DIR__ . '/includes/header.php';
 ?>
 <link rel="stylesheet" href="src/css/admin.css">
+
 <?php
-require_once __DIR__ . '/check_auth.php';
-require_once __DIR__ . '/check_admin.php';
-
-// Vérifier si l'utilisateur est connecté et est un administrateur
-checkAuth();
-checkAdmin();
-
 // Fonction pour formater les noms de permissions
 function formatPermissionName($permission) {
     $formattedNames = [

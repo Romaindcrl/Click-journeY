@@ -1,0 +1,79 @@
+.confirmation-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.confirmation-success {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.confirmation-success i {
+    font-size: 3rem;
+    color: #28a745;
+    margin-bottom: 0.5rem;
+}
+
+.trip-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.detail-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: #f8f9fa;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+}
+
+.detail-item i {
+    color: #007bff;
+}
+
+.total-price {
+    background-color: #f8f9fa;
+    padding: 1rem;
+    border-radius: 4px;
+    text-align: center;
+    border-left: 4px solid #007bff;
+}
+
+.total-price .price {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #007bff;
+}
+
+.actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+@media print {
+    .actions, header, footer, .theme-switch-wrapper {
+        display: none !important;
+    }
+    
+    body {
+        padding: 0;
+        margin: 0;
+    }
+    
+    .container {
+        width: 100%;
+        max-width: 100%;
+        padding: 0;
+        margin: 0;
+    }
+    
+    .card {
+        border: 1px solid #ddd;
+        margin-bottom: 15px;
+    }
+} 
