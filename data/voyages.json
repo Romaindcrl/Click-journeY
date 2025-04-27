@@ -5,12 +5,14 @@
             "nom": "Maroc en 4L",
             "description": "Traversez le désert marocain en 4L, entre dunes majestueuses et oasis paisibles. Une aventure authentique au cœur du Sahara.",
             "prix": 1499,
+            "duree": 10,
+            "disponible": true,
             "image": "src/images/4L/maroc.jpg",
             "activites": [
-                {"id": "1-1", "nom": "Nuit dans le désert sous les étoiles", "prix": 80},
-                {"id": "1-2", "nom": "Visite des kasbahs", "prix": 60},
-                {"id": "1-3", "nom": "Cours de mécanique 4L", "prix": 120},
-                {"id": "1-4", "nom": "Dîner traditionnel berbère", "prix": 45}
+                {"id": "1-1", "nom": "Nuit dans le désert sous les étoiles", "prix": 80, "description": "Dormez sous un ciel étoilé d'une clarté exceptionnelle au milieu des dunes du Sahara."},
+                {"id": "1-2", "nom": "Visite des kasbahs", "prix": 60, "description": "Découvrez l'architecture fascinante des kasbahs, ces citadelles de terre ocre."},
+                {"id": "1-3", "nom": "Cours de mécanique 4L", "prix": 120, "description": "Apprenez à entretenir et réparer votre 4L dans des conditions désertiques."},
+                {"id": "1-4", "nom": "Dîner traditionnel berbère", "prix": 45, "description": "Savourez les spécialités berbères préparées par une famille locale."}
             ]
         },
         {
@@ -18,12 +20,14 @@
             "nom": "Les Alpes en 4L",
             "description": "Parcourez les routes mythiques des Alpes en 4L. Des cols légendaires aux lacs de montagne, vivez l'aventure en altitude.",
             "prix": 1299,
+            "duree": 7,
+            "disponible": true,
             "image": "src/images/4L/alpes.jpg",
             "activites": [
-                {"id": "2-1", "nom": "Passage des cols alpins", "prix": 90},
-                {"id": "2-2", "nom": "Fondue en refuge", "prix": 55},
-                {"id": "2-3", "nom": "Visite de villages montagnards", "prix": 40},
-                {"id": "2-4", "nom": "Atelier photo en montagne", "prix": 75}
+                {"id": "2-1", "nom": "Passage des cols alpins", "prix": 90, "description": "Franchissez les cols mythiques des Alpes et profitez de panoramas à couper le souffle."},
+                {"id": "2-2", "nom": "Fondue en refuge", "prix": 55, "description": "Dégustez une authentique fondue savoyarde dans un refuge de montagne."},
+                {"id": "2-3", "nom": "Visite de villages montagnards", "prix": 40, "description": "Explorez des villages typiques aux chalets en bois et traditions préservées."},
+                {"id": "2-4", "nom": "Atelier photo en montagne", "prix": 75, "description": "Apprenez à capturer les paysages alpins avec un photographe professionnel."}
             ]
         },
         {
@@ -31,12 +35,14 @@
             "nom": "Côte Méditerranéenne",
             "description": "De Marseille à Nice en 4L, découvrez les plus belles criques et villages du littoral méditerranéen.",
             "prix": 1199,
+            "duree": 8,
+            "disponible": true,
             "image": "src/images/4L/mediterranee.jpg",
             "activites": [
-                {"id": "3-1", "nom": "Baignade dans les calanques", "prix": 40},
-                {"id": "3-2", "nom": "Dégustation de vins locaux", "prix": 65},
-                {"id": "3-3", "nom": "Visite de villages perchés", "prix": 50},
-                {"id": "3-4", "nom": "Cours de cuisine provençale", "prix": 85}
+                {"id": "3-1", "nom": "Baignade dans les calanques", "prix": 40, "description": "Plongez dans les eaux cristallines des calanques, accessibles uniquement en bateau."},
+                {"id": "3-2", "nom": "Dégustation de vins locaux", "prix": 65, "description": "Découvrez les vins de Provence dans un domaine familial."},
+                {"id": "3-3", "nom": "Visite de villages perchés", "prix": 50, "description": "Flânez dans les ruelles escarpées de villages méditerranéens perchés."},
+                {"id": "3-4", "nom": "Cours de cuisine provençale", "prix": 85, "description": "Apprenez à préparer des plats typiques provençaux avec un chef local."}
             ]
         },
         {
@@ -44,12 +50,14 @@
             "nom": "Portugal en 4L",
             "description": "De Porto à l'Algarve, explorez les routes côtières et les villages historiques du Portugal.",
             "prix": 1399,
+            "duree": 12,
+            "disponible": true,
             "image": "src/images/4L/portugal.jpg",
             "activites": [
-                {"id": "4-1", "nom": "Dégustation de Porto", "prix": 55},
-                {"id": "4-2", "nom": "Surf sur la côte", "prix": 70},
-                {"id": "4-3", "nom": "Visite de caves historiques", "prix": 45},
-                {"id": "4-4", "nom": "Balade en bateau", "prix": 80}
+                {"id": "4-1", "nom": "Dégustation de Porto", "prix": 55, "description": "Visitez une cave historique et dégustez différentes variétés de ce vin fortifié."},
+                {"id": "4-2", "nom": "Surf sur la côte", "prix": 70, "description": "Initiez-vous au surf sur les plages de l'Atlantique réputées mondialement."},
+                {"id": "4-3", "nom": "Visite de caves historiques", "prix": 45, "description": "Explorez les anciennes caves à vin de la vallée du Douro."},
+                {"id": "4-4", "nom": "Balade en bateau", "prix": 80, "description": "Naviguez sur le Douro au milieu des vignobles en terrasses."}
             ]
         },
         {
@@ -57,12 +65,14 @@
             "nom": "Andalousie Authentique",
             "description": "Parcourez l'Andalousie en 4L, des villages blancs aux plages sauvages de la Costa de la Luz.",
             "prix": 1599,
+            "duree": 9,
+            "disponible": true,
             "image": "src/images/4L/andalousie.jpg",
             "activites": [
-                {"id": "5-1", "nom": "Spectacle de flamenco", "prix": 60},
-                {"id": "5-2", "nom": "Visite de l'Alhambra", "prix": 85},
-                {"id": "5-3", "nom": "Cours de tapas", "prix": 50},
-                {"id": "5-4", "nom": "Route des villages blancs", "prix": 70}
+                {"id": "5-1", "nom": "Spectacle de flamenco", "prix": 60, "description": "Assistez à un spectacle traditionnel de flamenco dans une cave à Séville."},
+                {"id": "5-2", "nom": "Visite de l'Alhambra", "prix": 85, "description": "Explorez ce joyau de l'architecture maure à Grenade."},
+                {"id": "5-3", "nom": "Cours de tapas", "prix": 50, "description": "Apprenez à préparer des tapas andalous avec un chef local."},
+                {"id": "5-4", "nom": "Route des villages blancs", "prix": 70, "description": "Découvrez les pueblos blancos perchés sur les collines andalouses."}
             ]
         },
         {
@@ -70,12 +80,14 @@
             "nom": "Bretagne Sauvage",
             "description": "Explorez la côte bretonne en 4L, entre phares majestueux et plages secrètes.",
             "prix": 999,
+            "duree": 7,
+            "disponible": true,
             "image": "src/images/4L/bretagne.jpg",
             "activites": [
-                {"id": "6-1", "nom": "Dégustation de fruits de mer", "prix": 65},
-                {"id": "6-2", "nom": "Visite de phares", "prix": 40},
-                {"id": "6-3", "nom": "Randonnée côtière", "prix": 35},
-                {"id": "6-4", "nom": "Initiation à la voile", "prix": 90}
+                {"id": "6-1", "nom": "Dégustation de fruits de mer", "prix": 65, "description": "Savourez un plateau de fruits de mer fraîchement pêchés."},
+                {"id": "6-2", "nom": "Visite de phares", "prix": 40, "description": "Montez au sommet des phares historiques qui jalonnent la côte."},
+                {"id": "6-3", "nom": "Randonnée côtière", "prix": 35, "description": "Parcourez le sentier des douaniers offrant des vues imprenables sur l'Atlantique."},
+                {"id": "6-4", "nom": "Initiation à la voile", "prix": 90, "description": "Apprenez les bases de la navigation à voile dans l'une des plus belles baies du monde."}
             ]
         },
         {
@@ -83,12 +95,14 @@
             "nom": "Corse en 4L",
             "description": "Tour de Corse en 4L : plages paradisiaques, montagnes escarpées et villages authentiques.",
             "prix": 1699,
+            "duree": 11,
+            "disponible": true,
             "image": "src/images/4L/corse.jpg",
             "activites": [
-                {"id": "7-1", "nom": "Randonnée GR20", "prix": 95},
-                {"id": "7-2", "nom": "Plongée en mer", "prix": 120},
-                {"id": "7-3", "nom": "Dégustation de charcuterie", "prix": 45},
-                {"id": "7-4", "nom": "Excursion en bateau", "prix": 85}
+                {"id": "7-1", "nom": "Randonnée GR20", "prix": 95, "description": "Parcourez une portion du célèbre GR20, l'un des sentiers les plus difficiles d'Europe."},
+                {"id": "7-2", "nom": "Plongée en mer", "prix": 120, "description": "Explorez les fonds marins exceptionnels de la réserve de Scandola."},
+                {"id": "7-3", "nom": "Dégustation de charcuterie", "prix": 45, "description": "Goûtez aux spécialités corses dans une ferme traditionnelle."},
+                {"id": "7-4", "nom": "Excursion en bateau", "prix": 85, "description": "Découvrez les calanques de Piana, patrimoine mondial de l'UNESCO."}
             ]
         },
         {
@@ -96,12 +110,14 @@
             "nom": "Grèce Continentale",
             "description": "Des Météores au Péloponnèse, découvrez la Grèce authentique au volant de votre 4L.",
             "prix": 1899,
+            "duree": 14,
+            "disponible": true,
             "image": "src/images/4L/grece.jpg",
             "activites": [
-                {"id": "8-1", "nom": "Visite des Météores", "prix": 75},
-                {"id": "8-2", "nom": "Cours de cuisine grecque", "prix": 60},
-                {"id": "8-3", "nom": "Site de Delphes", "prix": 55},
-                {"id": "8-4", "nom": "Olympie antique", "prix": 65}
+                {"id": "8-1", "nom": "Visite des Météores", "prix": 75, "description": "Explorez ces monastères perchés sur des pitons rocheux vertigineux."},
+                {"id": "8-2", "nom": "Cours de cuisine grecque", "prix": 60, "description": "Apprenez à préparer des spécialités grecques avec des produits locaux."},
+                {"id": "8-3", "nom": "Site de Delphes", "prix": 55, "description": "Visitez l'ancien sanctuaire d'Apollon et son oracle légendaire."},
+                {"id": "8-4", "nom": "Olympie antique", "prix": 65, "description": "Découvrez le berceau des Jeux Olympiques et son riche musée archéologique."}
             ]
         },
         {
@@ -109,12 +125,14 @@
             "nom": "Ecosse Mystérieuse",
             "description": "Des Highlands aux îles Hébrides, vivez l'aventure écossaise en 4L.",
             "prix": 1799,
+            "duree": 10,
+            "disponible": true,
             "image": "src/images/4L/ecosse.jpg",
             "activites": [
-                {"id": "9-1", "nom": "Visite de distillerie", "prix": 85},
-                {"id": "9-2", "nom": "Château hanté", "prix": 65},
-                {"id": "9-3", "nom": "Randonnée dans les Highlands", "prix": 70},
-                {"id": "9-4", "nom": "Observation de phoques", "prix": 90}
+                {"id": "9-1", "nom": "Visite de distillerie", "prix": 85, "description": "Découvrez les secrets de fabrication du whisky écossais et dégustez différentes variétés."},
+                {"id": "9-2", "nom": "Château hanté", "prix": 65, "description": "Passez la nuit dans un château écossais réputé pour ses apparitions surnaturelles."},
+                {"id": "9-3", "nom": "Randonnée dans les Highlands", "prix": 70, "description": "Parcourez les paysages sauvages et majestueux des Highlands écossais."},
+                {"id": "9-4", "nom": "Observation de phoques", "prix": 90, "description": "Partez en bateau observer les colonies de phoques dans leur habitat naturel."}
             ]
         },
         {
@@ -122,12 +140,89 @@
             "nom": "Irlande Verdoyante",
             "description": "Parcourez l'anneau du Kerry et la côte sauvage irlandaise en 4L.",
             "prix": 1599,
+            "duree": 9,
+            "disponible": true,
             "image": "src/images/4L/irlande.jpg",
             "activites": [
-                {"id": "10-1", "nom": "Soirée pub traditionnelle", "prix": 45},
-                {"id": "10-2", "nom": "Falaises de Moher", "prix": 60},
-                {"id": "10-3", "nom": "Château de Blarney", "prix": 55},
-                {"id": "10-4", "nom": "Balade en bateau", "prix": 75}
+                {"id": "10-1", "nom": "Soirée pub traditionnelle", "prix": 45, "description": "Immergez-vous dans l'ambiance conviviale d'un pub irlandais avec musique live."},
+                {"id": "10-2", "nom": "Falaises de Moher", "prix": 60, "description": "Admirez ces impressionnantes falaises s'élevant à 214 mètres au-dessus de l'Atlantique."},
+                {"id": "10-3", "nom": "Château de Blarney", "prix": 55, "description": "Visitez ce château médiéval et embrassez la célèbre pierre de Blarney."},
+                {"id": "10-4", "nom": "Balade en bateau", "prix": 75, "description": "Naviguez sur les lacs du Connemara aux eaux cristallines."}
+            ]
+        },
+        {
+            "id": "11",
+            "nom": "Australie Sauvage",
+            "description": "Aventurez-vous dans l'outback australien en 4L, des déserts rouges aux côtes tropicales du Queensland.",
+            "prix": 2499,
+            "duree": 16,
+            "disponible": true,
+            "image": "src/images/4L/australie.jpg",
+            "activites": [
+                {"id": "11-1", "nom": "Plongée Grande Barrière de Corail", "prix": 180, "description": "Explorez le plus grand récif corallien du monde et sa biodiversité exceptionnelle."},
+                {"id": "11-2", "nom": "Nuit à Uluru", "prix": 140, "description": "Contemplez le coucher de soleil sur le célèbre monolithe sacré du désert australien."},
+                {"id": "11-3", "nom": "Safari kangourous", "prix": 95, "description": "Partez à la rencontre des kangourous et autres animaux emblématiques dans leur habitat naturel."},
+                {"id": "11-4", "nom": "Cours de surf", "prix": 110, "description": "Initiez-vous au surf sur les plages légendaires de la Gold Coast."}
+            ]
+        },
+        {
+            "id": "12",
+            "nom": "Pyrénées Indomptables",
+            "description": "Traversez les Pyrénées d'est en ouest, de la Méditerranée à l'Atlantique, au volant de votre 4L.",
+            "prix": 1299,
+            "duree": 8,
+            "disponible": true,
+            "image": "src/images/4L/pyrenees.jpg",
+            "activites": [
+                {"id": "12-1", "nom": "Randonnée Pic du Midi", "prix": 65, "description": "Montez jusqu'au célèbre observatoire et profitez d'une vue incomparable sur la chaîne pyrénéenne."},
+                {"id": "12-2", "nom": "Bains thermaux", "prix": 85, "description": "Détendez-vous dans les sources d'eau chaude naturelles des stations thermales pyrénéennes."},
+                {"id": "12-3", "nom": "Descente en rafting", "prix": 90, "description": "Vivez des sensations fortes en descendant les rivières tumultueuses des Pyrénées."},
+                {"id": "12-4", "nom": "Visite de bergeries", "prix": 40, "description": "Rencontrez des bergers traditionnels et découvrez la fabrication du fromage de brebis."}
+            ]
+        },
+        {
+            "id": "13",
+            "nom": "Route Atlantique",
+            "description": "De Biarritz à Bilbao, longez la côte atlantique franco-espagnole en 4L et découvrez ses trésors cachés.",
+            "prix": 1199,
+            "duree": 7,
+            "disponible": true,
+            "image": "src/images/4L/atlantique.jpg",
+            "activites": [
+                {"id": "13-1", "nom": "Cours de surf à Hossegor", "prix": 80, "description": "Apprenez à surfer sur l'une des plus célèbres plages de surf d'Europe."},
+                {"id": "13-2", "nom": "Musée Guggenheim", "prix": 60, "description": "Visitez ce chef-d'œuvre d'architecture contemporaine à Bilbao."},
+                {"id": "13-3", "nom": "Dégustation fruits de mer", "prix": 75, "description": "Savourez les meilleurs fruits de mer de la côte basque dans une cidrerie traditionnelle."},
+                {"id": "13-4", "nom": "Excursion villages basques", "prix": 55, "description": "Découvrez les pittoresques villages basques et leur riche culture."}
+            ]
+        },
+        {
+            "id": "14",
+            "nom": "Tour d'Europe",
+            "description": "Un périple exceptionnel à travers 6 pays européens en 4L : France, Allemagne, Autriche, Italie, Suisse et Espagne.",
+            "prix": 2199,
+            "duree": 21,
+            "disponible": true,
+            "image": "src/images/4L/europe.jpg",
+            "activites": [
+                {"id": "14-1", "nom": "Route des vins alsaciens", "prix": 75, "description": "Parcourez la célèbre route des vins d'Alsace et dégustez les crus locaux."},
+                {"id": "14-2", "nom": "Visite château de Neuschwanstein", "prix": 85, "description": "Découvrez le château qui a inspiré Walt Disney en Bavière."},
+                {"id": "14-3", "nom": "Balade Venise", "prix": 120, "description": "Promenez-vous en gondole sur les canaux de la cité des Doges."},
+                {"id": "14-4", "nom": "Lacs suisses", "prix": 95, "description": "Admirez les paysages idylliques des lacs suisses entourés de montagnes."}
+            ]
+        },
+        {
+            "id": "15",
+            "nom": "Japon Traditionnel",
+            "description": "Une aventure unique au Japon en 4L, des mégalopoles futuristes aux paisibles villages ruraux de l'île de Honshu.",
+            "prix": 2799,
+            "duree": 15,
+            "disponible": true,
+            "image": "src/images/4L/japon.jpg",
+            "activites": [
+                {"id": "15-1", "nom": "Cérémonie du thé", "prix": 70, "description": "Participez à une authentique cérémonie du thé dans un temple séculaire."},
+                {"id": "15-2", "nom": "Nuit dans un ryokan", "prix": 160, "description": "Expérimentez l'hospitalité japonaise dans une auberge traditionnelle avec onsen."},
+                {"id": "15-3", "nom": "Cours de cuisine japonaise", "prix": 90, "description": "Apprenez à préparer des plats typiques japonais avec un chef local."},
+                {"id": "15-4", "nom": "Visite du Mont Fuji", "prix": 110, "description": "Contemplez le majestueux Mont Fuji et visitez les cinq lacs à ses pieds."}
             ]
         }
     ]

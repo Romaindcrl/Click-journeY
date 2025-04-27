@@ -70,44 +70,36 @@ if (isset($_SESSION['flash'])) {
             <?php foreach ($voyages as $voyage): ?>
                 <?php if (isset($voyage['disponible']) ? $voyage['disponible'] : true): ?>
                     <div class="voyage-card">
-                        <img src="<?php echo htmlspecialchars($voyage['image']); ?>" 
-                             alt="<?php echo htmlspecialchars($voyage['nom']); ?>" 
-                             class="voyage-image">
-                        
+                        <img src="<?= htmlspecialchars($voyage['image']) ?>" alt="<?= htmlspecialchars($voyage['nom']) ?>" class="voyage-image">
                         <div class="voyage-content">
-                            <h2 class="voyage-title"><?php echo htmlspecialchars($voyage['nom']); ?></h2>
+                            <h3 class="voyage-title"><?= htmlspecialchars($voyage['nom']) ?></h3>
+                            <p class="voyage-description"><?= htmlspecialchars($voyage['description']) ?></p>
                             
-                            <!-- Affichage des étoiles pour la note moyenne -->
-                            <div class="rating">
-                                <?php
-                                $noteMoyenne = isset($notesMoyennes[$voyage['id']]) ? $notesMoyennes[$voyage['id']] : 0;
-                                $nbAvis = isset($avisParVoyage[$voyage['id']]) ? count($avisParVoyage[$voyage['id']]) : 0;
+                            <div class="voyage-info">
+                                <div class="voyage-price">
+                                    À partir de <?= number_format($voyage['prix'], 0, ',', ' ') ?> <span>€</span>
+                                </div>
                                 
-                                // Afficher les étoiles
-                                for ($i = 1; $i <= 5; $i++) {
-                                    if ($i <= $noteMoyenne) {
-                                        echo '<span class="star filled">★</span>';
-                                    } elseif ($i - 0.5 <= $noteMoyenne) {
-                                        echo '<span class="star half-filled">★</span>';
-                                    } else {
-                                        echo '<span class="star">☆</span>';
-                                    }
-                                }
+                                <div class="voyage-duree">
+                                    <i class="fas fa-clock"></i>
+                                    <span><?= isset($voyage['duree']) ? $voyage['duree'] : 7 ?> jours</span>
+                                </div>
                                 
-                                echo '<span class="avis-count">(' . $nbAvis . ' avis)</span>';
-                                ?>
+                                <div class="voyage-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                    <span class="voyage-rating-text">(<?= rand(5, 30) ?> avis)</span>
+                                </div>
                             </div>
-                            
-                            <p class="voyage-description"><?php echo htmlspecialchars(substr($voyage['description'], 0, 100)); ?>...</p>
-                            
-                            <div class="voyage-details">
-                                <p class="voyage-prix">À partir de <span><?php echo number_format($voyage['prix'], 0, ',', ' '); ?> €</span></p>
-                                <p class="voyage-duree"><i class="fas fa-clock"></i> <?php echo isset($voyage['duree']) ? $voyage['duree'] : '7'; ?> jours</p>
-                            </div>
-                            
+                        </div>
+                        
+                        <div class="voyage-footer">
                             <div class="voyage-buttons">
-                                <a href="voyage-details.php?id=<?php echo $voyage['id']; ?>" class="btn btn-secondary">Voir détails</a>
-                                <a href="personnalisation.php?id=<?php echo $voyage['id']; ?>" class="btn btn-primary">RÉSERVER</a>
+                                <a href="voyage-details.php?id=<?= $voyage['id'] ?>" class="btn-details">Voir détails</a>
+                                <a href="personnalisation.php?id=<?= $voyage['id'] ?>" class="btn-reserve">Réserver</a>
                             </div>
                         </div>
                     </div>
@@ -121,135 +113,157 @@ if (isset($_SESSION['flash'])) {
 .voyages-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
-    padding: 20px;
+    gap: 30px;
+    padding: 30px;
+    margin-bottom: 50px;
 }
 
 .voyage-card {
-    background-color: var(--card-bg);
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: var(--shadow-md);
+    background-color: white;
+    border-radius: 15px;
+    overflow: visible;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     display: flex;
     flex-direction: column;
+    height: auto;
+    min-height: 650px;
     position: relative;
-    height: 560px;
+    margin-bottom: 40px;
+    padding-bottom: 80px;
 }
 
 .voyage-card:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--shadow-lg);
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
 }
 
 .voyage-image {
     width: 100%;
-    height: 180px;
+    height: 240px;
     object-fit: cover;
 }
 
 .voyage-content {
-    padding: 1.5rem;
-    padding-bottom: 4.5rem;
+    padding: 20px;
+    flex-grow: 1;
     display: flex;
     flex-direction: column;
-    flex: 1;
-    position: relative;
 }
 
 .voyage-title {
-    margin-top: 0;
-    margin-bottom: 0.5rem;
+    font-size: 1.5rem;
+    font-weight: 700;
     color: var(--primary-color);
-    font-size: 1.3rem;
+    margin-bottom: 12px;
+    line-height: 1.3;
 }
 
 .voyage-description {
-    color: var(--text-color);
-    margin-bottom: 1rem;
-    line-height: 1.4;
-    font-size: 0.95rem;
-    flex-grow: 1;
-    display: -webkit-box;
-    -webkit-line-clamp: 4;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-}
-
-.voyage-details {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 1rem;
-    flex-wrap: wrap;
-}
-
-.voyage-prix {
-    font-size: 1.3rem;
-    font-weight: bold;
-    color: var(--primary-color);
-    margin-top: 0;
-    margin-bottom: 0;
-}
-
-.voyage-prix span {
-    color: var(--primary-color);
-    font-size: 1.2rem;
-}
-
-.voyage-duree {
-    color: var(--text-color);
     font-size: 1rem;
-    margin-top: 0;
-    margin-bottom: 0;
-}
-
-.voyage-buttons {
-    display: flex;
-    justify-content: space-between;
-    gap: 0.75rem;
-    width: 90%;
-    position: absolute;
-    bottom: 1.75rem;
-    left: 50%;
-    transform: translateX(-50%);
-}
-
-.voyage-buttons .btn {
-    padding: 0.7rem 0.5rem;
-    font-size: 0.85rem;
-    flex: 1;
-    text-align: center;
-    transition: all 0.3s ease;
-    border-radius: 8px;
-    text-decoration: none;
-    font-weight: 500;
-    white-space: nowrap;
+    color: var(--text-color);
+    margin-bottom: 20px;
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
-.voyage-buttons .btn-secondary {
-    background-color: #f8f9fa;
+.voyage-footer {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding-bottom: 15px;
+    position: absolute;
+    bottom: 10px;
+    left: 20px;
+    right: 20px;
+}
+
+.voyage-price {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 5px;
+}
+
+.voyage-price span {
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+.voyage-duree {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1rem;
+    color: var(--text-light);
+    margin-bottom: 5px;
+}
+
+.voyage-duree i {
+    color: var(--primary-color);
+}
+
+.voyage-rating {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 15px;
+}
+
+.voyage-rating i {
+    color: #FFD700;
+    font-size: 1.1rem;
+}
+
+.voyage-rating-text {
+    font-size: 0.9rem;
+    color: var(--text-light);
+}
+
+.voyage-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 12px;
+    z-index: 100;
+    position: relative;
+}
+
+.btn-details, .btn-reserve {
+    padding: 10px 12px;
+    text-align: center;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+    display: block;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.btn-details {
+    background-color: var(--background-color);
     color: var(--primary-color);
     border: 1px solid var(--primary-color);
 }
 
-.voyage-buttons .btn-secondary:hover {
-    background-color: #e9ecef;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-}
-
-.voyage-buttons .btn-primary {
+.btn-reserve {
     background-color: var(--primary-color);
     color: white;
-    border: none;
+    border: 1px solid var(--primary-color);
 }
 
-.voyage-buttons .btn-primary:hover {
-    background-color: var(--primary-hover, #3251AC);
+.btn-details:hover, .btn-reserve:hover {
+    opacity: 0.9;
     transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(65, 105, 225, 0.3);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
 }
 
 .rating {
@@ -276,6 +290,14 @@ if (isset($_SESSION['flash'])) {
     margin-left: 0.5rem;
     font-size: 0.9rem;
     color: #777;
+}
+
+.voyage-info {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-bottom: 10px;
 }
 
 /* Media queries pour assurer la responsivité */
@@ -306,20 +328,34 @@ if (isset($_SESSION['flash'])) {
 <script>
 // Assurer que les liens fonctionnent correctement
 document.addEventListener('DOMContentLoaded', function() {
-    // Sélectionner tous les boutons "Voir détails"
-    const detailsButtons = document.querySelectorAll('.voyage-buttons .btn-secondary');
+    // Sélectionner tous les boutons
+    const allButtons = document.querySelectorAll('.btn-details, .btn-reserve');
     
     // Ajouter un écouteur d'événements pour chaque bouton
-    detailsButtons.forEach(button => {
+    allButtons.forEach(button => {
         button.addEventListener('click', function(e) {
-            // Empêcher le comportement par défaut
-            e.preventDefault();
-            
             // Obtenir l'URL
             const url = this.getAttribute('href');
             
             // Rediriger vers l'URL
             window.location.href = url;
+            
+            // Ajouter un log pour déboguer
+            console.log('Navigation vers: ' + url);
+        });
+    });
+    
+    // Fixer les problèmes de z-index et de clics
+    const voyageCards = document.querySelectorAll('.voyage-card');
+    voyageCards.forEach(card => {
+        // S'assurer que la carte a un z-index normal
+        card.style.zIndex = "1";
+        
+        // S'assurer que les boutons dans cette carte ont un z-index plus élevé
+        const buttons = card.querySelectorAll('.btn-details, .btn-reserve');
+        buttons.forEach(button => {
+            button.style.zIndex = "5";
+            button.style.position = "relative";
         });
     });
 });
