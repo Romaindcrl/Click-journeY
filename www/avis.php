@@ -7,7 +7,11 @@ $avis = [];
 
 if (file_exists($avisFile)) {
     $avisContent = file_get_contents($avisFile);
-    $avis = json_decode($avisContent, true);
+    $avisData = json_decode($avisContent, true);
+    // S'assurer que nous accédons au tableau 'avis' dans le JSON
+    if (isset($avisData['avis']) && is_array($avisData['avis'])) {
+        $avis = $avisData['avis'];
+    }
 }
 
 // Charger les voyages pour obtenir les informations
@@ -30,6 +34,11 @@ function calculerNoteMoyenne($avis, $voyageId = null) {
     $notes = [];
     
     foreach ($avis as $unAvis) {
+        // Vérifier que toutes les clés nécessaires existent
+        if (!isset($unAvis['voyage_id']) || !isset($unAvis['statut']) || !isset($unAvis['note'])) {
+            continue;
+        }
+        
         if ($voyageId !== null && $unAvis['voyage_id'] != $voyageId) {
             continue;
         }
@@ -49,6 +58,11 @@ function calculerNoteMoyenne($avis, $voyageId = null) {
 // Regrouper les avis par voyage
 $avisByVoyage = [];
 foreach ($avis as $unAvis) {
+    // Vérifier que toutes les clés nécessaires existent
+    if (!isset($unAvis['voyage_id']) || !isset($unAvis['statut'])) {
+        continue;
+    }
+    
     if ($unAvis['statut'] === 'publié') {
         $avisByVoyage[$unAvis['voyage_id']][] = $unAvis;
     }
@@ -159,5 +173,180 @@ uasort($avisByVoyage, function($a, $b) {
         </div>
     <?php endif; ?>
 </div>
+
+<!-- Structure pour le modal d'avis - s'affichera avec JavaScript -->
+<div id="review-modal" class="review-modal">
+    <div class="review-modal-content">
+        <span class="close">&times;</span>
+        <h2>Votre avis compte !</h2>
+        
+        <form id="review-form">
+            <input type="hidden" id="voyage-id" name="voyage_id" value="">
+            
+            <div class="rating-container">
+                <p>Votre note :</p>
+                <div class="rating-stars">
+                    <span class="rating-star" data-value="1">★</span>
+                    <span class="rating-star" data-value="2">★</span>
+                    <span class="rating-star" data-value="3">★</span>
+                    <span class="rating-star" data-value="4">★</span>
+                    <span class="rating-star" data-value="5">★</span>
+                </div>
+                <input type="hidden" id="rating-value" name="note" value="0">
+            </div>
+            
+            <textarea id="review-comment" name="commentaire" placeholder="Partagez votre expérience de voyage..."></textarea>
+            
+            <button type="submit" id="submit-review">Soumettre mon avis</button>
+            
+            <div id="review-message"></div>
+        </form>
+    </div>
+</div>
+
+<style>
+/* Style spécifique à la page d'avis */
+.page-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+    font-family: 'Poppins', sans-serif;
+}
+
+.page-title {
+    font-family: 'Amarante', serif;
+    color: var(--rich-black);
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 2.5rem;
+    position: relative;
+    padding-bottom: 0.75rem;
+}
+
+.page-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--lapis-lazuli), var(--air-blue));
+    border-radius: 3px;
+}
+
+.btn-primary {
+    background-color: var(--lapis-lazuli);
+    color: white;
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    display: inline-block;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+}
+
+.btn-primary:hover {
+    background-color: #224760;
+    transform: translateY(-3px);
+    box-shadow: 0 4px 10px rgba(45, 89, 119, 0.2);
+}
+
+.centered-button {
+    text-align: center;
+    margin-top: 2rem;
+}
+</style>
+
+<script>
+// Script pour gérer le modal d'avis
+document.addEventListener('DOMContentLoaded', function() {
+    // Sélectionneurs
+    const modal = document.getElementById('review-modal');
+    const closeBtn = document.querySelector('.close');
+    const stars = document.querySelectorAll('.rating-stars .rating-star');
+    const ratingInput = document.getElementById('rating-value');
+    const reviewForm = document.getElementById('review-form');
+    const reviewMessage = document.getElementById('review-message');
+    
+    // Ouvrir le modal (fonction à appeler depuis le bouton "Laisser un avis")
+    window.openReviewModal = function(voyageId) {
+        document.getElementById('voyage-id').value = voyageId;
+        modal.style.display = 'block';
+        document.body.style.overflow = 'hidden'; // Empêcher le défilement
+    };
+    
+    // Fermer le modal
+    closeBtn.addEventListener('click', function() {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto'; // Réactiver le défilement
+        // Réinitialiser le formulaire
+        reviewForm.reset();
+        stars.forEach(star => star.classList.remove('active'));
+        ratingInput.value = 0;
+        reviewMessage.style.display = 'none';
+        reviewMessage.className = '';
+    });
+    
+    // Gestion des étoiles
+    stars.forEach(star => {
+        star.addEventListener('click', function() {
+            const value = this.getAttribute('data-value');
+            ratingInput.value = value;
+            
+            // Mettre à jour l'affichage des étoiles
+            stars.forEach(s => {
+                if (s.getAttribute('data-value') <= value) {
+                    s.classList.add('active');
+                } else {
+                    s.classList.remove('active');
+                }
+            });
+        });
+    });
+    
+    // Soumission du formulaire (à compléter avec l'envoi AJAX si nécessaire)
+    reviewForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Validation simple
+        if (ratingInput.value === '0') {
+            showMessage('Veuillez attribuer une note.', 'error');
+            return;
+        }
+        
+        // Simuler un succès (à remplacer par l'appel AJAX réel)
+        showMessage('Votre avis a été enregistré. Merci pour votre contribution !', 'success');
+        
+        // Après 2 secondes, fermer le modal
+        setTimeout(() => {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+            // Réinitialiser
+            reviewForm.reset();
+            stars.forEach(star => star.classList.remove('active'));
+            ratingInput.value = 0;
+            reviewMessage.style.display = 'none';
+        }, 2000);
+    });
+    
+    // Afficher un message
+    function showMessage(text, type) {
+        reviewMessage.textContent = text;
+        reviewMessage.className = type;
+        reviewMessage.style.display = 'block';
+    }
+    
+    // Fermer le modal si on clique en dehors
+    window.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            closeBtn.click();
+        }
+    });
+});
+</script>
 
 <?php require_once __DIR__ . '/includes/footer.php'; ?> 

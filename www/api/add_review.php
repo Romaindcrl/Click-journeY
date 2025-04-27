@@ -49,7 +49,7 @@ if (isset($data['comment']) && trim($data['comment']) === '') {
 }
 
 // Charger le fichier des avis
-$avisFilePath = '../../data/avis.json';
+$avisFilePath = __DIR__ . '/../../data/avis.json';
 $avis = [];
 
 if (file_exists($avisFilePath)) {

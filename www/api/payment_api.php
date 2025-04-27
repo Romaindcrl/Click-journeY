@@ -100,7 +100,7 @@ if ($success) {
     $userId = $_SESSION['user_id'];
     
     // Charger les données des voyages
-    $voyagesJson = file_get_contents('../data/voyages.json');
+    $voyagesJson = file_get_contents(__DIR__ . '/../../data/voyages.json');
     $voyages = json_decode($voyagesJson, true);
     
     // Trouver le voyage sélectionné
@@ -135,7 +135,7 @@ if ($success) {
     ];
     
     // Charger et mettre à jour le fichier de commandes
-    $commandesFile = '../data/commandes.json';
+    $commandesFile = __DIR__ . '/../../data/commandes.json';
     $commandes = [];
     
     if (file_exists($commandesFile)) {

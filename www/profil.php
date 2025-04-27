@@ -112,12 +112,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_password'])) {
     }
     else {
         // Vérifier l'ancien mot de passe
-        if (password_verify($oldPassword, $user['password'])) {
-            // Hasher le nouveau mot de passe
-            $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
-            
+        if ($oldPassword === $user['password']) {            
             // Mettre à jour le mot de passe
-            $user['password'] = $hashedPassword;
+            $user['password'] = $newPassword;
             
             // Mettre à jour l'utilisateur dans le tableau
             foreach ($users as $key => $u) {
@@ -179,33 +176,65 @@ foreach ($voyages as $voyage) {
                 <div class="editable-field">
                     <label for="nom">Nom</label>
                     <input type="text" id="nom" name="nom" value="<?php echo htmlspecialchars($user['nom']); ?>" disabled>
-                    <button type="button" class="edit-btn"><i class="fas fa-edit"></i> Modifier</button>
-                    <button type="button" class="save-btn"><i class="fas fa-check"></i> Enregistrer</button>
-                    <button type="button" class="cancel-btn"><i class="fas fa-times"></i> Annuler</button>
+                    <div class="field-buttons">
+                        <button type="button" class="edit-btn" data-tooltip="Modifier">
+                            <i class="fas fa-pencil-alt"></i>
+                        </button>
+                        <button type="button" class="save-btn" data-tooltip="Enregistrer">
+                            <i class="fas fa-check"></i>
+                        </button>
+                        <button type="button" class="cancel-btn" data-tooltip="Annuler">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
                 </div>
                 
                 <div class="editable-field">
                     <label for="prenom">Prénom</label>
                     <input type="text" id="prenom" name="prenom" value="<?php echo htmlspecialchars($user['prenom']); ?>" disabled>
-                    <button type="button" class="edit-btn"><i class="fas fa-edit"></i> Modifier</button>
-                    <button type="button" class="save-btn"><i class="fas fa-check"></i> Enregistrer</button>
-                    <button type="button" class="cancel-btn"><i class="fas fa-times"></i> Annuler</button>
+                    <div class="field-buttons">
+                        <button type="button" class="edit-btn" data-tooltip="Modifier">
+                            <i class="fas fa-pencil-alt"></i>
+                        </button>
+                        <button type="button" class="save-btn" data-tooltip="Enregistrer">
+                            <i class="fas fa-check"></i>
+                        </button>
+                        <button type="button" class="cancel-btn" data-tooltip="Annuler">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
                 </div>
                 
                 <div class="editable-field">
                     <label for="email">Email</label>
                     <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($user['email']); ?>" disabled>
-                    <button type="button" class="edit-btn"><i class="fas fa-edit"></i> Modifier</button>
-                    <button type="button" class="save-btn"><i class="fas fa-check"></i> Enregistrer</button>
-                    <button type="button" class="cancel-btn"><i class="fas fa-times"></i> Annuler</button>
+                    <div class="field-buttons">
+                        <button type="button" class="edit-btn" data-tooltip="Modifier">
+                            <i class="fas fa-pencil-alt"></i>
+                        </button>
+                        <button type="button" class="save-btn" data-tooltip="Enregistrer">
+                            <i class="fas fa-check"></i>
+                        </button>
+                        <button type="button" class="cancel-btn" data-tooltip="Annuler">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
                 </div>
                 
                 <div class="editable-field">
                     <label for="adresse">Adresse</label>
                     <input type="text" id="adresse" name="adresse" value="<?php echo htmlspecialchars($user['adresse'] ?? ''); ?>" disabled>
-                    <button type="button" class="edit-btn"><i class="fas fa-edit"></i> Modifier</button>
-                    <button type="button" class="save-btn"><i class="fas fa-check"></i> Enregistrer</button>
-                    <button type="button" class="cancel-btn"><i class="fas fa-times"></i> Annuler</button>
+                    <div class="field-buttons">
+                        <button type="button" class="edit-btn" data-tooltip="Modifier">
+                            <i class="fas fa-pencil-alt"></i>
+                        </button>
+                        <button type="button" class="save-btn" data-tooltip="Enregistrer">
+                            <i class="fas fa-check"></i>
+                        </button>
+                        <button type="button" class="cancel-btn" data-tooltip="Annuler">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
                 </div>
                 
                 <input type="hidden" name="update_profile" value="1">
@@ -217,17 +246,17 @@ foreach ($voyages as $voyage) {
             <h2>Changer de mot de passe</h2>
             
             <form method="post" action="profil.php<?php echo $isOwner ? '' : '?id=' . $userId; ?>" class="password-form">
-                <div class="form-group">
+                <div class="form-group editable-field">
                     <label for="old_password">Ancien mot de passe</label>
                     <input type="password" id="old_password" name="old_password" required>
                 </div>
                 
-                <div class="form-group">
+                <div class="form-group editable-field">
                     <label for="new_password">Nouveau mot de passe</label>
                     <input type="password" id="new_password" name="new_password" required data-max-length="20">
                 </div>
                 
-                <div class="form-group">
+                <div class="form-group editable-field">
                     <label for="confirm_password">Confirmez le mot de passe</label>
                     <input type="password" id="confirm_password" name="confirm_password" required>
                 </div>
@@ -274,13 +303,13 @@ foreach ($voyages as $voyage) {
                                             <?php foreach ($commande['options_choisies'] as $etapeId => $options): ?>
                                                 <li>
                                                     <strong>Étape <?php echo str_replace('etape_', '', $etapeId); ?>:</strong>
-                                                    <?php 
-                                                    $optionsText = [];
-                                                    if (isset($options['hebergement'])) $optionsText[] = 'Hébergement: ' . $options['hebergement'];
-                                                    if (isset($options['restauration'])) $optionsText[] = 'Restauration: ' . $options['restauration'];
-                                                    if (isset($options['activites']) && is_array($options['activites'])) $optionsText[] = 'Activités: ' . count($options['activites']);
-                                                    echo implode(', ', $optionsText);
-                                                    ?>
+                                                    <div class="option-details">
+                                                        <?php 
+                                                        if (isset($options['hebergement'])) echo '<span class="option-item"><strong>Hébergement:</strong> ' . htmlspecialchars($options['hebergement']) . '</span>';
+                                                        if (isset($options['restauration'])) echo '<span class="option-item"><strong>Restauration:</strong> ' . htmlspecialchars($options['restauration']) . '</span>';
+                                                        if (isset($options['activites']) && is_array($options['activites'])) echo '<span class="option-item"><strong>Activités:</strong> ' . count($options['activites']) . '</span>';
+                                                        ?>
+                                                    </div>
                                                 </li>
                                             <?php endforeach; ?>
                                         </ul>
@@ -288,9 +317,6 @@ foreach ($voyages as $voyage) {
                                 <?php endif; ?>
                                 
                                 <div class="order-actions">
-                                    <?php if ($commande['statut'] === 'confirmé'): ?>
-                                        <a href="#" class="btn btn-sm btn-outline open-review" data-voyage-id="<?php echo $commande['voyage_id']; ?>">Laisser un avis</a>
-                                    <?php endif; ?>
                                     <a href="voyage-details.php?id=<?php echo $commande['voyage_id']; ?>" class="btn btn-sm btn-primary">Voir le voyage</a>
                                 </div>
                             </div>
@@ -302,95 +328,13 @@ foreach ($voyages as $voyage) {
     </div>
 </div>
 
-<!-- Modal pour soumettre un avis -->
-<div id="review-modal" class="modal">
-    <div class="modal-content">
-        <span class="close">&times;</span>
-        <div class="rating-system-fr">
-            <h3>Évaluez votre voyage</h3>
-            <div class="star-rating">
-                <span class="star" data-value="1">&#9733;</span>
-                <span class="star" data-value="2">&#9733;</span>
-                <span class="star" data-value="3">&#9733;</span>
-                <span class="star" data-value="4">&#9733;</span>
-                <span class="star" data-value="5">&#9733;</span>
-            </div>
-            <textarea id="review-comment" placeholder="Partagez votre expérience (facultatif)"></textarea>
-            <input type="hidden" id="review-order-id" value="">
-            <input type="hidden" id="review-voyage-id" value="">
-            <button id="submit-review">Soumettre l'avis</button>
-            <div id="review-message"></div>
-        </div>
-    </div>
-</div>
-
 <script src="src/js/form-validation.js"></script>
-<script src="src/js/rating.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Gestion du modal pour les avis
-    const modal = document.getElementById('review-modal');
-    const reviewButtons = document.querySelectorAll('.open-review');
-    const closeModal = document.querySelector('.close');
-    const voyageIdInput = document.getElementById('review-voyage-id');
-    
-    // Ouvrir le modal
-    reviewButtons.forEach(button => {
-        button.addEventListener('click', function(e) {
-            e.preventDefault();
-            const voyageId = this.dataset.voyageId;
-            voyageIdInput.value = voyageId;
-            modal.style.display = 'block';
-        });
-    });
-    
-    // Fermer le modal
-    if (closeModal) {
-        closeModal.addEventListener('click', function() {
-            modal.style.display = 'none';
-        });
-    }
-    
-    // Cliquer en dehors du modal
-    window.addEventListener('click', function(e) {
-        if (e.target === modal) {
-            modal.style.display = 'none';
-        }
-    });
+    // Vos scripts existants (sans la partie modal des avis)
 });
 </script>
 
 <?php
-// Ajout du modal pour les avis
-echo <<<HTML
-<!-- Modal pour les avis -->
-<div id="review-modal" class="review-modal">
-    <div class="review-modal-content">
-        <span class="close">&times;</span>
-        <h2>Donnez votre avis</h2>
-        <p id="voyage-name"></p>
-        
-        <div class="rating-container">
-            <p>Votre note:</p>
-            <div class="stars">
-                <span class="star" data-value="1">&#9733;</span>
-                <span class="star" data-value="2">&#9733;</span>
-                <span class="star" data-value="3">&#9733;</span>
-                <span class="star" data-value="4">&#9733;</span>
-                <span class="star" data-value="5">&#9733;</span>
-            </div>
-        </div>
-        
-        <textarea id="review-comment" placeholder="Partagez votre expérience..."></textarea>
-        
-        <button id="submit-review">Envoyer</button>
-        
-        <div id="review-message"></div>
-    </div>
-</div>
-
-<script src="src/js/rating.js"></script>
-HTML;
-
 require_once __DIR__ . '/includes/footer.php';
 ?> 

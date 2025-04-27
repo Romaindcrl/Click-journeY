@@ -1,3 +1,26 @@
+/* Personnalisation - Click Journey */
+/* Basé sur la charte graphique */
+
+:root {
+  --rich-black: #041728;
+  --lapis-lazuli: #2d5977;
+  --air-blue: #65A4CA;
+  --silver: #b6b6b6;
+  --white: #FFFFFF;
+  --tomato: #FE4A49;
+  
+  --primary-color: var(--lapis-lazuli);
+  --primary-hover: #224760;
+  --primary-rgb: 45, 89, 119;
+  --accent-color: var(--air-blue);
+  --text-color: var(--rich-black);
+  --text-light: #6c757d;
+  
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
 .personnalisation-container {
     display: grid;
     grid-template-columns: 1fr;
@@ -6,10 +29,10 @@
 }
 
 .voyage-details {
-    background-color: white;
+    background-color: var(--white);
     border-radius: 12px;
     padding: 1.5rem;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow-md);
 }
 
 .voyage-image {
@@ -22,15 +45,17 @@
 }
 
 .voyage-title {
-    color: #4169E1;
+    color: var(--lapis-lazuli);
     font-size: 1.8rem;
     margin-bottom: 1rem;
+    font-family: 'Amarante', serif;
 }
 
 .voyage-description {
-    color: #333;
+    color: var(--text-color);
     margin-bottom: 2rem;
     line-height: 1.6;
+    font-family: 'Poppins', sans-serif;
 }
 
 .form-section {
@@ -40,9 +65,21 @@
 .form-section h3 {
     font-size: 1.25rem;
     margin-bottom: 1rem;
-    color: #4169E1;
+    color: var(--lapis-lazuli);
     padding-bottom: 0.5rem;
     border-bottom: 1px solid #eee;
+    font-family: 'Amarante', serif;
+    position: relative;
+}
+
+.form-section h3::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 50px;
+    height: 3px;
+    background-color: var(--primary-color);
 }
 
 .input-group {
@@ -53,16 +90,25 @@
     display: block;
     margin-bottom: 0.5rem;
     font-weight: 500;
-    color: #444;
+    color: var(--text-color);
+    font-family: 'Poppins', sans-serif;
 }
 
 .form-control {
     width: 100%;
     padding: 0.8rem;
-    border: 1px solid #ddd;
+    border: 1px solid var(--accent-color);
     border-radius: 8px;
     font-size: 1rem;
     box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    transition: all 0.2s ease;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(45, 89, 119, 0.1);
 }
 
 /* Style spécifique pour le champ date */
@@ -104,53 +150,60 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .activity-checkbox {
     display: flex;
     align-items: center;
-    background-color: #f8f9fa;
+    background-color: rgba(101, 164, 202, 0.05);
     padding: 1rem;
     border-radius: 8px;
-    transition: transform 0.3s ease;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
 }
 
 .activity-checkbox:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    box-shadow: var(--shadow-sm);
+    background-color: rgba(101, 164, 202, 0.1);
 }
 
 .activity-checkbox input {
     margin-right: 1rem;
     width: 1.2rem;
     height: 1.2rem;
+    cursor: pointer;
 }
 
 .activity-checkbox label {
     flex-grow: 1;
     margin-bottom: 0;
     cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    color: var(--text-color);
 }
 
 .activity-price {
     font-weight: 600;
-    color: #4169E1;
+    color: var(--lapis-lazuli);
 }
 
 .order-recap {
-    background-color: white;
+    background-color: var(--white);
     border-radius: 12px;
     padding: 1.5rem;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow-md);
     margin-top: 2rem;
 }
 
 .recap-title {
-    color: #4169E1;
+    color: var(--lapis-lazuli);
     text-align: center;
     margin-bottom: 1.5rem;
     font-size: 1.2rem;
+    font-family: 'Amarante', serif;
 }
 
 .recap-content {
     display: flex;
     flex-direction: column;
     gap: 0.8rem;
+    font-family: 'Poppins', sans-serif;
 }
 
 .recap-item {
@@ -168,7 +221,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .total-price {
     font-size: 1.2rem;
     font-weight: 600;
-    color: #4169E1;
+    color: var(--lapis-lazuli);
 }
 
 .btn-reserver {
@@ -178,25 +231,27 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     font-weight: 600;
     text-transform: uppercase;
     font-size: 1.1rem;
-    background-color: #4169E1;
+    background-color: var(--lapis-lazuli);
     color: white;
     border: none;
     border-radius: 8px;
     cursor: pointer;
     transition: all 0.3s ease;
+    font-family: 'Poppins', sans-serif;
 }
 
 .btn-reserver:hover {
-    background-color: #3251AC;
+    background-color: var(--primary-hover);
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(65, 105, 225, 0.3);
+    box-shadow: 0 4px 12px rgba(45, 89, 119, 0.3);
 }
 
 .btn-link {
     display: inline-block;
     margin-top: 1rem;
-    color: #4169E1;
+    color: var(--lapis-lazuli);
     text-decoration: none;
+    font-family: 'Poppins', sans-serif;
 }
 
 .btn-link:hover {
@@ -223,18 +278,11 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     border: 1px solid #f5c6cb;
 }
 
-@media (min-width: 768px) {
-    .personnalisation-container {
-        grid-template-columns: 2fr 1fr;
-    }
-    
-    .activity-list {
-        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    }
-    
-    .order-recap {
-        margin-top: 0;
-    }
+.activity-checkbox.selected {
+    background-color: rgba(45, 89, 119, 0.1);
+    border: 1px solid var(--lapis-lazuli);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
 }
 
 .activity-item {
@@ -249,17 +297,101 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 #selected-activities-container h4 {
     font-size: 1.1rem;
-    color: #4169E1;
+    color: var(--lapis-lazuli);
     margin-bottom: 12px;
     padding-bottom: 8px;
     border-bottom: 1px solid #eee;
+    font-family: 'Amarante', serif;
 }
 
-.activity-checkbox.selected {
-    background-color: rgba(65, 105, 225, 0.1);
-    border: 1px solid #4169E1;
-    transform: translateY(-3px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+.activity-summary {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    color: var(--text-light);
+    animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Mode sombre */
+[data-theme="dark"] {
+    --white: #1a1a1a;
+    --text-color: #e0e0e0;
+    --text-light: #aaa;
+    --border-light: #333;
+    --primary-hover: #3a7ca5;
+}
+
+[data-theme="dark"] .voyage-details,
+[data-theme="dark"] .order-recap {
+    background-color: #222;
+    border-color: #333;
+}
+
+[data-theme="dark"] .voyage-title,
+[data-theme="dark"] .form-section h3,
+[data-theme="dark"] .recap-title,
+[data-theme="dark"] #selected-activities-container h4,
+[data-theme="dark"] .activity-price,
+[data-theme="dark"] .total-price {
+    color: var(--air-blue);
+}
+
+[data-theme="dark"] .voyage-description,
+[data-theme="dark"] .input-group label,
+[data-theme="dark"] .activity-checkbox label {
+    color: var(--text-color);
+}
+
+[data-theme="dark"] .form-control {
+    background-color: #2a2a2a;
+    border-color: #444;
+    color: var(--text-color);
+}
+
+[data-theme="dark"] .activity-checkbox {
+    background-color: rgba(101, 164, 202, 0.05);
+    border-color: #333;
+}
+
+[data-theme="dark"] .activity-checkbox:hover {
+    background-color: rgba(101, 164, 202, 0.08);
+}
+
+[data-theme="dark"] .activity-checkbox.selected {
+    background-color: rgba(45, 89, 119, 0.15);
+    border-color: var(--air-blue);
+}
+
+[data-theme="dark"] .recap-separator {
+    background-color: #444;
+}
+
+[data-theme="dark"] .activity-item {
+    border-bottom-color: #333;
+}
+
+[data-theme="dark"] .btn-link {
+    color: var(--air-blue);
+}
+
+/* Responsive */
+@media (min-width: 768px) {
+    .personnalisation-container {
+        grid-template-columns: 2fr 1fr;
+    }
+    
+    .activity-list {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    }
+    
+    .order-recap {
+        margin-top: 0;
+    }
 }
 
 /* Styles de Personnalisation migrés depuis style.css */
@@ -359,16 +491,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     }
 }
 
-.form-section h3::after { /* Nouveau pseudo-élément */
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 50px;
-    height: 3px;
-    background-color: var(--primary-color);
-}
-
 /* .activity-checkbox.selected - la version de style.css utilise var(--primary-rgb) non défini.
    Celle de personnalisation.css (ajoutée précédemment) est :
 .activity-checkbox.selected {
@@ -433,4 +555,25 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 :root.dark .recap-separator {
     background-color: #444;
 }
-*/ 
+*/
+
+.form-text {
+    font-size: 0.85rem;
+    color: var(--text-light);
+    margin-top: 0.25rem;
+    display: block;
+    font-family: 'Poppins', sans-serif;
+}
+
+.section-description {
+    color: var(--text-light);
+    margin-bottom: 1.5rem;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+[data-theme="dark"] .form-text,
+[data-theme="dark"] .section-description {
+    color: var(--text-light);
+} 

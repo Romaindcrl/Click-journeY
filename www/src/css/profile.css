@@ -1,374 +1,763 @@
-.profile-container {
-    display: grid;
-    gap: 2rem;
-    grid-template-columns: 1fr;
+/* Profile Page - Click Journey */
+/* Basé sur la charte graphique */
+
+@import url('style.css');
+
+:root {
+  --rich-black: #041728;
+  --lapis-lazuli: #2d5977;
+  --air-blue: #65A4CA;
+  --silver: #b6b6b6;
+  --white: #FFFFFF;
+  --tomato: #FE4A49;
+  
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
 }
 
+/* Container du profil */
+.profile-container {
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: 1fr;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Section du profil */
 .profile-section {
-    background: var(--card-bg);
-    border-radius: 12px;
-    box-shadow: var(--shadow-md);
-    padding: 2rem;
+  background: var(--white);
+  border-radius: 12px;
+  box-shadow: var(--shadow-md);
+  padding: 2rem;
+  border: 1px solid rgba(101, 164, 202, 0.1);
+  transition: all 0.3s ease;
+}
+
+.profile-section:hover {
+  box-shadow: var(--shadow-lg);
+  border-color: rgba(101, 164, 202, 0.3);
 }
 
 .profile-section h2 {
-    color: var(--primary-color);
-    margin-top: 0;
-    margin-bottom: 1.5rem;
-    border-bottom: 1px solid var(--border-color);
-    padding-bottom: 0.5rem;
+  font-family: 'Amarante', serif;
+  color: var(--lapis-lazuli);
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  font-size: 1.75rem;
+  border-bottom: 2px solid var(--air-blue);
+  padding-bottom: 0.75rem;
+  position: relative;
 }
 
+.profile-section h2::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 60px;
+  height: 2px;
+  background-color: var(--rich-black);
+}
+
+/* Champs éditables */
 .editable-field {
-    margin-bottom: 1.5rem;
-    position: relative;
+  margin-bottom: 1.5rem;
+  position: relative;
+  padding-right: 80px;
 }
 
 .editable-field label {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-weight: 500;
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: var(--rich-black);
+  font-size: 0.95rem;
 }
 
 .editable-field input,
 .editable-field textarea {
-    width: 100%;
-    padding: 0.8rem;
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    font-size: 1rem;
+  width: 100%;
+  padding: 0.9rem 1rem;
+  border: 1px solid var(--air-blue);
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: 'Poppins', sans-serif;
+  transition: all 0.2s ease;
+  color: var(--rich-black);
+  box-sizing: border-box;
+}
+
+.editable-field input:focus,
+.editable-field textarea:focus {
+  outline: none;
+  border-color: var(--lapis-lazuli);
+  box-shadow: 0 0 0 3px rgba(45, 89, 119, 0.1);
 }
 
 .editable-field input:disabled,
 .editable-field textarea:disabled {
-    background-color: #f8f9fa;
-    cursor: not-allowed;
+  background-color: rgba(101, 164, 202, 0.05);
+  cursor: not-allowed;
+  color: #495057;
+  border-color: var(--silver);
+}
+
+.field-buttons {
+  position: absolute;
+  right: 0.5rem;
+  top: 2.4rem;
+  display: flex;
+  gap: 0.5rem;
 }
 
 .edit-btn, .save-btn, .cancel-btn {
-    position: absolute;
-    right: 0.5rem;
-    top: 2.4rem;
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 0.9rem;
-    color: var(--primary-color);
-    display: flex;
-    align-items: center;
-    gap: 0.3rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.edit-btn::after, .save-btn::after, .cancel-btn::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--rich-black);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.2s ease;
+  z-index: 10;
+}
+
+.edit-btn:hover::after, .save-btn:hover::after, .cancel-btn:hover::after {
+  opacity: 1;
+  visibility: visible;
+}
+
+.edit-btn {
+  color: var(--lapis-lazuli);
+  background-color: rgba(101, 164, 202, 0.1);
+}
+
+.edit-btn:hover {
+  background-color: rgba(101, 164, 202, 0.2);
+  transform: translateY(-2px);
 }
 
 .save-btn, .cancel-btn {
-    display: none;
+  display: none;
+}
+
+.save-btn {
+  color: #0d6832;
+  background-color: rgba(13, 104, 50, 0.1);
+}
+
+.save-btn:hover {
+  background-color: rgba(13, 104, 50, 0.2);
+  transform: translateY(-2px);
 }
 
 .cancel-btn {
-    right: 7rem;
-    color: #dc3545;
+  color: var(--tomato);
+  background-color: rgba(254, 74, 73, 0.1);
+}
+
+.cancel-btn:hover {
+  background-color: rgba(254, 74, 73, 0.2);
+  transform: translateY(-2px);
 }
 
 .submit-btn {
-    display: none;
-    margin-top: 1.5rem;
-    width: 100%;
+  display: none;
+  margin-top: 1.5rem;
+  width: 100%;
+  background-color: var(--lapis-lazuli);
+  color: var(--white);
+  border: none;
+  padding: 0.8rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-.orders-section {
-    margin-top: 2rem;
+.submit-btn:hover {
+  background-color: #224760;
+  transform: translateY(-2px);
+}
+
+/* Section mot de passe */
+.password-section h2 {
+  border-bottom-color: var(--tomato);
+}
+
+.password-section h2::after {
+  background-color: var(--lapis-lazuli);
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: var(--rich-black);
+  font-size: 0.95rem;
+}
+
+.form-group input {
+  width: calc(100% - 2rem);
+  padding: 0.9rem 1rem;
+  border: 1px solid var(--air-blue);
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: 'Poppins', sans-serif;
+  transition: all 0.2s ease;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: var(--lapis-lazuli);
+  box-shadow: 0 0 0 3px rgba(45, 89, 119, 0.1);
+}
+
+.form-actions {
+  margin-top: 2rem;
+}
+
+.form-actions .btn {
+  width: 100%;
+  background-color: var(--lapis-lazuli);
+  color: var(--white);
+  border: none;
+  padding: 0.8rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.form-actions .btn:hover {
+  background-color: #224760;
+  transform: translateY(-2px);
+}
+
+/* Section voyages */
+.orders-section h2 {
+  border-bottom-color: var(--air-blue);
 }
 
 .orders-list {
-    display: grid;
-    gap: 1.5rem;
+  display: grid;
+  gap: 1.5rem;
 }
 
 .order-card {
-    background: var(--background-color);
-    border-radius: 8px;
-    box-shadow: var(--shadow-sm);
-    padding: 1.5rem;
+  background: var(--white);
+  border-radius: 10px;
+  box-shadow: var(--shadow-sm);
+  padding: 1.5rem;
+  border: 1px solid rgba(101, 164, 202, 0.1);
+  transition: all 0.2s ease;
+}
+
+.order-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+  border-color: rgba(101, 164, 202, 0.3);
 }
 
 .order-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(101, 164, 202, 0.2);
 }
 
 .order-header h4 {
-    margin: 0;
-    color: var(--primary-color);
-    font-size: 1.2rem;
+  margin: 0;
+  color: var(--rich-black);
+  font-size: 1.25rem;
+  font-weight: 600;
 }
 
 .order-status {
-    padding: 0.25rem 0.75rem;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    font-weight: 500;
+  padding: 0.35rem 0.85rem;
+  border-radius: 50px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: capitalize;
 }
 
 .order-status.confirmé {
-    background-color: #d4edda;
-    color: #155724;
+  background-color: #e1f5e9;
+  color: #0d6832;
 }
 
 .order-status.en_attente {
-    background-color: #fff3cd;
-    color: #856404;
+  background-color: #fff3cd;
+  color: #856404;
 }
 
 .order-status.annulé {
-    background-color: #f8d7da;
-    color: #721c24;
+  background-color: #fee2e2;
+  color: var(--tomato);
 }
 
 .order-details p {
-    margin: 0.5rem 0;
+  margin: 0.75rem 0;
+  color: #495057;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.order-details p strong {
+  color: var(--rich-black);
+  font-weight: 600;
+  margin-right: 0.25rem;
 }
 
 .order-options {
-    margin-top: 1rem;
+  margin-top: 1.25rem;
+  padding: 1rem;
+  background-color: rgba(101, 164, 202, 0.05);
+  border-radius: 8px;
+}
+
+.order-options p {
+  margin: 0.5rem 0;
+  color: var(--lapis-lazuli);
+  font-weight: 600;
 }
 
 .order-options ul {
-    margin: 0.5rem 0;
-    padding-left: 1.5rem;
+  margin: 0.75rem 0;
+  padding-left: 1.25rem;
+  list-style-type: none;
+}
+
+.order-options li {
+  padding: 0.5rem 0;
+  position: relative;
+  padding-left: 1.5rem;
+  color: #495057;
+}
+
+.order-options li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: var(--lapis-lazuli);
+  font-weight: bold;
+}
+
+.option-details {
+  margin-top: 0.5rem;
+  margin-left: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.option-item {
+  padding: 0.4rem 0.75rem;
+  background-color: rgba(101, 164, 202, 0.1);
+  border-radius: 4px;
+  display: inline-block;
+  border-left: 3px solid var(--lapis-lazuli);
+  font-size: 0.9rem;
+}
+
+.option-item strong {
+  color: var(--lapis-lazuli);
+  font-weight: 600;
+  margin-right: 0.25rem;
 }
 
 .order-actions {
-    display: flex;
-    gap: 0.5rem;
-    margin-top: 1.5rem;
-    justify-content: flex-end;
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+  justify-content: flex-end;
 }
 
 .btn-sm {
-    padding: 0.35rem 0.75rem;
-    font-size: 0.9rem;
+  padding: 0.4rem 0.85rem;
+  font-size: 0.85rem;
+  border-radius: 6px;
+  font-weight: 500;
 }
 
 .btn-outline {
-    border: 1px solid var(--primary-color);
-    background: none;
-    color: var(--primary-color);
+  border: 1px solid var(--lapis-lazuli);
+  background: none;
+  color: var(--lapis-lazuli);
+  transition: all 0.2s ease;
 }
 
 .btn-outline:hover {
-    background: var(--primary-color);
-    color: white;
+  background: var(--lapis-lazuli);
+  color: white;
+  transform: translateY(-2px);
+}
+
+.btn-primary {
+  background-color: var(--lapis-lazuli);
+  color: white;
+  transition: all 0.2s ease;
+  border: none;
+}
+
+.btn-primary:hover {
+  background-color: #224760;
+  transform: translateY(-2px);
 }
 
 .no-orders {
-    text-align: center;
-    padding: 2rem;
-    color: var(--text-light);
+  text-align: center;
+  padding: 3rem 1rem;
+  color: #6c757d;
+  font-weight: 500;
+  background-color: rgba(101, 164, 202, 0.05);
+  border-radius: 10px;
+  border: 1px dashed rgba(101, 164, 202, 0.3);
 }
 
 .centered-button {
-    text-align: center;
-    margin-top: 1rem;
+  text-align: center;
+  margin-top: 1.5rem;
 }
 
 .vip-badge {
-    display: inline-block;
-    margin-left: 0.5rem;
-    font-size: 1.2rem;
-    vertical-align: middle;
-    color: goldenrod;
+  display: inline-block;
+  margin-left: 0.5rem;
+  font-size: 1.3rem;
+  vertical-align: middle;
+  color: #ffc107;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
 }
 
-@media (min-width: 768px) {
-    .profile-container {
-        grid-template-columns: 1fr 1fr;
-    }
-    
-    .orders-section {
-        grid-column: span 2;
-    }
+/* Mode sombre */
+[data-theme="dark"] {
+  --rich-black: #041728;
+  --lapis-lazuli: #2d5977;
+  --air-blue: #65A4CA;
+  --silver: #666;
+  --white: #1a1a1a;
+  --text-color: #e0e0e0;
+  --border-light: #333;
 }
 
-/* Styles pour le mode sombre */
+[data-theme="dark"] .profile-section {
+  background-color: #222;
+  color: var(--text-color);
+  border-color: #333;
+}
+
+[data-theme="dark"] .profile-section h2 {
+  color: var(--air-blue);
+}
+
+[data-theme="dark"] .profile-section h2::after {
+  background-color: var(--air-blue);
+}
+
+[data-theme="dark"] .editable-field label,
+[data-theme="dark"] .form-group label {
+  color: var(--text-color);
+}
+
+[data-theme="dark"] .editable-field input,
+[data-theme="dark"] .editable-field textarea,
+[data-theme="dark"] .form-group input {
+  background-color: #222;
+  color: var(--text-color);
+  border-color: #333;
+}
+
 [data-theme="dark"] .editable-field input:disabled,
 [data-theme="dark"] .editable-field textarea:disabled {
-    background-color: #343a40;
-    color: #e9ecef;
+  background-color: #2a2a2a;
+  color: #aaa;
+}
+
+[data-theme="dark"] .edit-btn {
+  color: var(--air-blue);
+}
+
+[data-theme="dark"] .edit-btn:hover {
+  background-color: rgba(101, 164, 202, 0.1);
+}
+
+[data-theme="dark"] .order-card {
+  background-color: #222;
+  border-color: #333;
+}
+
+[data-theme="dark"] .order-header h4 {
+  color: var(--text-color);
+}
+
+[data-theme="dark"] .order-details p {
+  color: #aaa;
+}
+
+[data-theme="dark"] .order-details p strong {
+  color: var(--text-color);
+}
+
+[data-theme="dark"] .order-options {
+  background-color: rgba(101, 164, 202, 0.05);
 }
 
 [data-theme="dark"] .order-status.confirmé {
-    background-color: rgba(21, 87, 36, 0.2);
-    color: #8fd19e;
+  background-color: rgba(21, 87, 36, 0.2);
+  color: #8fd19e;
 }
 
 [data-theme="dark"] .order-status.en_attente {
-    background-color: rgba(133, 100, 4, 0.2);
-    color: #ffe69c;
+  background-color: rgba(133, 100, 4, 0.2);
+  color: #ffe69c;
 }
 
 [data-theme="dark"] .order-status.annulé {
-    background-color: rgba(114, 28, 36, 0.2);
-    color: #f5c6cb;
+  background-color: rgba(114, 28, 36, 0.2);
+  color: #f5c6cb;
 }
 
-/* Styles de profil migrés depuis style.css */
-.profile-info {
-    display: grid;
-    gap: 2rem;
+[data-theme="dark"] .no-orders {
+  background-color: #2a2a2a;
+  color: #aaa;
+  border-color: #333;
 }
 
-.profile-section {
-    background: var(--card-bg);
-    border-radius: 12px;
-    padding: 1.5rem; /* Note: padding différent de la version existante */
-    box-shadow: var(--shadow-sm); /* Note: box-shadow différent */
+[data-theme="dark"] .option-item {
+  background-color: rgba(101, 164, 202, 0.15);
+  border-left: 3px solid var(--air-blue);
 }
 
-.profile-section h3 { /* Note: h3 au lieu de h2 existant */
-    color: var(--primary-color);
-    font-size: 1.2rem;
-    margin-bottom: 1rem;
+[data-theme="dark"] .option-item strong {
+  color: var(--air-blue);
 }
 
-.info-group {
-    margin-bottom: 1rem;
+/* Review Modal */
+.review-modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  overflow: auto;
 }
 
-.info-group label {
-    display: block;
-    color: var(--text-light);
-    font-weight: 500;
-    margin-bottom: 0.25rem;
+.review-modal-content {
+  background-color: var(--white);
+  margin: 10% auto;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: var(--shadow-lg);
+  width: 90%;
+  max-width: 500px;
+  position: relative;
+  animation: modalFadeIn 0.3s;
 }
 
-.info-group p {
-    color: var(--text-color);
-    font-size: 1.1rem;
+@keyframes modalFadeIn {
+  from {opacity: 0; transform: translateY(-30px);}
+  to {opacity: 1; transform: translateY(0);}
 }
 
-.profile-actions {
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
+.review-modal h2 {
+  font-family: 'Amarante', serif;
+  color: var(--lapis-lazuli);
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-size: 1.75rem;
+  border-bottom: 2px solid var(--air-blue);
+  padding-bottom: 0.5rem;
 }
 
-/* Styles d'Historique des commandes migrés depuis style.css */
-
-/* .no-orders existe déjà dans profile.css.
-   Celui de style.css était :
-.no-orders {
-    text-align: center;
-    color: var(--color-rich_black-600);
-    margin-bottom: 1rem;
-}
-*/
-
-/* .orders-list existe déjà dans profile.css.
-   Celui de style.css était :
-.orders-list {
-    display: grid;
-    gap: 1.5rem;
-}
-*/
-
-/* .order-card existe déjà dans profile.css.
-   Celui de style.css était :
-.order-card {
-    background: var(--background-color); 
-    border-radius: 8px;
-    padding: 1.5rem;
-    box-shadow: var(--shadow-sm);
-}
-*/
-
-/* .order-header existe déjà dans profile.css.
-   Celui de style.css était :
-.order-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 1px solid var(--border-color);
-}
-.order-header h4 {
-    color: var(--color-rich_black);
-    font-size: 1.2rem;
-    margin: 0;
-}
-*/
-
-/* .order-status existe déjà dans profile.css.
-   Celui de style.css (légèrement différent) :
-.order-status {
-    padding: 0.25rem 0.75rem;
-    border-radius: 20px;
-    font-size: 0.875rem; 
-    font-weight: 500;
-}
-*/
-
-/* Redéfinition des statuts spécifiques (ceux de profile.css sont différents) */
-.order-status.confirmé { 
-    background-color: var(--color-celestial_blue-900); /* Différent de profile.css */
-    color: var(--color-rich_black);
+.close {
+  color: var(--tomato);
+  position: absolute;
+  top: 1rem;
+  right: 1.5rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
 }
 
-.order-status.en_attente {
-    background-color: var(--color-warning-900); /* Variable potentiellement manquante */
-    color: var(--color-rich_black);
+.close:hover {
+  color: #e93e3d;
+  transform: scale(1.1);
 }
 
-.order-status.annulé {
-    background-color: var(--color-tomato-900); /* Différent de profile.css */
-    color: var(--color-rich_black);
+.rating-container {
+  margin: 1.5rem 0;
 }
 
-/* .order-details existe déjà dans profile.css.
-   Celui de style.css était :
-.order-details {
-    color: var(--color-rich_black-600);
-}
-.order-details p {
-    margin-bottom: 0.5rem;
-}
-*/
-
-.order-activities { /* Nouveau */
-    margin-top: 1rem;
+.rating-container p {
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: var(--rich-black);
 }
 
-.order-activities ul { /* Similaire à .order-options ul dans profile.css */
-    list-style: none;
-    padding: 0;
-    margin: 0.5rem 0 0;
+.stars {
+  display: flex;
+  gap: 0.5rem;
 }
 
-.order-activities li { /* Nouveau */
-    padding: 0.25rem 0;
-    display: flex;
-    align-items: center;
+.star {
+  font-size: 2rem;
+  color: #d1d1d1;
+  cursor: pointer;
+  transition: all 0.2s;
 }
 
-.order-activities li::before { /* Nouveau */
-    content: "•";
-    color: var(--primary-color);
-    margin-right: 0.5rem;
+.star:hover, .star.active {
+  color: #ffc107;
+}
+
+#review-comment {
+  width: 100%;
+  padding: 1rem;
+  border: 1px solid var(--air-blue);
+  border-radius: 8px;
+  min-height: 100px;
+  margin: 1.5rem 0;
+  font-family: 'Poppins', sans-serif;
+  resize: vertical;
+}
+
+#review-comment:focus {
+  outline: none;
+  border-color: var(--lapis-lazuli);
+  box-shadow: 0 0 0 3px rgba(45, 89, 119, 0.1);
+}
+
+#submit-review {
+  background-color: var(--lapis-lazuli);
+  color: white;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-family: 'Poppins', sans-serif;
+  cursor: pointer;
+  transition: all 0.2s;
+  width: 100%;
+}
+
+#submit-review:hover {
+  background-color: #224760;
+  transform: translateY(-2px);
+}
+
+#review-message {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  border-radius: 6px;
+  font-weight: 500;
+  display: none;
+}
+
+#review-message.success {
+  background-color: #e1f5e9;
+  color: #0d6832;
+}
+
+#review-message.error {
+  background-color: #fee2e2;
+  color: var(--tomato);
+}
+
+[data-theme="dark"] .review-modal-content {
+  background-color: #222;
+  color: var(--text-color);
+}
+
+[data-theme="dark"] #review-comment {
+  background-color: #2a2a2a;
+  color: var(--text-color);
+  border-color: #333;
+}
+
+/* Responsive */
+@media (min-width: 768px) {
+  .profile-container {
+    grid-template-columns: 1fr 1fr;
+  }
+  
+  .orders-section {
+    grid-column: span 2;
+  }
+  
+  .btn-sm {
+    width: auto;
+  }
+  
+  .order-actions {
+    flex-direction: row;
+  }
 }
 
 @media (max-width: 768px) {
-    /* Appliquer ces styles à .order-header existant si fusion */
-    .order-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.5rem;
-    }
-
-    /* Appliquer ces styles à .order-status existant si fusion */
-    .order-status {
-        align-self: flex-start;
-    }
+  .profile-section {
+    padding: 1.5rem;
+  }
+  
+  .profile-section h2 {
+    font-size: 1.5rem;
+  }
+  
+  .order-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+  
+  .order-status {
+    align-self: flex-start;
+  }
+  
+  .order-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .btn-sm {
+    width: 100%;
+    text-align: center;
+  }
+  
+  .review-modal-content {
+    margin: 15% auto;
+    padding: 1.5rem;
+    width: 95%;
+  }
 } 

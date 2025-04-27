@@ -3,88 +3,134 @@
         {
             "id": 1,
             "login": "victor",
-            "password": "$2y$10$\/O8A17LQr5sr66ax0DZbI.32P4jobvOxxzfmE6.WGR0VnkCF7KCk2",
+            "password": "test",
             "email": "victor.haegeman@gmail.com",
             "nom": "Haegeman",
             "prenom": "Victor",
-            "role": "normal",
-            "permissions": ["voir_profil", "modifier_profil", "reserver_voyage"],
+            "role": "admin",
+            "permissions": [
+                "voir_profil",
+                "modifier_profil",
+                "reserver_voyage"
+            ],
             "adresse": "12 Rue de Paris, 75001 Paris",
             "telephone": "+33 6 12 34 56 78",
             "date_naissance": "1990-05-15",
             "date_inscription": "2023-10-01",
             "derniere_connexion": "2023-11-15",
             "statut": "actif",
-            "voyages_consultes": [1, 2, 3],
-            "voyages_achetes": [1],
+            "voyages_consultes": [
+                1,
+                2,
+                3
+            ],
+            "voyages_achetes": [
+                1
+            ],
             "preferences": {
                 "notifications": true,
                 "newsletter": true,
                 "theme": "light",
-                "destinations_favorites": ["europe", "asie"]
+                "destinations_favorites": [
+                    "europe",
+                    "asie"
+                ]
             },
             "notes": ""
         },
         {
             "id": 2,
             "login": "martin",
-            "password": "$2y$10$\/O8A17LQr5sr66ax0DZbI.32P4jobvOxxzfmE6.WGR0VnkCF7KCk2",
+            "password": "test",
             "email": "martin.dupont@gmail.com",
             "nom": "Dupont",
             "prenom": "Martin",
             "role": "normal",
-            "permissions": ["voir_profil", "modifier_profil", "reserver_voyage"],
-            "adresse": "45 Avenue des Champs-Élysées, 75008 Paris",
+            "permissions": [
+                "voir_profil",
+                "modifier_profil",
+                "reserver_voyage"
+            ],
+            "adresse": "45 Avenue des Champs-\u00c9lys\u00e9es, 75008 Paris",
             "telephone": "+33 6 98 76 54 32",
             "date_naissance": "1985-12-10",
             "date_inscription": "2023-09-15",
             "derniere_connexion": "2023-11-10",
             "statut": "actif",
-            "voyages_consultes": [3, 4, 5],
-            "voyages_achetes": [3],
+            "voyages_consultes": [
+                3,
+                4,
+                5
+            ],
+            "voyages_achetes": [
+                3
+            ],
             "preferences": {
                 "notifications": false,
                 "newsletter": true,
                 "theme": "dark",
-                "destinations_favorites": ["amerique"]
+                "destinations_favorites": [
+                    "amerique"
+                ]
             },
             "notes": ""
         },
         {
             "id": 3,
             "login": "sophie",
-            "password": "$2y$10$\/O8A17LQr5sr66ax0DZbI.32P4jobvOxxzfmE6.WGR0VnkCF7KCk2",
+            "password": "test",
             "email": "sophie.martin@gmail.com",
             "nom": "Martin",
             "prenom": "Sophie",
             "role": "normal",
-            "permissions": ["voir_profil", "modifier_profil", "reserver_voyage"],
-            "adresse": "8 Rue de la Liberté, 69002 Lyon",
+            "permissions": [
+                "voir_profil",
+                "modifier_profil",
+                "reserver_voyage"
+            ],
+            "adresse": "8 Rue de la Libert\u00e9, 69002 Lyon",
             "telephone": "+33 6 23 45 67 89",
             "date_naissance": "1992-03-25",
             "date_inscription": "2023-10-05",
             "derniere_connexion": "2023-11-12",
             "statut": "actif",
-            "voyages_consultes": [2, 6, 7],
+            "voyages_consultes": [
+                2,
+                6,
+                7
+            ],
             "voyages_achetes": [],
             "preferences": {
                 "notifications": true,
                 "newsletter": false,
                 "theme": "light",
-                "destinations_favorites": ["afrique", "oceanie"]
+                "destinations_favorites": [
+                    "afrique",
+                    "oceanie"
+                ]
             },
             "notes": ""
         },
         {
             "id": 4,
             "login": "admin",
-            "password": "$2y$10$\/O8A17LQr5sr66ax0DZbI.32P4jobvOxxzfmE6.WGR0VnkCF7KCk2",
+            "password": "test",
             "email": "admin@click-journey.fr",
-            "nom": "Admin",
+            "nom": "Admin a",
             "prenom": "Super",
             "role": "admin",
-            "permissions": ["voir_profil", "modifier_profil", "reserver_voyage", "gerer_utilisateurs", "gerer_voyages", "gerer_avis", "gerer_commandes", "acces_statistiques", "acces_configuration"],
-            "adresse": "1 Rue de l'Administration, 75016 Paris",
+            "permissions": [
+                "voir_profil",
+                "modifier_profil",
+                "reserver_voyage",
+                "gerer_utilisateurs",
+                "gerer_voyages",
+                "gerer_avis",
+                "gerer_commandes",
+                "acces_statistiques",
+                "acces_configuration"
+            ],
+            "adresse": "2 Rue de l'Administration, 75016 Paris",
             "telephone": "+33 1 23 45 67 89",
             "date_naissance": "1980-01-01",
             "date_inscription": "2023-01-01",
@@ -100,17 +146,22 @@
             },
             "notes": "Administrateur principal"
         },
-        
         {
             "id": 5,
             "login": "moderateur",
-            "password": "$2y$10$\/O8A17LQr5sr66ax0DZbI.32P4jobvOxxzfmE6.WGR0VnkCF7KCk2",
+            "password": "test",
             "email": "moderateur@click-journey.fr",
             "nom": "Moderateur",
             "prenom": "Jean",
             "role": "moderateur",
-            "permissions": ["voir_profil", "modifier_profil", "reserver_voyage", "gerer_avis", "voir_statistiques"],
-            "adresse": "2 Rue de la Modération, 75016 Paris",
+            "permissions": [
+                "voir_profil",
+                "modifier_profil",
+                "reserver_voyage",
+                "gerer_avis",
+                "voir_statistiques"
+            ],
+            "adresse": "2 Rue de la Mod\u00e9ration, 75016 Paris",
             "telephone": "+33 1 45 67 89 10",
             "date_naissance": "1982-05-20",
             "date_inscription": "2023-02-01",
@@ -124,17 +175,23 @@
                 "theme": "light",
                 "dashboard_layout": "standard"
             },
-            "notes": "Responsable modération des avis"
+            "notes": "Responsable mod\u00e9ration des avis"
         },
         {
             "id": 6,
             "login": "support",
-            "password": "$2y$10$\/O8A17LQr5sr66ax0DZbI.32P4jobvOxxzfmE6.WGR0VnkCF7KCk2",
+            "password": "test",
             "email": "support@click-journey.fr",
             "nom": "Support",
             "prenom": "Equipe",
             "role": "support",
-            "permissions": ["voir_profil", "modifier_profil", "reserver_voyage", "gerer_commandes", "voir_utilisateurs"],
+            "permissions": [
+                "voir_profil",
+                "modifier_profil",
+                "reserver_voyage",
+                "gerer_commandes",
+                "voir_utilisateurs"
+            ],
             "adresse": "3 Rue du Support, 75016 Paris",
             "telephone": "+33 1 78 90 12 34",
             "date_naissance": "1988-07-15",
@@ -149,49 +206,72 @@
                 "theme": "light",
                 "dashboard_layout": "standard"
             },
-            "notes": "Équipe support client"
+            "notes": "\u00c9quipe support client"
         },
         {
             "id": 7,
             "login": "vip",
-            "password": "$2y$10$\/O8A17LQr5sr66ax0DZbI.32P4jobvOxxzfmE6.WGR0VnkCF7KCk2",
+            "password": "test",
             "email": "vip@exemple.com",
             "nom": "Client",
             "prenom": "Premium",
             "role": "vip",
-            "permissions": ["voir_profil", "modifier_profil", "reserver_voyage", "acces_offres_speciales"],
+            "permissions": [
+                "voir_profil",
+                "modifier_profil",
+                "reserver_voyage",
+                "acces_offres_speciales"
+            ],
             "adresse": "8 Avenue des VIP, 75008 Paris",
             "telephone": "+33 6 11 22 33 44",
             "date_naissance": "1975-09-18",
             "date_inscription": "2023-04-15",
             "derniere_connexion": "2023-11-10",
             "statut": "actif",
-            "voyages_consultes": [1, 2, 3, 4, 5],
-            "voyages_achetes": [1, 3],
+            "voyages_consultes": [
+                1,
+                2,
+                3,
+                4,
+                5
+            ],
+            "voyages_achetes": [
+                1,
+                3
+            ],
             "preferences": {
                 "notifications": true,
                 "newsletter": true,
                 "theme": "light",
-                "destinations_favorites": ["europe", "amerique", "asie"]
+                "destinations_favorites": [
+                    "europe",
+                    "amerique",
+                    "asie"
+                ]
             },
-            "notes": "Client fidèle bénéficiant du statut VIP"
+            "notes": "Client fid\u00e8le b\u00e9n\u00e9ficiant du statut VIP"
         },
         {
             "id": 8,
             "login": "inactif",
-            "password": "$2y$10$\/O8A17LQr5sr66ax0DZbI.32P4jobvOxxzfmE6.WGR0VnkCF7KCk2",
+            "password": "test",
             "email": "inactif@exemple.com",
             "nom": "Dupuis",
             "prenom": "Thomas",
             "role": "normal",
-            "permissions": ["voir_profil", "modifier_profil"],
+            "permissions": [
+                "voir_profil",
+                "modifier_profil"
+            ],
             "adresse": "5 Rue des Absents, 69003 Lyon",
             "telephone": "+33 6 55 44 33 22",
             "date_naissance": "1995-02-28",
             "date_inscription": "2023-05-20",
             "derniere_connexion": "2023-06-15",
             "statut": "inactif",
-            "voyages_consultes": [2],
+            "voyages_consultes": [
+                2
+            ],
             "voyages_achetes": [],
             "preferences": {
                 "notifications": false,
@@ -204,7 +284,7 @@
         {
             "id": 9,
             "login": "banni",
-            "password": "$2y$10$\/O8A17LQr5sr66ax0DZbI.32P4jobvOxxzfmE6.WGR0VnkCF7KCk2",
+            "password": "test",
             "email": "banni@exemple.com",
             "nom": "Malveillant",
             "prenom": "Pierre",
@@ -226,7 +306,7 @@
             },
             "notes": "Compte banni pour comportement abusif"
         },
-                {
+        {
             "id": 10,
             "login": "admin2",
             "password": "2%$$$\/O8A17LQr5sr66ax0DsefsZbI.32P4jobvOxxsefzfmE6.jazkgd",
@@ -234,7 +314,17 @@
             "nom": "Admin 2",
             "prenom": "Super",
             "role": "admin 2",
-            "permissions": ["voir_profil", "modifier_profil", "reserver_voyage", "gerer_utilisateurs", "gerer_voyages", "gerer_avis", "gerer_commandes", "acces_statistiques", "acces_configuration"],
+            "permissions": [
+                "voir_profil",
+                "modifier_profil",
+                "reserver_voyage",
+                "gerer_utilisateurs",
+                "gerer_voyages",
+                "gerer_avis",
+                "gerer_commandes",
+                "acces_statistiques",
+                "acces_configuration"
+            ],
             "adresse": "1 Rue de l'Administration, 75016 Paris",
             "telephone": "+33 1 23 45 67 90",
             "date_naissance": "2010-01-01",
@@ -254,27 +344,58 @@
     ],
     "roles": {
         "normal": {
-            "description": "Utilisateur standard du site pouvant consulter et réserver des voyages",
-            "permissions": ["voir_profil", "modifier_profil", "reserver_voyage"]
+            "description": "Utilisateur standard du site pouvant consulter et r\u00e9server des voyages",
+            "permissions": [
+                "voir_profil",
+                "modifier_profil",
+                "reserver_voyage"
+            ]
         },
         "vip": {
-            "description": "Utilisateur premium bénéficiant d'avantages et d'offres spéciales",
-            "permissions": ["voir_profil", "modifier_profil", "reserver_voyage", "acces_offres_speciales"]
+            "description": "Utilisateur premium b\u00e9n\u00e9ficiant d'avantages et d'offres sp\u00e9ciales",
+            "permissions": [
+                "voir_profil",
+                "modifier_profil",
+                "reserver_voyage",
+                "acces_offres_speciales"
+            ]
         },
         "moderateur": {
-            "description": "Utilisateur pouvant modérer les avis et certains contenus du site",
-            "permissions": ["voir_profil", "modifier_profil", "reserver_voyage", "gerer_avis", "voir_statistiques"]
+            "description": "Utilisateur pouvant mod\u00e9rer les avis et certains contenus du site",
+            "permissions": [
+                "voir_profil",
+                "modifier_profil",
+                "reserver_voyage",
+                "gerer_avis",
+                "voir_statistiques"
+            ]
         },
         "support": {
-            "description": "Membre de l'équipe support client pouvant gérer les commandes et aider les utilisateurs",
-            "permissions": ["voir_profil", "modifier_profil", "reserver_voyage", "gerer_commandes", "voir_utilisateurs"]
+            "description": "Membre de l'\u00e9quipe support client pouvant g\u00e9rer les commandes et aider les utilisateurs",
+            "permissions": [
+                "voir_profil",
+                "modifier_profil",
+                "reserver_voyage",
+                "gerer_commandes",
+                "voir_utilisateurs"
+            ]
         },
         "admin": {
-            "description": "Administrateur du site avec accès complet à toutes les fonctionnalités",
-            "permissions": ["voir_profil", "modifier_profil", "reserver_voyage", "gerer_utilisateurs", "gerer_voyages", "gerer_avis", "gerer_commandes", "acces_statistiques", "acces_configuration"]
+            "description": "Administrateur du site avec acc\u00e8s complet \u00e0 toutes les fonctionnalit\u00e9s",
+            "permissions": [
+                "voir_profil",
+                "modifier_profil",
+                "reserver_voyage",
+                "gerer_utilisateurs",
+                "gerer_voyages",
+                "gerer_avis",
+                "gerer_commandes",
+                "acces_statistiques",
+                "acces_configuration"
+            ]
         },
         "banni": {
-            "description": "Compte suspendu sans accès aux fonctionnalités du site",
+            "description": "Compte suspendu sans acc\u00e8s aux fonctionnalit\u00e9s du site",
             "permissions": []
         }
     }
