@@ -1,0 +1,300 @@
+/* Formulaires */
+.form-container {
+    max-width: 420px;
+    margin: 2rem auto;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 200px);
+    box-sizing: border-box;
+}
+
+.form-card {
+    background: var(--card-bg);
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    padding: 2rem;
+    width: 100%;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-sizing: border-box;
+}
+
+.form-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+}
+
+.form-header {
+    text-align: center;
+    margin-bottom: 2rem;
+    padding: 0 1rem;
+}
+
+.form-header h2 {
+    font-family: var(--font-Amarante);
+    font-size: 2.2rem;
+    color: var(--primary-color);
+    margin-bottom: 0.8rem;
+}
+
+.form-header p {
+    color: var(--text-light);
+    font-size: 1rem;
+    line-height: 1.4;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #333;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: #4A90E2;
+    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.15);
+    outline: none;
+}
+
+.form-group input.valid,
+.form-group select.valid {
+    border-color: #28a745;
+}
+
+.form-group input.error,
+.form-group select.error {
+    border-color: #dc3545;
+}
+
+.input-wrapper {
+    position: relative;
+}
+
+.validation-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 24px;
+    height: 24px;
+    display: none;
+    font-size: 14px;
+    text-align: center;
+    line-height: 24px;
+}
+
+.valid-icon {
+    color: #28a745;
+}
+
+.error-icon {
+    color: #dc3545;
+}
+
+.error-message {
+    display: none;
+    color: #dc3545;
+    font-size: 0.85rem;
+    margin-top: 5px;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.btn {
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+    display: inline-block;
+    text-decoration: none;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-color-dark);
+}
+
+.btn-secondary {
+    background-color: var(--secondary-color);
+    color: var(--text-color);
+}
+
+.btn-secondary:hover {
+    background-color: var(--secondary-color-dark);
+}
+
+.btn-inscription, .btn-connexion {
+    background-color: #4169E1 !important;
+    color: white;
+    border-radius: 6px !important;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(65, 105, 225, 0.2);
+    font-weight: 600;
+}
+
+.btn-inscription:hover, .btn-connexion:hover {
+    background-color: #3251AC !important;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(65, 105, 225, 0.3);
+}
+
+.form-footer {
+    margin-top: 1.5rem;
+    text-align: center;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.form-footer p {
+    color: var(--text-light);
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+.form-footer a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s ease;
+}
+
+.form-footer a:hover {
+    text-decoration: underline;
+    color: var(--primary-hover);
+}
+
+/* Alertes */
+.alert {
+    padding: 1rem;
+    border-radius: 6px;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    font-weight: 500;
+    font-size: 0.95rem;
+    animation: fadeIn 0.3s ease-out;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.alert-danger {
+    background-color: #ffe5e8;
+    color: #d32f2f;
+    border-left: 4px solid #d32f2f;
+}
+
+.alert-success {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border-left: 4px solid #2e7d32;
+}
+
+/* Dark mode pour les formulaires */
+[data-theme="dark"] .form-card {
+    background-color: var(--card-bg);
+}
+
+[data-theme="dark"] .form-group input {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] .form-group input::placeholder {
+    color: var(--text-light);
+}
+
+[data-theme="dark"] .alert-danger {
+    background-color: rgba(211, 47, 47, 0.2);
+    color: #ef9a9a;
+}
+
+[data-theme="dark"] .alert-success {
+    background-color: rgba(46, 125, 50, 0.2);
+    color: #a5d6a7;
+}
+
+/* Styles pour le formulaire de modification du mot de passe (migrés depuis style.css) */
+.password-form {
+    max-width: 400px;
+    margin: 0 auto; /* Peut-être à combiner avec .form-container si applicable */
+}
+
+/* .password-form .form-group utilise .form-group déjà défini dans forms.css
+   Vérifier si des ajustements sont nécessaires.
+.password-form .form-group {
+    margin-bottom: 1.5rem;
+}
+*/
+
+/* .password-form label est similaire à .form-group label déjà défini.
+.password-form label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--text-color);
+    font-weight: 500;
+}
+*/
+
+.password-form input[type="password"] { /* Style spécifique pour input password */
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.password-form input[type="password"]:focus { /* Style spécifique pour input password focus */
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(59, 91, 219, 0.1);
+}
+
+/* .password-form .form-actions utilise .form-actions déjà défini.
+.password-form .form-actions {
+    text-align: center;
+    margin-top: 2rem;
+}
+*/ 

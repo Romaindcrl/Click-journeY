@@ -27,6 +27,13 @@ $is_admin = $user_logged_in && $_SESSION['user']['role'] === 'admin';
     <link rel="stylesheet" href="src/css/confirmation.css">
     <link rel="stylesheet" href="src/css/auth.css">
     <link rel="stylesheet" href="src/css/home.css">
+    <link rel="stylesheet" href="src/css/voyages.css">
+    <link rel="stylesheet" href="src/css/voyage-details.css">
+    <link rel="stylesheet" href="src/css/search.css">
+    <link rel="stylesheet" href="src/css/profile.css">
+    <link rel="stylesheet" href="src/css/personnalisation.css">
+    <link rel="stylesheet" href="src/css/paiement.css">
+    <link rel="stylesheet" href="src/css/cards.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="icon" href="src/images/logo.png" type="image/png">
     <!-- Ajout d'une solution globale pour corriger les problèmes de navigation -->

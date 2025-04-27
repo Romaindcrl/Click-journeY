@@ -1,16 +1,21 @@
 <?php
+// Bufferiser la sortie pour éviter l'erreur de headers déjà envoyés
+ob_start();
+// Inclure le header et démarrer la session
 require_once __DIR__ . '/includes/header.php';
 require_once __DIR__ . '/check_auth.php';
 
 // Vérifier si l'utilisateur est connecté
 checkAuth();
 
+// ID de l'utilisateur connecté (si présent)
+$sessionUserId = $_SESSION['user']['id'] ?? null;
 // Récupérer l'ID de l'utilisateur à afficher
-$userId = isset($_GET['id']) ? intval($_GET['id']) : $_SESSION['user']['id'];
+$userId = isset($_GET['id']) ? intval($_GET['id']) : $sessionUserId;
 
 // Vérifier si l'utilisateur demandé est l'utilisateur connecté ou si l'utilisateur connecté est admin
-$isOwner = $userId === $_SESSION['user']['id'];
-$isAdmin = $_SESSION['user']['role'] === 'admin';
+$isOwner = $userId === $sessionUserId;
+$isAdmin = ($_SESSION['user']['role'] ?? '') === 'admin';
 
 if (!$isOwner && !$isAdmin) {
     // Rediriger si l'utilisateur n'a pas les droits
@@ -57,11 +62,11 @@ foreach ($commandes as $commande) {
 
 // Traitement du formulaire de modification de profil
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_profile'])) {
-    // Mise à jour des informations utilisateur
-    $user['nom'] = trim($_POST['nom']);
-    $user['prenom'] = trim($_POST['prenom']);
-    $user['email'] = trim($_POST['email']);
-    $user['adresse'] = trim($_POST['adresse']);
+    // Mise à jour des informations utilisateur (seulement si postées)
+    $user['nom'] = isset($_POST['nom']) ? trim($_POST['nom']) : $user['nom'];
+    $user['prenom'] = isset($_POST['prenom']) ? trim($_POST['prenom']) : $user['prenom'];
+    $user['email'] = isset($_POST['email']) ? trim($_POST['email']) : $user['email'];
+    $user['adresse'] = isset($_POST['adresse']) ? trim($_POST['adresse']) : $user['adresse'];
     
     // Mettre à jour l'utilisateur dans le tableau
     foreach ($users as $key => $u) {
@@ -354,222 +359,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
-
-<style>
-.profile-container {
-    display: grid;
-    gap: 2rem;
-    grid-template-columns: 1fr;
-}
-
-.profile-section {
-    background: var(--card-bg);
-    border-radius: 12px;
-    box-shadow: var(--shadow-md);
-    padding: 2rem;
-}
-
-.profile-section h2 {
-    color: var(--primary-color);
-    margin-top: 0;
-    margin-bottom: 1.5rem;
-    border-bottom: 1px solid var(--border-color);
-    padding-bottom: 0.5rem;
-}
-
-.editable-field {
-    margin-bottom: 1.5rem;
-    position: relative;
-}
-
-.editable-field label {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-weight: 500;
-}
-
-.editable-field input,
-.editable-field textarea {
-    width: 100%;
-    padding: 0.8rem;
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    font-size: 1rem;
-}
-
-.editable-field input:disabled,
-.editable-field textarea:disabled {
-    background-color: #f8f9fa;
-    cursor: not-allowed;
-}
-
-.edit-btn, .save-btn, .cancel-btn {
-    position: absolute;
-    right: 0.5rem;
-    top: 2.4rem;
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 0.9rem;
-    color: var(--primary-color);
-    display: flex;
-    align-items: center;
-    gap: 0.3rem;
-}
-
-.save-btn, .cancel-btn {
-    display: none;
-}
-
-.cancel-btn {
-    right: 7rem;
-    color: #dc3545;
-}
-
-.submit-btn {
-    display: none;
-    margin-top: 1.5rem;
-    width: 100%;
-}
-
-.orders-section {
-    margin-top: 2rem;
-}
-
-.orders-list {
-    display: grid;
-    gap: 1.5rem;
-}
-
-.order-card {
-    background: var(--background-color);
-    border-radius: 8px;
-    box-shadow: var(--shadow-sm);
-    padding: 1.5rem;
-}
-
-.order-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 1px solid var(--border-color);
-}
-
-.order-header h4 {
-    margin: 0;
-    color: var(--primary-color);
-    font-size: 1.2rem;
-}
-
-.order-status {
-    padding: 0.25rem 0.75rem;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    font-weight: 500;
-}
-
-.order-status.confirmé {
-    background-color: #d4edda;
-    color: #155724;
-}
-
-.order-status.en_attente {
-    background-color: #fff3cd;
-    color: #856404;
-}
-
-.order-status.annulé {
-    background-color: #f8d7da;
-    color: #721c24;
-}
-
-.order-details p {
-    margin: 0.5rem 0;
-}
-
-.order-options {
-    margin-top: 1rem;
-}
-
-.order-options ul {
-    margin: 0.5rem 0;
-    padding-left: 1.5rem;
-}
-
-.order-actions {
-    display: flex;
-    gap: 0.5rem;
-    margin-top: 1.5rem;
-    justify-content: flex-end;
-}
-
-.btn-sm {
-    padding: 0.35rem 0.75rem;
-    font-size: 0.9rem;
-}
-
-.btn-outline {
-    border: 1px solid var(--primary-color);
-    background: none;
-    color: var(--primary-color);
-}
-
-.btn-outline:hover {
-    background: var(--primary-color);
-    color: white;
-}
-
-.no-orders {
-    text-align: center;
-    padding: 2rem;
-    color: var(--text-light);
-}
-
-.centered-button {
-    text-align: center;
-    margin-top: 1rem;
-}
-
-.vip-badge {
-    color: goldenrod;
-    margin-left: 0.5rem;
-    font-size: 1.2rem;
-}
-
-@media (min-width: 768px) {
-    .profile-container {
-        grid-template-columns: 1fr 1fr;
-    }
-    
-    .orders-section {
-        grid-column: span 2;
-    }
-}
-
-/* Styles pour le mode sombre */
-[data-theme="dark"] .editable-field input:disabled,
-[data-theme="dark"] .editable-field textarea:disabled {
-    background-color: #343a40;
-    color: #e9ecef;
-}
-
-[data-theme="dark"] .order-status.confirmé {
-    background-color: rgba(21, 87, 36, 0.2);
-    color: #8fd19e;
-}
-
-[data-theme="dark"] .order-status.en_attente {
-    background-color: rgba(133, 100, 4, 0.2);
-    color: #ffe69c;
-}
-
-[data-theme="dark"] .order-status.annulé {
-    background-color: rgba(114, 28, 36, 0.2);
-    color: #f5c6cb;
-}
-</style>
 
 <?php
 // Ajout du modal pour les avis

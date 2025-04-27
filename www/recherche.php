@@ -82,9 +82,19 @@ if (!empty($searchTerm)) {
                          class="voyage-image">
                     
                     <div class="voyage-content">
-                        <h2 class="voyage-title"><?php echo htmlspecialchars($voyage['nom']); ?></h2>
+                        <h3 class="voyage-title"><?php echo htmlspecialchars($voyage['nom']); ?></h3>
                         <p class="voyage-description"><?php echo htmlspecialchars($voyage['description']); ?></p>
-                        <div class="voyage-price"><?php echo number_format($voyage['prix'], 0, ',', ' '); ?> €</div>
+                        
+                        <div class="voyage-info">
+                            <div class="voyage-price">
+                                À partir de <?= number_format($voyage['prix'], 0, ',', ' ') ?> <span>€</span>
+                            </div>
+                            
+                            <div class="voyage-duree">
+                                <i class="fas fa-clock"></i>
+                                <span><?= isset($voyage['duree']) ? $voyage['duree'] : 7 ?> jours</span>
+                            </div>
+                        </div>
                         
                         <div class="voyage-activities">
                             <h4>Activités incluses :</h4>
@@ -97,12 +107,17 @@ if (!empty($searchTerm)) {
                                 <?php endforeach; ?>
                             </ul>
                         </div>
-                        
-                        <?php if (isset($_SESSION['user'])): ?>
-                            <a href="personnalisation.php?id=<?php echo $voyage['id']; ?>" class="btn btn-primary">Réserver ce voyage</a>
-                        <?php else: ?>
-                            <a href="connexion.php" class="btn btn-primary">Connectez-vous pour réserver</a>
-                        <?php endif; ?>
+                    </div>
+                    
+                    <div class="voyage-footer">
+                        <div class="voyage-buttons">
+                            <a href="voyage-details.php?id=<?= $voyage['id'] ?>" class="btn-details">Voir détails</a>
+                            <?php if (isset($_SESSION['user'])): ?>
+                                <a href="personnalisation.php?id=<?php echo $voyage['id']; ?>" class="btn-reserve">Réserver</a>
+                            <?php else: ?>
+                                <a href="connexion.php" class="btn-reserve">Se connecter</a>
+                            <?php endif; ?>
+                        </div>
                     </div>
                 </div>
             <?php endforeach; ?>
@@ -145,88 +160,25 @@ document.addEventListener('DOMContentLoaded', function() {
         // Réinsérer les éléments triés
         voyages.forEach(voyage => voyagesGrid.appendChild(voyage));
     }
+    
+    // Assurer que les liens fonctionnent correctement
+    const allButtons = document.querySelectorAll('.btn-details, .btn-reserve');
+    
+    // Ajouter un écouteur d'événements pour chaque bouton
+    allButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            // Obtenir l'URL
+            const url = this.getAttribute('href');
+            
+            // Rediriger vers l'URL
+            window.location.href = url;
+            
+            // Ajouter un log pour déboguer
+            console.log('Navigation vers: ' + url);
+        });
+    });
 });
 </script>
-
-<style>
-.search-form {
-    margin-bottom: 2rem;
-}
-
-.search-input {
-    display: flex;
-    max-width: 600px;
-    margin: 0 auto;
-}
-
-.search-input input {
-    flex: 1;
-    padding: 0.8rem 1rem;
-    border: 2px solid var(--border-color);
-    border-radius: 8px 0 0 8px;
-    font-size: 1rem;
-}
-
-.search-input button {
-    border-radius: 0 8px 8px 0;
-    padding: 0.8rem 1.5rem;
-}
-
-.search-results-header {
-    margin-bottom: 2rem;
-    text-align: center;
-}
-
-.search-results-header h2 {
-    color: var(--primary-color);
-    margin-bottom: 0.5rem;
-}
-
-.sort-options {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    margin-bottom: 1.5rem;
-    gap: 0.5rem;
-}
-
-.sort-options select {
-    padding: 0.5rem;
-    border: 1px solid var(--border-color);
-    border-radius: 4px;
-    background-color: var(--card-bg);
-    color: var(--text-color);
-}
-
-.sort-options select:focus {
-    outline: none;
-    border-color: var(--primary-color);
-}
-
-.no-results {
-    text-align: center;
-    padding: 3rem;
-    background-color: var(--background-color);
-    border-radius: 10px;
-    margin-top: 2rem;
-}
-
-.no-results a {
-    color: var(--primary-color);
-    text-decoration: underline;
-}
-
-/* Dark mode */
-[data-theme="dark"] .search-input input {
-    background-color: var(--background-color);
-    color: var(--text-color);
-}
-
-[data-theme="dark"] .sort-options select {
-    background-color: var(--background-color);
-    color: var(--text-color);
-}
-</style>
 
 <?php
 require_once __DIR__ . '/includes/footer.php';

@@ -151,7 +151,7 @@ function setupEditableFields(form) {
         // Enregistrer les modifications
         if (saveButton) {
             saveButton.addEventListener('click', function() {
-                field.disabled = true;
+                // Ne pas désactiver le champ afin qu'il soit inclus dans la soumission
                 editButton.style.display = 'inline-block';
                 saveButton.style.display = 'none';
                 cancelButton.style.display = 'none';
@@ -161,6 +161,8 @@ function setupEditableFields(form) {
                     initialValue = field.value;
                     container.classList.add('modified');
                     if (submitButton) submitButton.style.display = 'block';
+                    // Soumettre automatiquement le formulaire pour enregistrer la modification
+                    form.submit();
                 }
             });
         }

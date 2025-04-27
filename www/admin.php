@@ -1,4 +1,6 @@
 <?php
+// Bufferiser la sortie pour éviter l'erreur de headers déjà envoyés
+ob_start();
 // Vérifier si l'utilisateur est connecté et est un administrateur avant tout envoi de HTML
 require_once __DIR__ . '/check_auth.php';
 require_once __DIR__ . '/check_admin.php';
@@ -47,7 +49,14 @@ $displayUsers = array_slice($users, $offset, $usersPerPage);
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_role'])) {
     $userId = $_POST['user_id'] ?? 0;
     $newRole = $_POST['new_role'] ?? '';
-    
+    // Mettre à jour le rôle de l'utilisateur dans le tableau et enregistrer dans le fichier JSON
+    foreach ($usersData['users'] as &$user) {
+        if ($user['id'] == $userId) {
+            $user['role'] = $newRole;
+            break;
+        }
+    }
+    file_put_contents(__DIR__ . '/../data/users.json', json_encode($usersData, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
     // Ajouter un message flash
     $_SESSION['flash_message'] = "Le rôle de l'utilisateur #$userId a été mis à jour vers $newRole.";
     $_SESSION['flash_type'] = 'success';
