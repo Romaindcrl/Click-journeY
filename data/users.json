@@ -100,6 +100,7 @@
             },
             "notes": "Administrateur principal"
         },
+        
         {
             "id": 5,
             "login": "moderateur",
@@ -224,6 +225,31 @@
                 "destinations_favorites": []
             },
             "notes": "Compte banni pour comportement abusif"
+        },
+                {
+            "id": 10,
+            "login": "admin2",
+            "password": "2%$$$\/O8A17LQr5sr66ax0DsefsZbI.32P4jobvOxxsefzfmE6.jazkgd",
+            "email": "admin@click-journey.fr",
+            "nom": "Admin 2",
+            "prenom": "Super",
+            "role": "admin 2",
+            "permissions": ["voir_profil", "modifier_profil", "reserver_voyage", "gerer_utilisateurs", "gerer_voyages", "gerer_avis", "gerer_commandes", "acces_statistiques", "acces_configuration"],
+            "adresse": "1 Rue de l'Administration, 75016 Paris",
+            "telephone": "+33 1 23 45 67 90",
+            "date_naissance": "2010-01-01",
+            "date_inscription": "2023-02-11",
+            "derniere_connexion": "2023-11-27",
+            "statut": "actif",
+            "voyages_consultes": [],
+            "voyages_achetes": [],
+            "preferences": {
+                "notifications": true,
+                "newsletter": false,
+                "theme": "dark",
+                "dashboard_layout": "compact"
+            },
+            "notes": "Administrateur principal"
         }
     ],
     "roles": {
