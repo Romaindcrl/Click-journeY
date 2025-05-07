@@ -3,27 +3,40 @@ require_once __DIR__ . '/includes/header.php';
 
 $error = '';
 $login = '';
+$password = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['connexion'])) {
-    $login = trim($_POST['login'] ?? '');
-    $password = trim($_POST['password'] ?? '');
+    // Vérification explicite avant d'accéder à $_POST
+    if (isset($_POST['login'])) {
+        $login = trim($_POST['login']);
+    } else {
+        $login = ''; // Assurer que $login est toujours défini
+    }
+    
+    if (isset($_POST['password'])) {
+        $password = trim($_POST['password']);
+    } else {
+        $password = ''; // Assurer que $password est toujours défini
+    }
     
     if (empty($login) || empty($password)) {
         $error = 'Veuillez remplir tous les champs';
     } else {
         // Vérification que le fichier existe
-        $usersFile = __DIR__ . '/../data/users.json';
+        $usersFile = __DIR__ . '/data/users.json';
         if (!file_exists($usersFile)) {
             $error = 'Erreur système. Veuillez contacter l\'administrateur.';
         } else {
             // Lecture du fichier users.json
             $usersJson = file_get_contents($usersFile);
-            $users = json_decode($usersJson, true);
+            $data = json_decode($usersJson, true);
             
-            // Vérification que le décodage JSON a réussi
-            if ($users === null) {
+            // Vérification que le décodage JSON a réussi et que la clé 'users' existe
+            if ($data === null || !isset($data['users']) || !is_array($data['users'])) {
                 $error = 'Erreur système. Veuillez contacter l\'administrateur.';
             } else {
+                // Récupération du tableau d'utilisateurs
+                $users = $data['users'];
                 $user = null;
                 foreach ($users as $u) {
                     if ($u['login'] === $login) {
@@ -32,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['connexion'])) {
                     }
                 }
                 
-                if ($user && password_verify($password, $user['password'])) {
+                if ($user && $password === $user['password']) {
                     // Stockage de l'utilisateur dans la session
                     $_SESSION['user'] = $user;
                     
@@ -354,7 +367,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['connexion'])) {
     }
     
     @media (max-width: 576px) {
-        .auth-card {
+        .auth-card { 
+            width: 100%;
+            max-width: 100%;
+        }
+    }
 </style>
 
 <?php
