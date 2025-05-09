@@ -1,0 +1,77 @@
+.search-form {
+    margin-bottom: 2rem;
+}
+
+.search-input {
+    display: flex;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.search-input input {
+    flex: 1;
+    padding: 0.8rem 1rem;
+    border: 2px solid var(--border-color);
+    border-radius: 8px 0 0 8px;
+    font-size: 1rem;
+}
+
+.search-input button {
+    border-radius: 0 8px 8px 0;
+    padding: 0.8rem 1.5rem;
+}
+
+.search-results-header {
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.search-results-header h2 {
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+}
+
+.sort-options {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-bottom: 1.5rem;
+    gap: 0.5rem;
+}
+
+.sort-options select {
+    padding: 0.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    background-color: var(--card-bg);
+    color: var(--text-color);
+}
+
+.sort-options select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+.no-results {
+    text-align: center;
+    padding: 3rem;
+    background-color: var(--background-color);
+    border-radius: 10px;
+    margin-top: 2rem;
+}
+
+.no-results a {
+    color: var(--primary-color);
+    text-decoration: underline;
+}
+
+/* Dark mode */
+[data-theme="dark"] .search-input input {
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+[data-theme="dark"] .sort-options select {
+    background-color: var(--background-color);
+    color: var(--text-color);
+} 

@@ -1,0 +1,374 @@
+.profile-container {
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: 1fr;
+}
+
+.profile-section {
+    background: var(--card-bg);
+    border-radius: 12px;
+    box-shadow: var(--shadow-md);
+    padding: 2rem;
+}
+
+.profile-section h2 {
+    color: var(--primary-color);
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.5rem;
+}
+
+.editable-field {
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+.editable-field label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.editable-field input,
+.editable-field textarea {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+.editable-field input:disabled,
+.editable-field textarea:disabled {
+    background-color: #f8f9fa;
+    cursor: not-allowed;
+}
+
+.edit-btn, .save-btn, .cancel-btn {
+    position: absolute;
+    right: 0.5rem;
+    top: 2.4rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 0.9rem;
+    color: var(--primary-color);
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.save-btn, .cancel-btn {
+    display: none;
+}
+
+.cancel-btn {
+    right: 7rem;
+    color: #dc3545;
+}
+
+.submit-btn {
+    display: none;
+    margin-top: 1.5rem;
+    width: 100%;
+}
+
+.orders-section {
+    margin-top: 2rem;
+}
+
+.orders-list {
+    display: grid;
+    gap: 1.5rem;
+}
+
+.order-card {
+    background: var(--background-color);
+    border-radius: 8px;
+    box-shadow: var(--shadow-sm);
+    padding: 1.5rem;
+}
+
+.order-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.order-header h4 {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 1.2rem;
+}
+
+.order-status {
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.order-status.confirmé {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.order-status.en_attente {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.order-status.annulé {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.order-details p {
+    margin: 0.5rem 0;
+}
+
+.order-options {
+    margin-top: 1rem;
+}
+
+.order-options ul {
+    margin: 0.5rem 0;
+    padding-left: 1.5rem;
+}
+
+.order-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+    justify-content: flex-end;
+}
+
+.btn-sm {
+    padding: 0.35rem 0.75rem;
+    font-size: 0.9rem;
+}
+
+.btn-outline {
+    border: 1px solid var(--primary-color);
+    background: none;
+    color: var(--primary-color);
+}
+
+.btn-outline:hover {
+    background: var(--primary-color);
+    color: white;
+}
+
+.no-orders {
+    text-align: center;
+    padding: 2rem;
+    color: var(--text-light);
+}
+
+.centered-button {
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.vip-badge {
+    display: inline-block;
+    margin-left: 0.5rem;
+    font-size: 1.2rem;
+    vertical-align: middle;
+    color: goldenrod;
+}
+
+@media (min-width: 768px) {
+    .profile-container {
+        grid-template-columns: 1fr 1fr;
+    }
+    
+    .orders-section {
+        grid-column: span 2;
+    }
+}
+
+/* Styles pour le mode sombre */
+[data-theme="dark"] .editable-field input:disabled,
+[data-theme="dark"] .editable-field textarea:disabled {
+    background-color: #343a40;
+    color: #e9ecef;
+}
+
+[data-theme="dark"] .order-status.confirmé {
+    background-color: rgba(21, 87, 36, 0.2);
+    color: #8fd19e;
+}
+
+[data-theme="dark"] .order-status.en_attente {
+    background-color: rgba(133, 100, 4, 0.2);
+    color: #ffe69c;
+}
+
+[data-theme="dark"] .order-status.annulé {
+    background-color: rgba(114, 28, 36, 0.2);
+    color: #f5c6cb;
+}
+
+/* Styles de profil migrés depuis style.css */
+.profile-info {
+    display: grid;
+    gap: 2rem;
+}
+
+.profile-section {
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 1.5rem; /* Note: padding différent de la version existante */
+    box-shadow: var(--shadow-sm); /* Note: box-shadow différent */
+}
+
+.profile-section h3 { /* Note: h3 au lieu de h2 existant */
+    color: var(--primary-color);
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+}
+
+.info-group {
+    margin-bottom: 1rem;
+}
+
+.info-group label {
+    display: block;
+    color: var(--text-light);
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+}
+
+.info-group p {
+    color: var(--text-color);
+    font-size: 1.1rem;
+}
+
+.profile-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+/* Styles d'Historique des commandes migrés depuis style.css */
+
+/* .no-orders existe déjà dans profile.css.
+   Celui de style.css était :
+.no-orders {
+    text-align: center;
+    color: var(--color-rich_black-600);
+    margin-bottom: 1rem;
+}
+*/
+
+/* .orders-list existe déjà dans profile.css.
+   Celui de style.css était :
+.orders-list {
+    display: grid;
+    gap: 1.5rem;
+}
+*/
+
+/* .order-card existe déjà dans profile.css.
+   Celui de style.css était :
+.order-card {
+    background: var(--background-color); 
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: var(--shadow-sm);
+}
+*/
+
+/* .order-header existe déjà dans profile.css.
+   Celui de style.css était :
+.order-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border-color);
+}
+.order-header h4 {
+    color: var(--color-rich_black);
+    font-size: 1.2rem;
+    margin: 0;
+}
+*/
+
+/* .order-status existe déjà dans profile.css.
+   Celui de style.css (légèrement différent) :
+.order-status {
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.875rem; 
+    font-weight: 500;
+}
+*/
+
+/* Redéfinition des statuts spécifiques (ceux de profile.css sont différents) */
+.order-status.confirmé { 
+    background-color: var(--color-celestial_blue-900); /* Différent de profile.css */
+    color: var(--color-rich_black);
+}
+
+.order-status.en_attente {
+    background-color: var(--color-warning-900); /* Variable potentiellement manquante */
+    color: var(--color-rich_black);
+}
+
+.order-status.annulé {
+    background-color: var(--color-tomato-900); /* Différent de profile.css */
+    color: var(--color-rich_black);
+}
+
+/* .order-details existe déjà dans profile.css.
+   Celui de style.css était :
+.order-details {
+    color: var(--color-rich_black-600);
+}
+.order-details p {
+    margin-bottom: 0.5rem;
+}
+*/
+
+.order-activities { /* Nouveau */
+    margin-top: 1rem;
+}
+
+.order-activities ul { /* Similaire à .order-options ul dans profile.css */
+    list-style: none;
+    padding: 0;
+    margin: 0.5rem 0 0;
+}
+
+.order-activities li { /* Nouveau */
+    padding: 0.25rem 0;
+    display: flex;
+    align-items: center;
+}
+
+.order-activities li::before { /* Nouveau */
+    content: "•";
+    color: var(--primary-color);
+    margin-right: 0.5rem;
+}
+
+@media (max-width: 768px) {
+    /* Appliquer ces styles à .order-header existant si fusion */
+    .order-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    /* Appliquer ces styles à .order-status existant si fusion */
+    .order-status {
+        align-self: flex-start;
+    }
+} 

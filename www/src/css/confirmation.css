@@ -76,4 +76,88 @@
         border: 1px solid #ddd;
         margin-bottom: 15px;
     }
+}
+
+/* Styles de Confirmation migrés depuis style.css */
+
+/* .confirmation-success est déjà défini dans confirmation.css avec un style différent.
+   Celui de style.css était :
+.confirmation-success, .confirmation-error {
+    text-align: center;
+    padding: 2rem;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+}
+.confirmation-success {
+    background-color: var(--color-celestial_blue-900);
+    color: var(--color-rich_black);
+}
+*/
+
+/* Ajout de .confirmation-error et des styles communs */
+.confirmation-success,
+.confirmation-error {
+    text-align: center;
+    padding: 2rem;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+}
+
+/* Remplacement du style de .confirmation-success de style.css (garder celui de confirmation.css ou fusionner ?) */
+/* Pour l'instant, on garde la version de style.css pour la couleur de fond et texte */
+.confirmation-success {
+    background-color: var(--color-celestial_blue-900);
+    color: var(--color-rich_black);
+    /* Les styles flex et icône de confirmation.css pourraient être ajoutés ici si besoin */
+}
+
+.confirmation-error { /* Nouveau style spécifique */
+    background-color: var(--color-tomato-900);
+    color: var(--color-rich_black);
+}
+
+.confirmation-success h2,
+.confirmation-error h2 { /* Nouveau */
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.confirmation-message { /* Nouveau */
+    text-align: center;
+    margin-bottom: 2rem;
+    color: var(--color-rich_black-600);
+}
+
+.confirmation-message p { /* Nouveau */
+    margin-bottom: 1rem;
+}
+
+/* .confirmation-actions est similaire à .actions existant.
+   Celui de style.css était :
+.confirmation-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+*/
+
+@media (max-width: 768px) {
+    .confirmation-success,
+    .confirmation-error {
+        padding: 1.5rem;
+    }
+
+    .confirmation-success h2,
+    .confirmation-error h2 {
+        font-size: 1.5rem;
+    }
+
+    .confirmation-actions { /* Appliquer à .actions si fusionné */
+        flex-direction: column;
+    }
+
+    .confirmation-actions .btn {
+        width: 100%;
+    }
 } 

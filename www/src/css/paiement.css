@@ -1,0 +1,316 @@
+.payment-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    margin: 2rem 0;
+}
+
+.payment-summary,
+.payment-form {
+    background-color: var(--card-bg);
+    border-radius: 12px;
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+}
+
+.card-header {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 1.25rem;
+}
+
+.card-header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+.card-body {
+    padding: 1.5rem;
+}
+
+.trip-summary {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.trip-image {
+    width: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.trip-image img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+.trip-details h3 {
+    color: var(--primary-color);
+    margin-top: 0;
+    margin-bottom: 0.75rem;
+}
+
+.trip-info {
+    margin-top: 1rem;
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+}
+
+.info-item i {
+    color: var(--primary-color);
+}
+
+.selected-activities {
+    margin: 1.5rem 0;
+}
+
+.selected-activities h4 {
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+.selected-activities ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.selected-activities li {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.75rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.selected-activities li:last-child {
+    border-bottom: none;
+}
+
+.price-summary {
+    background-color: var(--background-color);
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-top: 1.5rem;
+}
+
+.price-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+}
+
+.price-item.total {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--primary-color);
+    border-top: 1px solid var(--border-color);
+    padding-top: 0.75rem;
+    margin-top: 0.75rem;
+}
+
+/* Formulaire de paiement */
+.payment-form {
+    padding: 1.5rem;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.payment-form h2 {
+    color: var(--primary-color);
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.form-row {
+    margin-bottom: 1.5rem;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    text-align: left;
+}
+
+.form-control {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 1rem;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.form-row-inline {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.form-check {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    justify-content: center;
+}
+
+.form-check input {
+    margin-right: 0.5rem;
+}
+
+.form-check a {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+.form-check a:hover {
+    text-decoration: underline;
+}
+
+.btn-payment {
+    width: 100%;
+    padding: 1rem;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-payment:hover {
+    background-color: var(--primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+@media (min-width: 768px) {
+    .payment-container {
+        grid-template-columns: 1fr 1fr;
+    }
+    
+    .trip-summary {
+        flex-direction: row;
+    }
+    
+    .trip-image {
+        flex: 0 0 40%;
+    }
+    
+    .trip-details {
+        flex: 1;
+    }
+}
+
+.expiry-inputs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+}
+
+/* Styles pour centrer les sélecteurs de date */
+select.form-control {
+    text-align: center;
+    text-align-last: center;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="6" viewBox="0 0 12 6"><path d="M0 0l6 6 6-6z" fill="%23666"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 12px 6px;
+    padding-right: 1.75rem;
+}
+
+/* Styles de Paiement migrés depuis style.css */
+
+/* .payment-container existe, celui de style.css était :
+.payment-container {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr; 
+    gap: 2rem;
+    margin-top: 2rem;
+}
+*/
+
+/* .payment-summary et .payment-form-container sont similaires à .payment-summary et .payment-form existants.
+   Celui de style.css pour .payment-summary, .payment-form-container :
+    background: var(--card-bg);
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+*/
+
+.payment-header { /* Similaire à .card-header existant */
+    background-color: var(--primary-color);
+    color: white;
+    padding: 1.25rem;
+    font-weight: 600;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.payment-header h3 { /* Similaire à .card-header h2 existant */
+    margin: 0;
+    font-size: 1.2rem;
+}
+
+/* .payment-form (conteneur) de style.css :
+.payment-form {
+    padding: 1.5rem;
+}
+*/
+
+.card-details { /* Nouveau */
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 0;
+}
+
+/* Les styles pour .payment-form .form-group etc. de style.css 
+   utilisent les classes globales .form-group. 
+   Vérifier si les styles globaux suffisent ou si des ajustements sont nécessaires.
+.payment-form .form-group {
+    margin-bottom: 1.5rem;
+}
+
+.payment-form .form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    padding: 0;
+}
+
+.payment-form .form-group input {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    margin: 0;
+}
+*/
+
+.card-number-input { /* Nouveau */
+    position: relative;
+}
+
+.pay-button { /* Similaire à .btn-payment existant, mais plus simple */
+    width: 100%;
+    padding: 0.9rem 0;
+    font-size: 1rem;
+    margin: 0;
+    border-radius: 6px !important; 
+    /* Manque background, color, etc. qui sont dans .btn-payment */
+} 
