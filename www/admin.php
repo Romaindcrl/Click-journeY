@@ -126,7 +126,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_role'])) {
                             <td><?php echo $user['id']; ?></td>
                             <td><?php echo htmlspecialchars($user['login']); ?></td>
                             <td><?php echo htmlspecialchars($user['prenom'] . ' ' . $user['nom']); ?></td>
-                            <td><?php echo htmlspecialchars($user['email']); ?></td>
+                            <td title="<?php echo htmlspecialchars($user['email']); ?>"><?php echo htmlspecialchars($user['email']); ?></td>
                             <td>
                                 <form class="role-form" method="post" action="admin.php">
                                     <input type="hidden" name="user_id" value="<?php echo $user['id']; ?>">
@@ -147,9 +147,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_role'])) {
                                 </span>
                             </td>
                             <td><?php echo htmlspecialchars($user['derniere_connexion'] ?? 'Jamais'); ?></td>
-                            <td class="action-buttons">
-                                <a href="profil.php?id=<?php echo $user['id']; ?>" class="btn btn-sm btn-primary">Voir</a>
-                                <button class="btn btn-sm btn-danger delete-user" data-user-id="<?php echo $user['id']; ?>">Supprimer</button>
+                            <td>
+                                <div class="action-buttons">
+                                    <a href="profil.php?id=<?php echo $user['id']; ?>" class="btn btn-sm btn-primary">Voir</a>
+                                    <button class="btn btn-sm btn-danger delete-user" data-user-id="<?php echo $user['id']; ?>">Supprimer</button>
+                                </div>
                             </td>
                         </tr>
                     <?php endforeach; ?>

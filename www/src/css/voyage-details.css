@@ -152,7 +152,7 @@
 .highlight-item p {
   margin: 0;
   font-weight: 500;
-  color: #6c757d;
+  color: #444444;
 }
 
 /* Galerie */
@@ -232,7 +232,7 @@
 .day-content p {
   margin: 0;
   line-height: 1.6;
-  color: #6c757d;
+  color: #444444;
 }
 
 /* Détails du voyage */
@@ -274,7 +274,7 @@
 
 .detail-card p {
   margin: 0;
-  color: #6c757d;
+  color: #444444;
   line-height: 1.5;
 }
 
@@ -558,6 +558,7 @@
   overflow: hidden;
   box-shadow: var(--shadow-md);
   max-width: 320px;
+  width: 100%;
   margin: 0 auto;
   border: 1px solid rgba(101, 164, 202, 0.1);
 }
@@ -577,6 +578,8 @@
 
 .sidebar-content {
   padding: 1.5rem;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .sidebar-price {
@@ -620,7 +623,7 @@
   align-items: center;
   gap: 0.75rem;
   margin-bottom: 1rem;
-  color: #495057;
+  color: #706d6d;
   padding: 0.75rem;
   border-radius: 8px;
   transition: background-color 0.2s ease;
@@ -642,9 +645,16 @@
   border-radius: 50%;
 }
 
+.sidebar-info .info-item span {
+  color: #222222;
+  font-weight: 600;
+  font-size: 1.05rem;
+}
+
 .btn-block {
   display: block;
   width: 100%;
+  box-sizing: border-box;
   text-align: center;
   padding: 1rem;
   font-size: 1.1rem;
@@ -710,9 +720,9 @@
   --rich-black: #041728;
   --lapis-lazuli: #2d5977;
   --air-blue: #65A4CA;
-  --silver: #666;
+  --silver: #999;
   --white: #1a1a1a;
-  --text-color: #e0e0e0;
+  --text-color: #f0f0f0;
 }
 
 [data-theme="dark"] .voyage-section,
@@ -736,7 +746,7 @@
 [data-theme="dark"] .voyage-description,
 [data-theme="dark"] .day-content p,
 [data-theme="dark"] .description-content {
-  color: #ddd;
+  color: #f0f0f0;
 }
 
 [data-theme="dark"] .highlight-item h4,
@@ -752,7 +762,7 @@
 [data-theme="dark"] .rating-count,
 [data-theme="dark"] .sidebar-contact p,
 [data-theme="dark"] .sidebar-price span {
-  color: #aaa;
+  color: #d0d0d0;
 }
 
 [data-theme="dark"] .highlight-item,
@@ -764,14 +774,26 @@
   border-color: #333;
 }
 
+[data-theme="dark"] .sidebar-info .info-item {
+  color: #d0d0d0;
+}
+
 [data-theme="dark"] .sidebar-info .info-item i {
   background-color: rgba(101, 164, 202, 0.2);
+}
+
+[data-theme="dark"] .sidebar-info .info-item span {
+  color: #f0f0f0;
 }
 
 [data-theme="dark"] .price-value,
 [data-theme="dark"] .sidebar-price .price,
 [data-theme="dark"] .detail-icon,
 [data-theme="dark"] .highlight-item i {
+  color: var(--air-blue);
+}
+
+[data-theme="dark"] .page-title {
   color: var(--air-blue);
 }
 
@@ -801,7 +823,19 @@
 }
 
 [data-theme="dark"] .rating-input label {
-  color: #444;
+  color: #999;
+}
+
+[data-theme="dark"] .review-content p {
+  color: #f0f0f0;
+}
+
+[data-theme="dark"] .review-date {
+  color: #d0d0d0;
+}
+
+[data-theme="dark"] .reviewer-name {
+  color: var(--air-blue);
 }
 
 /* Responsive */
