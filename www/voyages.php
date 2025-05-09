@@ -86,12 +86,23 @@ if (isset($_SESSION['flash'])) {
                                 </div>
                                 
                                 <div class="voyage-rating">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                    <span class="voyage-rating-text">(<?= rand(5, 30) ?> avis)</span>
+                                    <?php 
+                                    // Récupérer la note moyenne pour ce voyage
+                                    $moyenne = isset($notesMoyennes[$voyage['id']]) ? $notesMoyennes[$voyage['id']] : 0;
+                                    $avisCount = isset($avisParVoyage[$voyage['id']]) ? count($avisParVoyage[$voyage['id']]) : 0;
+                                    
+                                    // Afficher les étoiles basées sur la note moyenne
+                                    for ($i = 1; $i <= 5; $i++) {
+                                        if ($i <= floor($moyenne)) {
+                                            echo '<i class="fas fa-star"></i>';
+                                        } elseif ($i - 0.5 <= $moyenne) {
+                                            echo '<i class="fas fa-star-half-alt"></i>';
+                                        } else {
+                                            echo '<i class="far fa-star"></i>';
+                                        }
+                                    }
+                                    ?>
+                                    <span class="voyage-rating-text">(<?= $avisCount ?> avis)</span>
                                 </div>
                             </div>
                         </div>
@@ -129,17 +140,16 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Fixer les problèmes de z-index et de clics
+    // Ajout d'effets d'animation sur les cartes
     const voyageCards = document.querySelectorAll('.voyage-card');
     voyageCards.forEach(card => {
-        // S'assurer que la carte a un z-index normal
-        card.style.zIndex = "1";
+        // Animation au survol
+        card.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-10px)';
+        });
         
-        // S'assurer que les boutons dans cette carte ont un z-index plus élevé
-        const buttons = card.querySelectorAll('.btn-details, .btn-reserve');
-        buttons.forEach(button => {
-            button.style.zIndex = "5";
-            button.style.position = "relative";
+        card.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0)';
         });
     });
 });

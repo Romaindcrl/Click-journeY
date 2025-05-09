@@ -95,15 +95,22 @@
 
 /* Variables CSS */
 :root {
-    --primary-color: #3b5bdb;
-    --primary-hover: #2d4ab8;
-    --background-color: #f1f6fd;
-    --text-color: #2c3e50;
+    --rich-black: #041728;
+    --lapis-lazuli: #2d5977;
+    --air-blue: #65A4CA;
+    --silver: #b6b6b6;
+    --white: #FFFFFF;
+    --tomato: #FE4A49;
+    
+    --primary-color: var(--lapis-lazuli);
+    --primary-hover: #224760;
+    --background-color: #f8f9fa;
+    --text-color: var(--rich-black);
     --text-light: #6c757d;
     --border-color: #e1e8ed;
-    --card-bg: #ffffff;
-    --header-bg: #ffffff;
-    --footer-bg: #ffffff;
+    --card-bg: var(--white);
+    --header-bg: var(--white);
+    --footer-bg: var(--white);
     --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
     --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
     --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
@@ -111,7 +118,7 @@
 
 /* Styles généraux */
 body {
-    font-family: var(--font-display);
+    font-family: 'Poppins', sans-serif;
     line-height: 1.6;
     margin: 0;
     padding: 0;
@@ -120,6 +127,7 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .container {
@@ -319,4 +327,50 @@ footer p {
         flex-direction: column;
         gap: 1rem;
     }
+}
+
+/* Mode sombre */
+[data-theme="dark"] {
+    --rich-black: #041728;
+    --lapis-lazuli: #2d5977;
+    --air-blue: #65A4CA;
+    --silver: #666;
+    --white: #1a1a1a;
+    --text-color: #e0e0e0;
+    
+    --primary-color: var(--air-blue);
+    --primary-hover: #56a0ca;
+    --background-color: #121212;
+    --text-light: #aaa;
+    --border-color: #333;
+    --card-bg: #222;
+    --header-bg: #1a1a1a;
+    --footer-bg: #1a1a1a;
+}
+
+[data-theme="dark"] body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+[data-theme="dark"] .nav-links a {
+    color: var(--text-color);
+}
+
+[data-theme="dark"] .nav-links a:hover {
+    color: var(--air-blue);
+    background-color: rgba(101, 164, 202, 0.1);
+}
+
+[data-theme="dark"] .btn-primary {
+    background-color: var(--air-blue);
+    color: var(--rich-black);
+}
+
+[data-theme="dark"] .btn-primary:hover {
+    background-color: var(--primary-hover);
+}
+
+[data-theme="dark"] .page-title {
+    color: var(--air-blue);
 }

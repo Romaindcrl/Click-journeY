@@ -9,6 +9,10 @@ checkAdmin();
 // Inclure le header après la vérification d'authentification
 require_once __DIR__ . '/includes/header.php';
 ?>
+<!-- Polices selon la charte graphique -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Amarante&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="src/css/admin.css">
 
 <?php
@@ -313,6 +317,42 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+
+    // Gestion des onglets pour préserver le thème
+    const tabLinks = document.querySelectorAll('.tab-link');
+    tabLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            // Éviter la perte du thème lors des changements d'onglets
+            e.preventDefault(); // Empêcher le comportement par défaut
+            
+            // Stocker le thème actuel avant de naviguer
+            const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+            localStorage.setItem('admin_tab_theme', currentTheme);
+            
+            // Rediriger avec le thème préservé
+            const url = this.getAttribute('href');
+            window.location.href = url + '&theme=' + currentTheme;
+        });
+    });
+
+    // Appliquer le thème stocké lors du chargement de la page
+    const storedTheme = localStorage.getItem('admin_tab_theme');
+    const urlTheme = new URLSearchParams(window.location.search).get('theme');
+    
+    // Priorité au thème dans l'URL, puis au thème stocké
+    if (urlTheme) {
+        document.documentElement.setAttribute('data-theme', urlTheme);
+        localStorage.setItem('admin_tab_theme', urlTheme); // Mettre à jour le stockage
+    } else if (storedTheme) {
+        document.documentElement.setAttribute('data-theme', storedTheme);
+    }
+    
+    // Mettre à jour le toggle de thème si présent
+    const themeToggle = document.getElementById('theme-toggle');
+    if (themeToggle) {
+        const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+        themeToggle.checked = currentTheme === 'dark';
+    }
 });
 </script>
 

@@ -68,7 +68,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $newUser = [
                 'id' => $maxId + 1,
                 'login' => $formData['login'],
-                'password' => password_hash($password, PASSWORD_DEFAULT),
+                'password' => $password,
                 'email' => $formData['email'],
                 'nom' => $formData['nom'],
                 'prenom' => $formData['prenom'],

@@ -48,7 +48,7 @@ if (empty($comment)) {
 }
 
 // Chemin vers le fichier des avis
-$reviews_file = '../data/avis.json';
+$reviews_file = __DIR__ . '/../../data/avis.json';
 
 // Créer le fichier s'il n'existe pas
 if (!file_exists($reviews_file)) {

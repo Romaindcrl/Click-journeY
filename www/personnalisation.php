@@ -126,21 +126,23 @@ $tomorrow = date('Y-m-d', strtotime('+1 day'));
                     
                     <div class="input-group">
                         <label for="date_depart">Date de départ:</label>
-                        <input type="date" id="date_depart" name="date_depart" class="form-control" min="<?= $tomorrow ?>" required>
+                        <input type="date" id="date_depart" name="date_depart" class="form-control" min="<?= $tomorrow ?>" required aria-describedby="date-help">
+                        <small id="date-help" class="form-text">Sélectionnez une date à partir de demain</small>
                     </div>
                     
                     <div class="input-group">
                         <label for="nb_participants">Nombre de participants:</label>
-                        <select id="nb_participants" name="nb_participants" class="form-control">
+                        <select id="nb_participants" name="nb_participants" class="form-control" aria-describedby="participants-help">
                             <?= $participantsOptions ?>
                         </select>
+                        <small id="participants-help" class="form-text">Le prix sera ajusté en fonction du nombre de participants</small>
                     </div>
                 </div>
                 
                 <?php if (isset($voyage['activites']) && !empty($voyage['activites'])): ?>
                 <div class="form-section">
                     <h3>Activités optionnelles</h3>
-                    <p class="mb-3">Sélectionnez les activités que vous souhaitez ajouter à votre voyage :</p>
+                    <p class="section-description">Sélectionnez les activités que vous souhaitez ajouter à votre voyage :</p>
                     
                     <div class="activity-list">
                         <?php foreach ($voyage['activites'] as $index => $activite): ?>
