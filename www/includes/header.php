@@ -137,7 +137,7 @@ $is_admin = $user_logged_in && $_SESSION['user']['role'] === 'admin';
     .nav-links {
         display: flex;
         align-items: center;
-        gap: 1.25rem;
+        gap: 0.8rem;
         list-style: none;
         margin: 0;
         padding: 0;
@@ -151,12 +151,13 @@ $is_admin = $user_logged_in && $_SESSION['user']['role'] === 'admin';
         color: #041728;
         text-decoration: none;
         font-weight: 500;
-        font-size: 0.95rem;
-        padding: 0.5rem 0.75rem;
+        font-size: 0.92rem;
+        padding: 0.5rem 0.6rem;
         border-radius: 6px;
         transition: all 0.3s ease;
         font-family: 'Poppins', sans-serif;
         display: inline-block;
+        white-space: nowrap;
     }
     
     .nav-links a:hover {
@@ -389,10 +390,25 @@ $is_admin = $user_logged_in && $_SESSION['user']['role'] === 'admin';
             padding: 0.4rem 0.6rem;
         }
         
+        .nav-links li {
+            margin: 0.2rem;
+        }
+        
         .flash-message {
             max-width: 90%;
             left: 5%;
             right: 5%;
+        }
+    }
+    
+    @media (min-width: 769px) and (max-width: 992px) {
+        .nav-links {
+            gap: 0.5rem;
+        }
+        
+        .nav-links a {
+            padding: 0.4rem 0.5rem;
+            font-size: 0.9rem;
         }
     }
     </style>
@@ -498,6 +514,7 @@ $is_admin = $user_logged_in && $_SESSION['user']['role'] === 'admin';
                 <li><a href="index.php" <?php echo ($current_page === 'index.php') ? 'style="font-weight: 600; color: #2d5977;"' : ''; ?>>Accueil</a></li>
                 <li><a href="voyages.php" <?php echo ($current_page === 'voyages.php') ? 'style="font-weight: 600; color: #2d5977;"' : ''; ?>>Voyages</a></li>
                 <li><a href="avis.php" <?php echo ($current_page === 'avis.php') ? 'style="font-weight: 600; color: #2d5977;"' : ''; ?>>Avis voyageurs</a></li>
+                <li><a href="panier.php" <?php echo ($current_page === 'panier.php') ? 'style="font-weight: 600; color: #2d5977;"' : ''; ?>><i class="fas fa-shopping-cart"></i><?php if(isset($_SESSION['reservation'])): ?><span class="cart-count"> (1)</span><?php else: ?> Panier<?php endif; ?></a></li>
                 
                 <?php if ($user_logged_in): ?>
                     <li><a href="profil.php" <?php echo ($current_page === 'profil.php') ? 'style="font-weight: 600; color: #2d5977;"' : ''; ?>>

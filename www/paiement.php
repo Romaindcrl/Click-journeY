@@ -109,6 +109,10 @@ else if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['card_number'])) 
     $paymentSuccess = (mt_rand(1, 10) <= 9);
     
     if ($paymentSuccess) {
+        // Renommer 'reservation' en 'customization' pour l'API de paiement
+        $_SESSION['customization'] = $_SESSION['reservation'];
+        unset($_SESSION['reservation']);
+        
         // Générer un identifiant de transaction unique
         $transactionId = 'TR-' . date('YmdHis') . '-' . mt_rand(1000, 9999);
         
@@ -127,7 +131,7 @@ else if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['card_number'])) 
         }
         
         // Récupérer les données de réservation
-        $reservation = $_SESSION['reservation'];
+        $reservation = $_SESSION['customization'];
         
         // Calculer la date de retour basée sur la durée du voyage
         $voyagesFile = __DIR__ . '/../data/voyages.json';
@@ -179,9 +183,6 @@ else if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['card_number'])) 
         // Enregistrer les commandes
         $commandesData = ['commandes' => $commandes];
         file_put_contents($commandesFile, json_encode($commandesData, JSON_PRETTY_PRINT));
-        
-        // Vider la réservation en cours
-        unset($_SESSION['reservation']);
         
         // Définir un message de succès
         $_SESSION['flash_message'] = 'Paiement réussi ! Votre voyage est confirmé.';
