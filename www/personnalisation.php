@@ -118,7 +118,7 @@ $tomorrow = date('Y-m-d', strtotime('+1 day'));
             <h2 class="voyage-title"><?= htmlspecialchars($voyage['nom']) ?></h2>
             <p class="voyage-description"><?= htmlspecialchars($voyage['description']) ?></p>
             
-            <form id="personnalisation-form" method="post" action="paiement.php">
+            <form id="personnalisation-form" method="post" action="panier.php">
                 <input type="hidden" name="voyage_id" value="<?= $voyageId ?>">
                 
                 <div class="form-section">
