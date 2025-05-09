@@ -11,7 +11,7 @@ function is_admin() {
 
 function require_login() {
     if (!is_logged_in()) {
-        header('Location: /Click-journeY/www/connexion.php');
+        header('Location: connexion.php');
         exit();
     }
 }
@@ -19,7 +19,7 @@ function require_login() {
 function require_admin() {
     require_login();
     if (!is_admin()) {
-        header('Location: /Click-journeY/www/profil.php');
+        header('Location: profil.php');
         exit();
     }
 } 

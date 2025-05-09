@@ -112,7 +112,7 @@ if (isset($_SESSION['flash'])) {
 <style>
 .voyages-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 30px;
     padding: 30px;
     margin-bottom: 50px;

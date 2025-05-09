@@ -20,10 +20,13 @@ $is_admin = $user_logged_in && $_SESSION['user']['role'] === 'admin';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <title><?php echo $siteTitle; ?> - <?php echo $siteDescription; ?></title>
     <link rel="stylesheet" href="src/css/style.css">
     <link rel="stylesheet" href="src/css/reviews.css">
     <link rel="stylesheet" href="src/css/confirmation.css">
+    <link rel="stylesheet" href="src/css/auth.css">
+    <link rel="stylesheet" href="src/css/home.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="icon" href="src/images/logo.png" type="image/png">
     <!-- Ajout d'une solution globale pour corriger les problèmes de navigation -->
@@ -115,7 +118,7 @@ $is_admin = $user_logged_in && $_SESSION['user']['role'] === 'admin';
                 
                 <?php if ($user_logged_in): ?>
                     <li><a href="profil.php">Profil</a></li>
-                    <li><a href="deconnexion.php" class="btn-connexion">Déconnexion</a></li>
+                    <li><a href="logout.php" class="btn-connexion">Déconnexion</a></li>
                 <?php else: ?>
                     <li><a href="inscription.php" class="btn-inscription">Inscription</a></li>
                     <li><a href="connexion.php" class="btn-connexion">Connexion</a></li>
