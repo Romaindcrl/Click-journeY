@@ -211,9 +211,40 @@
   background-color: var(--lapis-lazuli);
 }
 
-.form-group {
+.password-section form {
+  display: block;
+  width: 100%;
+}
+
+.password-section .form-group {
   margin-bottom: 1.5rem;
   position: relative;
+  padding-right: 0;
+  width: 100%;
+}
+
+.password-section input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.9rem 1rem;
+  border: 1px solid var(--air-blue);
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: 'Poppins', sans-serif;
+  transition: all 0.2s ease;
+  background-color: var(--white);
+  color: var(--rich-black);
+}
+
+.password-section input:focus {
+  outline: none;
+  border-color: var(--lapis-lazuli);
+  box-shadow: 0 0 0 3px rgba(45, 89, 119, 0.1);
+}
+
+.password-section .form-actions {
+  margin-top: 2rem;
+  width: 100%;
 }
 
 .form-group label {
@@ -222,26 +253,6 @@
   font-weight: 600;
   color: var(--rich-black);
   font-size: 0.95rem;
-}
-
-.form-group input {
-  width: calc(100% - 2rem);
-  padding: 0.9rem 1rem;
-  border: 1px solid var(--air-blue);
-  border-radius: 8px;
-  font-size: 1rem;
-  font-family: 'Poppins', sans-serif;
-  transition: all 0.2s ease;
-}
-
-.form-group input:focus {
-  outline: none;
-  border-color: var(--lapis-lazuli);
-  box-shadow: 0 0 0 3px rgba(45, 89, 119, 0.1);
-}
-
-.form-actions {
-  margin-top: 2rem;
 }
 
 .form-actions .btn {
@@ -760,4 +771,15 @@
     padding: 1.5rem;
     width: 95%;
   }
+}
+
+[data-theme="dark"] .password-section input {
+  background-color: #222;
+  color: var(--text-color);
+  border-color: #333;
+}
+
+[data-theme="dark"] .password-section input:focus {
+  border-color: var(--air-blue);
+  box-shadow: 0 0 0 3px rgba(101, 164, 202, 0.2);
 } 

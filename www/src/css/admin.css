@@ -75,6 +75,8 @@
   overflow: hidden;
   box-shadow: var(--shadow-sm);
   width: 100%;
+  min-height: 60px;
+  height: 60px;
 }
 
 .tab-link {
@@ -91,6 +93,8 @@
   justify-content: center;
   text-align: center;
   min-width: 120px;
+  height: 100%;
+  box-sizing: border-box;
 }
 
 .tab-link i {
@@ -154,6 +158,23 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  position: relative;
+  cursor: help;
+}
+
+.users-table td:nth-child(4):hover::after {
+  content: attr(title);
+  position: absolute;
+  top: -30px;
+  left: 0;
+  background-color: var(--rich-black);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  z-index: 100;
+  white-space: nowrap;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 .users-table th:nth-child(5),
@@ -171,6 +192,12 @@
   width: 150px; /* Colonne Dernière connexion */
 }
 
+.users-table th:nth-child(8),
+.users-table td:nth-child(8) {
+  width: 180px; /* Colonne Actions */
+  min-width: 180px;
+}
+
 .users-table th {
   background-color: var(--rich-black);
   color: var(--white);
@@ -186,13 +213,6 @@
 
 .users-table tr:hover {
   background-color: rgba(101, 164, 202, 0.05);
-}
-
-.users-table th:last-child,
-.users-table td:last-child {
-  width: 180px;
-  min-width: 180px;
-  white-space: nowrap;
 }
 
 /* Badges de statut */
@@ -255,6 +275,7 @@
   display: flex;
   gap: 0.75rem;
   justify-content: flex-start;
+  flex-wrap: nowrap;
 }
 
 .btn {
@@ -354,6 +375,7 @@
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 1.5rem;
   margin-top: 2rem;
+  align-items: stretch;
 }
 
 .role-card {
@@ -363,6 +385,9 @@
   box-shadow: var(--shadow-md);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   border: 1px solid rgba(101, 164, 202, 0.2);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .role-card:hover {
@@ -396,6 +421,9 @@
 
 .role-body {
   padding: 1.5rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .role-description {
@@ -436,6 +464,7 @@
   display: flex;
   justify-content: center;
   background-color: rgba(101, 164, 202, 0.05);
+  margin-top: auto;
 }
 
 /* Onglet Statistiques */
@@ -515,10 +544,10 @@
   --rich-black: #041728;
   --lapis-lazuli: #2d5977;
   --air-blue: #65A4CA;
-  --silver: #666;
+  --silver: #999;
   --white: #1a1a1a;
-  --text-color: #e0e0e0;
-  --border-light: #333;
+  --text-color: #f0f0f0;
+  --border-light: #444;
 }
 
 [data-theme="dark"] .admin-container {
@@ -564,21 +593,37 @@
   background-color: rgba(101, 164, 202, 0.08);
 }
 
+[data-theme="dark"] .users-table td {
+  color: #e0e0e0;
+}
+
 [data-theme="dark"] .role-select,
 [data-theme="dark"] .btn-primary,
 [data-theme="dark"] .stat-card,
 [data-theme="dark"] .role-card {
   background-color: #222;
   color: var(--text-color);
-  border-color: #333;
+  border-color: #444;
 }
 
 [data-theme="dark"] .role-header {
   background-color: #152736;
 }
 
+[data-theme="dark"] .role-description {
+  color: #cccccc;
+}
+
+[data-theme="dark"] .role-card h4 {
+  color: var(--air-blue);
+}
+
 [data-theme="dark"] .stat-value {
   color: var(--air-blue);
+}
+
+[data-theme="dark"] .stat-info h3 {
+  color: #cccccc;
 }
 
 [data-theme="dark"] .permissions-list li {
@@ -587,6 +632,22 @@
 
 [data-theme="dark"] .permissions-list i {
   color: #4ade80;
+}
+
+[data-theme="dark"] .roles-container h2,
+[data-theme="dark"] .stats-container h2 {
+  color: var(--air-blue);
+}
+
+[data-theme="dark"] .roles-container p,
+[data-theme="dark"] .stats-container p {
+  color: #cccccc;
+}
+
+[data-theme="dark"] .users-table td:nth-child(4):hover::after {
+  background-color: #333;
+  color: var(--air-blue);
+  border: 1px solid var(--air-blue);
 }
 
 /* Responsive */

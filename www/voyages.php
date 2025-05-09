@@ -1,129 +1,174 @@
 <?php
 require_once __DIR__ . '/includes/header.php';
-// Utiliser la fonction check_auth optionnellement sans bloquer l'accès
-// require_once __DIR__ . '/check_auth.php';
-// L'utilisateur n'a pas besoin d'être connecté pour voir les voyages
-// checkAuth();
 
-// Charger les données des voyages
-$voyagesFile = __DIR__ . '/../data/voyages.json';
-$voyages = [];
+// Récupérer le terme de recherche
+$searchTerm = isset($_GET['q']) ? trim($_GET['q']) : '';
 
-if (file_exists($voyagesFile)) {
-    $voyagesContent = file_get_contents($voyagesFile);
-    $voyagesData = json_decode($voyagesContent, true);
-    // Correction de l'accès aux données
-    $voyages = $voyagesData['voyages'] ?? [];
-}
+// Chargement des voyages
+$voyagesJson = file_get_contents(__DIR__ . '/../data/voyages.json');
+$data = json_decode($voyagesJson, true);
+$voyages = $data['voyages'] ?? [];
 
-// Initialiser les tableaux pour les avis et les notes moyennes
-$avisParVoyage = [];
-$notesMoyennes = [];
-
-// Charger les avis s'ils existent
-$avisFile = __DIR__ . '/../data/avis.json';
-if (file_exists($avisFile)) {
-    $avisContent = file_get_contents($avisFile);
-    $avisData = json_decode($avisContent, true);
-    
-    if (isset($avisData['avis'])) {
-        foreach ($avisData['avis'] as $avis) {
-            if ($avis['statut'] === 'publié') {
-                $voyageId = $avis['voyage_id'];
-                
-                if (!isset($avisParVoyage[$voyageId])) {
-                    $avisParVoyage[$voyageId] = [];
-                    $notesMoyennes[$voyageId] = ['total' => 0, 'count' => 0];
-                }
-                
-                $avisParVoyage[$voyageId][] = $avis;
-                $notesMoyennes[$voyageId]['total'] += $avis['note'];
-                $notesMoyennes[$voyageId]['count']++;
-            }
+// Filtrer les voyages si un terme de recherche est défini
+$filteredVoyages = [];
+if (!empty($searchTerm)) {
+    foreach ($voyages as $voyage) {
+        // Recherche dans le nom, la description ou les activités
+        if (
+            stripos($voyage['nom'], $searchTerm) !== false ||
+            stripos($voyage['description'], $searchTerm) !== false
+        ) {
+            $filteredVoyages[] = $voyage;
+            continue;
         }
         
-        // Calculer les moyennes
-        foreach ($notesMoyennes as $voyageId => $data) {
-            if ($data['count'] > 0) {
-                $notesMoyennes[$voyageId] = round($data['total'] / $data['count'], 1);
-            } else {
-                $notesMoyennes[$voyageId] = 0;
+        // Recherche dans les activités
+        foreach ($voyage['activites'] as $activite) {
+            if (stripos($activite['nom'], $searchTerm) !== false) {
+                $filteredVoyages[] = $voyage;
+                break;
             }
         }
     }
-}
-
-// Afficher un message flash s'il existe
-if (isset($_SESSION['flash'])) {
-    echo '<div class="flash-message">' . $_SESSION['flash'] . '</div>';
-    unset($_SESSION['flash']);
+} else {
+    $filteredVoyages = $voyages;
 }
 ?>
 
 <div class="page-container">
     <h1 class="page-title">Nos Voyages</h1>
     
-    <div class="voyages-grid">
-        <?php if (empty($voyages)): ?>
-            <p class="no-voyages">Aucun voyage n'est disponible pour le moment.</p>
-        <?php else: ?>
-            <?php foreach ($voyages as $voyage): ?>
-                <?php if (isset($voyage['disponible']) ? $voyage['disponible'] : true): ?>
-                    <div class="voyage-card">
-                        <img src="<?= htmlspecialchars($voyage['image']) ?>" alt="<?= htmlspecialchars($voyage['nom']) ?>" class="voyage-image">
-                        <div class="voyage-content">
-                            <h3 class="voyage-title"><?= htmlspecialchars($voyage['nom']) ?></h3>
-                            <p class="voyage-description"><?= htmlspecialchars($voyage['description']) ?></p>
+    <div class="search-form">
+        <form action="voyages.php" method="GET">
+            <div class="search-input">
+                <input type="text" name="q" value="<?php echo htmlspecialchars($searchTerm); ?>" placeholder="Rechercher un voyage, une destination, une activité...">
+                <button type="submit" class="btn btn-primary">Rechercher</button>
+            </div>
+        </form>
+    </div>
+    
+    <?php if (!empty($searchTerm)): ?>
+        <div class="search-results-header">
+            <h2>Résultats pour "<?php echo htmlspecialchars($searchTerm); ?>"</h2>
+            <p><?php echo count($filteredVoyages); ?> voyage(s) trouvé(s)</p>
+        </div>
+    <?php endif; ?>
+    
+    <?php if (empty($filteredVoyages)): ?>
+        <div class="no-results">
+            <p>Aucun voyage ne correspond à votre recherche.</p>
+            <?php if (!empty($searchTerm)): ?>
+                <p>Essayez avec d'autres mots-clés ou <a href="voyages.php">consultez tous nos voyages</a>.</p>
+            <?php endif; ?>
+        </div>
+    <?php else: ?>
+        <div class="sort-options">
+            <label for="sort-select">Trier par:</label>
+            <select id="sort-select">
+                <option value="nom-asc">Nom (A-Z)</option>
+                <option value="nom-desc">Nom (Z-A)</option>
+                <option value="prix-asc">Prix (croissant)</option>
+                <option value="prix-desc">Prix (décroissant)</option>
+                <option value="duree-asc">Durée (croissante)</option>
+                <option value="duree-desc">Durée (décroissante)</option>
+            </select>
+        </div>
+        
+        <div class="voyages-grid" id="voyages-grid">
+            <?php foreach ($filteredVoyages as $voyage): ?>
+                <div class="voyage-card" 
+                     data-nom="<?php echo htmlspecialchars($voyage['nom']); ?>"
+                     data-prix="<?php echo $voyage['prix']; ?>"
+                     data-duree="<?php echo isset($voyage['duree']) ? $voyage['duree'] : 7; ?>">
+                    <img src="<?php echo htmlspecialchars($voyage['image']); ?>" 
+                         alt="<?php echo htmlspecialchars($voyage['nom']); ?>" 
+                         class="voyage-image">
+                    
+                    <div class="voyage-content">
+                        <h3 class="voyage-title"><?php echo htmlspecialchars($voyage['nom']); ?></h3>
+                        <p class="voyage-description"><?php echo htmlspecialchars($voyage['description']); ?></p>
+                        
+                        <div class="voyage-info">
+                            <div class="voyage-price">
+                                À partir de <?= number_format($voyage['prix'], 0, ',', ' ') ?> <span>€</span>
+                            </div>
                             
-                            <div class="voyage-info">
-                                <div class="voyage-price">
-                                    À partir de <?= number_format($voyage['prix'], 0, ',', ' ') ?> <span>€</span>
-                                </div>
-                                
-                                <div class="voyage-duree">
-                                    <i class="fas fa-clock"></i>
-                                    <span><?= isset($voyage['duree']) ? $voyage['duree'] : 7 ?> jours</span>
-                                </div>
-                                
-                                <div class="voyage-rating">
-                                    <?php 
-                                    // Récupérer la note moyenne pour ce voyage
-                                    $moyenne = isset($notesMoyennes[$voyage['id']]) ? $notesMoyennes[$voyage['id']] : 0;
-                                    $avisCount = isset($avisParVoyage[$voyage['id']]) ? count($avisParVoyage[$voyage['id']]) : 0;
-                                    
-                                    // Afficher les étoiles basées sur la note moyenne
-                                    for ($i = 1; $i <= 5; $i++) {
-                                        if ($i <= floor($moyenne)) {
-                                            echo '<i class="fas fa-star"></i>';
-                                        } elseif ($i - 0.5 <= $moyenne) {
-                                            echo '<i class="fas fa-star-half-alt"></i>';
-                                        } else {
-                                            echo '<i class="far fa-star"></i>';
-                                        }
-                                    }
-                                    ?>
-                                    <span class="voyage-rating-text">(<?= $avisCount ?> avis)</span>
-                                </div>
+                            <div class="voyage-duree">
+                                <i class="fas fa-clock"></i>
+                                <span><?= isset($voyage['duree']) ? $voyage['duree'] : 7 ?> jours</span>
                             </div>
                         </div>
                         
-                        <div class="voyage-footer">
-                            <div class="voyage-buttons">
-                                <a href="voyage-details.php?id=<?= $voyage['id'] ?>" class="btn-details">Voir détails</a>
-                                <a href="personnalisation.php?id=<?= $voyage['id'] ?>" class="btn-reserve">Réserver</a>
-                            </div>
+                        <div class="voyage-activities">
+                            <h4>Activités incluses :</h4>
+                            <ul>
+                                <?php foreach ($voyage['activites'] as $activite): ?>
+                                    <li>
+                                        <?php echo htmlspecialchars($activite['nom']); ?> 
+                                        <small>(+<?php echo number_format($activite['prix'], 0, ',', ' '); ?> €)</small>
+                                    </li>
+                                <?php endforeach; ?>
+                            </ul>
                         </div>
                     </div>
-                <?php endif; ?>
+                    
+                    <div class="voyage-footer">
+                        <div class="voyage-buttons">
+                            <a href="voyage-details.php?id=<?= $voyage['id'] ?>" class="btn-details">Voir détails</a>
+                            <?php if (isset($_SESSION['user'])): ?>
+                                <a href="personnalisation.php?id=<?php echo $voyage['id']; ?>" class="btn-reserve">Réserver</a>
+                            <?php else: ?>
+                                <a href="connexion.php" class="btn-reserve">Se connecter</a>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                </div>
             <?php endforeach; ?>
-        <?php endif; ?>
-    </div>
+        </div>
+    <?php endif; ?>
 </div>
 
 <script>
-// Assurer que les liens fonctionnent correctement
 document.addEventListener('DOMContentLoaded', function() {
-    // Sélectionner tous les boutons
+    const sortSelect = document.getElementById('sort-select');
+    const voyagesGrid = document.getElementById('voyages-grid');
+    
+    if (sortSelect && voyagesGrid) {
+        sortSelect.addEventListener('change', function() {
+            sortVoyages(this.value);
+        });
+    }
+    
+    function sortVoyages(sortValue) {
+        const voyages = Array.from(voyagesGrid.querySelectorAll('.voyage-card'));
+        
+        voyages.sort((a, b) => {
+            switch (sortValue) {
+                case 'nom-asc':
+                    return a.dataset.nom.localeCompare(b.dataset.nom);
+                case 'nom-desc':
+                    return b.dataset.nom.localeCompare(a.dataset.nom);
+                case 'prix-asc':
+                    return parseFloat(a.dataset.prix) - parseFloat(b.dataset.prix);
+                case 'prix-desc':
+                    return parseFloat(b.dataset.prix) - parseFloat(a.dataset.prix);
+                case 'duree-asc':
+                    return parseInt(a.dataset.duree) - parseInt(b.dataset.duree);
+                case 'duree-desc':
+                    return parseInt(b.dataset.duree) - parseInt(a.dataset.duree);
+                default:
+                    return 0;
+            }
+        });
+        
+        // Vider la grille
+        voyagesGrid.innerHTML = '';
+        
+        // Réinsérer les éléments triés
+        voyages.forEach(voyage => voyagesGrid.appendChild(voyage));
+    }
+    
+    // Assurer que les liens fonctionnent correctement
     const allButtons = document.querySelectorAll('.btn-details, .btn-reserve');
     
     // Ajouter un écouteur d'événements pour chaque bouton
@@ -139,20 +184,9 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log('Navigation vers: ' + url);
         });
     });
-    
-    // Ajout d'effets d'animation sur les cartes
-    const voyageCards = document.querySelectorAll('.voyage-card');
-    voyageCards.forEach(card => {
-        // Animation au survol
-        card.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateY(-10px)';
-        });
-        
-        card.addEventListener('mouseleave', function() {
-            this.style.transform = 'translateY(0)';
-        });
-    });
 });
 </script>
 
-<?php require_once __DIR__ . '/includes/footer.php'; ?> 
+<?php
+require_once __DIR__ . '/includes/footer.php';
+?> 

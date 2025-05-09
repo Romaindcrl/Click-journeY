@@ -491,7 +491,7 @@ function formatDate($date) {
                         </div>
                     </div>
                     
-                    <a href="personnalisation.php?id=<?= $voyage_id ?>" class="btn btn-primary btn-block">PERSONNALISER CE VOYAGE</a>
+                    <a href="personnalisation.php?id=<?= $voyage_id ?>" class="btn btn-primary btn-block">PERSONNALISER</a>
                     
                     <div class="sidebar-contact">
                         <p>Des questions ? Contactez-nous</p>
