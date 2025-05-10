@@ -114,8 +114,8 @@
         {
             "id": 4,
             "login": "admin",
-            "password": "test",
-            "email": "admin@click-journey.fr",
+            "password": "testtest",
+            "email": "adminclick-@journey.fr",
             "nom": "Admin a",
             "prenom": "Super",
             "role": "admin",
@@ -340,6 +340,15 @@
                 "dashboard_layout": "compact"
             },
             "notes": "Administrateur principal"
+        },
+        {
+            "id": 11,
+            "login": "manonrn",
+            "password": "manonmanon",
+            "email": "manon.rennwald@gmail.com",
+            "nom": "Rennwald",
+            "prenom": "Manon",
+            "role": "normal"
         }
     ],
     "roles": {
