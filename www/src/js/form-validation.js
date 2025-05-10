@@ -151,6 +151,29 @@ function setupEditableFields(form) {
         // Enregistrer les modifications
         if (saveButton) {
             saveButton.addEventListener('click', function() {
+                // Valider l'email si c'est un champ email
+                if (field.type === 'email') {
+                    if (!isValidEmail(field.value)) {
+                        // Supprimer les anciens messages d'erreur
+                        const existingError = container.querySelector('.field-error');
+                        if (existingError) existingError.remove();
+                        
+                        // Créer un nouveau message d'erreur
+                        const errorMessage = document.createElement('div');
+                        errorMessage.className = 'field-error';
+                        errorMessage.innerText = 'Veuillez entrer une adresse email valide';
+                        errorMessage.style.color = 'red';
+                        errorMessage.style.fontSize = '0.875rem';
+                        errorMessage.style.marginTop = '0.25rem';
+                        container.appendChild(errorMessage);
+                        return;
+                    } else {
+                        // Enlever le message d'erreur s'il existe
+                        const existingError = container.querySelector('.field-error');
+                        if (existingError) existingError.remove();
+                    }
+                }
+                
                 // Ne pas désactiver le champ afin qu'il soit inclus dans la soumission
                 editButton.style.display = 'inline-block';
                 saveButton.style.display = 'none';
@@ -175,6 +198,9 @@ function setupEditableFields(form) {
                 editButton.style.display = 'inline-block';
                 saveButton.style.display = 'none';
                 cancelButton.style.display = 'none';
+                // Supprimer les messages d'erreur
+                const existingError = container.querySelector('.field-error');
+                if (existingError) existingError.remove();
             });
         }
     });

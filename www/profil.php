@@ -207,7 +207,7 @@ foreach ($voyages as $voyage) {
                 
                 <div class="editable-field">
                     <label for="email">Email</label>
-                    <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($user['email']); ?>" disabled>
+                    <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($user['email']); ?>" pattern="[^\s@]+@[^\s@]+\.[^\s@]+" title="Veuillez entrer une adresse email valide" disabled>
                     <div class="field-buttons">
                         <button type="button" class="edit-btn" data-tooltip="Modifier">
                             <i class="fas fa-pencil-alt"></i>

@@ -1,4 +1,6 @@
 <?php
+// Activer la mise en tampon pour éviter les erreurs de header déjà envoyés
+ob_start();
 require_once __DIR__ . '/includes/header.php';
 
 // Définir le chemin du dossier data et du fichier users.json
@@ -45,13 +47,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif (strlen($password) < 6) {
         $error = 'Le mot de passe doit contenir au moins 6 caractères';
     } else {
-        // Lire le contenu du fichier users.json
-        $users = json_decode(file_get_contents($usersFile), true) ?? [];
+        // Lire le fichier users.json en conservant la structure éventuelle
+        $jsonData = json_decode(file_get_contents($usersFile), true) ?: [];
+        if (isset($jsonData['users']) && is_array($jsonData['users'])) {
+            $users = $jsonData['users'];
+        } else {
+            $users = $jsonData;
+        }
         
         // Vérifier si le login existe déjà
         $loginExists = false;
         foreach ($users as $user) {
-            if ($user['login'] === $formData['login']) {
+            if (isset($user['login']) && $user['login'] === $formData['login']) {
                 $error = 'Ce login est déjà utilisé';
                 $loginExists = true;
                 break;
@@ -62,7 +69,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Générer un nouvel ID unique
             $maxId = 0;
             foreach ($users as $user) {
-                $maxId = max($maxId, $user['id']);
+                // S'assurer que l'ID existe et est un entier
+                $maxId = max($maxId, isset($user['id']) ? (int)$user['id'] : 0);
             }
             
             $newUser = [
@@ -77,7 +85,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             
             $users[] = $newUser;
             
-            if (file_put_contents($usersFile, json_encode($users, JSON_PRETTY_PRINT)) !== false) {
+            // Enregistrer dans le format d'origine (avec clé "users" si nécessaire)
+            if (isset($jsonData['users']) && is_array($jsonData['users'])) {
+                $jsonData['users'] = $users;
+                $newJson = json_encode($jsonData, JSON_PRETTY_PRINT);
+            } else {
+                $newJson = json_encode($users, JSON_PRETTY_PRINT);
+            }
+            if (file_put_contents($usersFile, $newJson) !== false) {
                 header('Location: connexion.php?success=1');
                 exit();
             } else {
