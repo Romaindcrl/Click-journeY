@@ -149,7 +149,7 @@
         {
             "id": 5,
             "login": "moderateur",
-            "password": "test",
+            "password": "testest",
             "email": "moderateur@click-journey.fr",
             "nom": "Moderateur",
             "prenom": "Jean",
@@ -211,7 +211,7 @@
         {
             "id": 7,
             "login": "vip",
-            "password": "test",
+            "password": "testest",
             "email": "vip@exemple.com",
             "nom": "Client",
             "prenom": "Premium",
@@ -348,6 +348,15 @@
             "email": "manon.rennwald@gmail.com",
             "nom": "Rennwald",
             "prenom": "Manon",
+            "role": "normal"
+        },
+        {
+            "id": 12,
+            "login": "mxth2xs",
+            "password": "ClickJourney",
+            "email": "mthnatacha@gmail.com",
+            "nom": "DCS",
+            "prenom": "Mathias",
             "role": "normal"
         }
     ],

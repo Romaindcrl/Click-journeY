@@ -1,17 +1,14 @@
 <?php
-// Activer l'affichage des erreurs pour le débogage
+// Activer l'affichage des erreurs
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-// Démarrer la session si elle n'est pas déjà démarrée
+// Démarrer la session
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-// Traitement des redirections et logique métier AVANT require_once header.php
-// car header.php génère du HTML
-
-// Vérifier si l'utilisateur est connecté (sans nécessiter de require check_auth.php pour l'instant)
+// Rediriger si l'utilisateur n'est pas connecté
 if (!isset($_SESSION['user'])) {
     $_SESSION['redirect_after_login'] = $_SERVER['REQUEST_URI'];
     $_SESSION['flash_message'] = 'Veuillez vous connecter pour accéder à cette page.';
@@ -20,203 +17,18 @@ if (!isset($_SESSION['user'])) {
     exit();
 }
 
-// Vérifier si le formulaire a été soumis directement à cette page
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['card_number'])) {
-    // Récupérer les données du formulaire de personnalisation
-    $voyageId = isset($_POST['voyage_id']) ? intval($_POST['voyage_id']) : 0;
-    $dateDepart = isset($_POST['date_depart']) ? $_POST['date_depart'] : '';
-    $nbParticipants = isset($_POST['nb_participants']) ? intval($_POST['nb_participants']) : 1;
-    $prixTotal = isset($_POST['prix_total']) ? intval($_POST['prix_total']) : 0;
-    
-    if (empty($dateDepart) || $voyageId === 0) {
-        $_SESSION['flash_message'] = 'Informations de réservation incomplètes.';
-        $_SESSION['flash_type'] = 'error';
-        header('Location: voyages.php');
-        exit;
-    }
-    
-    // Récupérer les données du voyage
-    $voyagesFile = __DIR__ . '/../data/voyages.json';
-    if (!file_exists($voyagesFile)) {
-        $voyagesFile = __DIR__ . '/data/voyages.json';
-    }
-    
-    if (!file_exists($voyagesFile)) {
-        $_SESSION['flash_message'] = 'Erreur: fichier de voyages introuvable.';
-        $_SESSION['flash_type'] = 'error';
-        header('Location: voyages.php');
-        exit;
-    }
-    
-    $voyagesJson = file_get_contents($voyagesFile);
-    $voyagesData = json_decode($voyagesJson, true);
-    $voyages = $voyagesData['voyages'] ?? [];
-    
-    // Rechercher le voyage
-    $voyage = null;
-    foreach ($voyages as $v) {
-        if ($v['id'] == $voyageId) {
-            $voyage = $v;
-            break;
-        }
-    }
-    
-    if (!$voyage) {
-        $_SESSION['flash_message'] = 'Voyage non trouvé.';
-        $_SESSION['flash_type'] = 'error';
-        header('Location: voyages.php');
-        exit;
-    }
-    
-    // Traiter les activités sélectionnées
-    $activites = [];
-    if (isset($voyage['activites']) && is_array($voyage['activites'])) {
-        foreach ($voyage['activites'] as $index => $activite) {
-            $activiteId = 'activite_' . $index;
-            if (isset($_POST[$activiteId])) {
-                $activites[] = [
-                    'nom' => $activite['nom'],
-                    'prix' => $activite['prix']
-                ];
-            }
-        }
-    }
-    
-    // Calculer le prix total si pas fourni
-    if ($prixTotal === 0) {
-        $prixTotal = $voyage['prix'] * $nbParticipants;
-        foreach ($activites as $activite) {
-            $prixTotal += $activite['prix'] * $nbParticipants;
-        }
-    }
-    
-    // Créer la réservation dans la session
-    $_SESSION['reservation'] = [
-        'voyage_id' => $voyageId,
-        'voyage_nom' => $voyage['nom'],
-        'voyage_image' => $voyage['image'],
-        'date_depart' => $dateDepart,
-        'nb_participants' => $nbParticipants,
-        'activites' => $activites,
-        'prix_total' => $prixTotal
-    ];
-    
-    error_log("Nouvelle réservation créée depuis le formulaire: " . print_r($_SESSION['reservation'], true));
-} 
-// Traitement du formulaire de paiement
-else if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['card_number'])) {
-    // Simulation d'un paiement (90% de réussite)
-    $paymentSuccess = (mt_rand(1, 10) <= 9);
-    
-    if ($paymentSuccess) {
-        // Renommer 'reservation' en 'customization' pour l'API de paiement
-        $_SESSION['customization'] = $_SESSION['reservation'];
-        unset($_SESSION['reservation']);
-        
-        // Générer un identifiant de transaction unique
-        $transactionId = 'TR-' . date('YmdHis') . '-' . mt_rand(1000, 9999);
-        
-        // Créer une nouvelle commande
-        $commandesFile = __DIR__ . '/../data/commandes.json';
-        if (!file_exists($commandesFile)) {
-            $commandesFile = __DIR__ . '/data/commandes.json';
-        }
-        
-        $commandes = [];
-        
-        if (file_exists($commandesFile)) {
-            $commandesJson = file_get_contents($commandesFile);
-            $commandesData = json_decode($commandesJson, true);
-            $commandes = $commandesData['commandes'] ?? [];
-        }
-        
-        // Récupérer les données de réservation
-        $reservation = $_SESSION['customization'];
-        
-        // Calculer la date de retour basée sur la durée du voyage
-        $voyagesFile = __DIR__ . '/../data/voyages.json';
-        if (!file_exists($voyagesFile)) {
-            $voyagesFile = __DIR__ . '/data/voyages.json';
-        }
-        
-        $voyagesJson = file_get_contents($voyagesFile);
-        $voyagesData = json_decode($voyagesJson, true);
-        $voyages = $voyagesData['voyages'] ?? [];
-        
-        $voyage = null;
-        foreach ($voyages as $v) {
-            if ($v['id'] == $reservation['voyage_id']) {
-                $voyage = $v;
-                break;
-            }
-        }
-        
-        $duree = $voyage ? ($voyage['duree'] ?? 7) : 7; // Durée par défaut si non spécifiée
-        $dateRetour = date('Y-m-d', strtotime($reservation['date_depart'] . ' + ' . $duree . ' days'));
-        
-        // Créer la structure des activités choisies pour la commande
-        $optionsChoisies = [];
-        if (!empty($reservation['activites'])) {
-            $optionsChoisies['etape_1'] = [
-                'activites' => $reservation['activites']
-            ];
-        }
-        
-        // Créer la nouvelle commande
-        $nouvelleCommande = [
-            'id' => count($commandes) + 1,
-            'transaction_id' => $transactionId,
-            'user_id' => $_SESSION['user']['id'],
-            'voyage_id' => $reservation['voyage_id'],
-            'date_commande' => date('Y-m-d'),
-            'date_depart' => $reservation['date_depart'],
-            'date_retour' => $dateRetour,
-            'nb_participants' => $reservation['nb_participants'],
-            'prix_total' => $reservation['prix_total'],
-            'options_choisies' => $optionsChoisies,
-            'statut' => 'confirmé'
-        ];
-        
-        // Ajouter la commande à la liste
-        $commandes[] = $nouvelleCommande;
-        
-        // Enregistrer les commandes
-        $commandesData = ['commandes' => $commandes];
-        file_put_contents($commandesFile, json_encode($commandesData, JSON_PRETTY_PRINT));
-        
-        // Définir un message de succès
-        $_SESSION['flash_message'] = 'Paiement réussi ! Votre voyage est confirmé.';
-        $_SESSION['flash_type'] = 'success';
-        
-        // Rediriger vers la page de confirmation
-        header('Location: confirmation.php?id=' . $nouvelleCommande['id']);
-        exit;
-    } else {
-        // Paiement échoué
-        $_SESSION['flash_message'] = 'Le paiement a échoué. Veuillez réessayer ou contacter le service client.';
-        $_SESSION['flash_type'] = 'error';
-        
-        // Rediriger vers la même page pour réessayer
-        header('Location: paiement.php');
-        exit;
-    }
-}
-
-// Vérifier si une réservation est en cours
+// Vérifier qu'une réservation existe
 if (!isset($_SESSION['reservation'])) {
-    // Ajouter un message d'erreur
     $_SESSION['flash_message'] = 'Aucune réservation trouvée. Veuillez choisir un voyage.';
     $_SESSION['flash_type'] = 'error';
-    
-    // Rediriger vers la page des voyages
     header('Location: voyages.php');
     exit;
 }
 
-// À ce stade, toutes les redirections sont terminées et nous pouvons inclure le header
-require_once __DIR__ . '/includes/header.php';
+// Inclure la fonction d'API Key
+require_once __DIR__ . '/api/getapikey.php';
 
-// Récupérer les données de réservation
+// Charger la réservation
 $reservation = $_SESSION['reservation'];
 $voyage_id = $reservation['voyage_id'];
 $date_depart = $reservation['date_depart'];
@@ -229,12 +41,10 @@ $voyagesFile = __DIR__ . '/../data/voyages.json';
 if (!file_exists($voyagesFile)) {
     $voyagesFile = __DIR__ . '/data/voyages.json';
 }
-
 $voyagesJson = file_get_contents($voyagesFile);
 $voyagesData = json_decode($voyagesJson, true);
 $voyages = $voyagesData['voyages'] ?? [];
 
-// Rechercher le voyage correspondant
 $voyage = null;
 foreach ($voyages as $v) {
     if ($v['id'] == $voyage_id) {
@@ -243,13 +53,22 @@ foreach ($voyages as $v) {
     }
 }
 
-// Calculer la date de retour prévue
-$duree = $voyage['duree'] ?? 7; // Durée par défaut si non spécifiée
+$duree = $voyage['duree'] ?? 7;
 $dateRetour = date('Y-m-d', strtotime($date_depart . ' + ' . $duree . ' days'));
 
-// Formater les dates pour l'affichage
 $dateDepartFormatted = DateTime::createFromFormat('Y-m-d', $date_depart);
 $dateRetourFormatted = DateTime::createFromFormat('Y-m-d', $dateRetour);
+
+// Préparation pour CYBank
+$montant = number_format($prix_total, 2, '.', '');
+$transaction = uniqid('TXN');
+$vendeur = 'MIM_B';
+$retour = 'http://localhost/www/retour_paiement.php?session=' . session_id() . '&user=' . $_SESSION['user']['id'];
+$api_key = getAPIKey($vendeur);
+$control = md5($api_key . '#' . $transaction . '#' . $montant . '#' . $vendeur . '#' . $retour . '#');
+
+// Inclure l'en-tête HTML
+require_once __DIR__ . '/includes/header.php';
 ?>
 
 <div class="page-container">
@@ -285,7 +104,7 @@ $dateRetourFormatted = DateTime::createFromFormat('Y-m-d', $dateRetour);
                         </div>
                     </div>
                 </div>
-                
+
                 <?php if (!empty($activites)): ?>
                 <div class="selected-activities">
                     <h4>Activités sélectionnées</h4>
@@ -326,57 +145,18 @@ $dateRetourFormatted = DateTime::createFromFormat('Y-m-d', $dateRetour);
                 </div>
             </div>
         </div>
-        
+
         <div class="payment-form">
-            <form method="post" action="">
-                <h2>Informations de paiement</h2>
-                
-                <div class="form-row">
-                    <label class="form-label" for="card_holder">Nom sur la carte</label>
-                    <input type="text" id="card_holder" name="card_holder" class="form-control" required autocomplete="off">
-                </div>
-                
-                <div class="form-row">
-                    <label class="form-label" for="card_number">Numéro de carte</label>
-                    <input type="text" id="card_number" name="card_number" class="form-control" placeholder="XXXX XXXX XXXX XXXX" required autocomplete="off">
-                </div>
-                
-                <div class="form-row-inline">
-                    <div class="form-row">
-                        <label class="form-label" for="expiry_month">Date d'expiration</label>
-                        <div class="expiry-inputs">
-                            <select id="expiry_month" name="expiry_month" class="form-control" required>
-                                <option value="">Mois</option>
-                                <?php for ($i = 1; $i <= 12; $i++): ?>
-                                <option value="<?php echo sprintf('%02d', $i); ?>"><?php echo sprintf('%02d', $i); ?></option>
-                                <?php endfor; ?>
-                            </select>
-                            <select id="expiry_year" name="expiry_year" class="form-control" required>
-                                <option value="">Année</option>
-                                <?php for ($i = date('Y'); $i <= date('Y') + 10; $i++): ?>
-                                <option value="<?php echo $i; ?>"><?php echo $i; ?></option>
-                                <?php endfor; ?>
-                            </select>
-                        </div>
-                    </div>
-                    
-                    <div class="form-row">
-                        <label class="form-label" for="cvv">CVV</label>
-                        <input type="text" id="cvv" name="cvv" class="form-control" placeholder="XXX" required autocomplete="off">
-                    </div>
-                </div>
-                
-                <div class="form-check">
-                    <input type="checkbox" id="terms" name="terms" required>
-                    <label for="terms">J'accepte les <a href="conditions.php" target="_blank">conditions générales de vente</a></label>
-                </div>
-                
-                <button type="submit" class="btn-payment">Payer <?php echo number_format($prix_total, 0, ',', ' '); ?> €</button>
+            <form action="https://www.plateforme-smc.fr/cybank/index.php" method="POST">
+                <input type="hidden" name="transaction" value="<?php echo $transaction; ?>">
+                <input type="hidden" name="montant" value="<?php echo $montant; ?>">
+                <input type="hidden" name="vendeur" value="<?php echo $vendeur; ?>">
+                <input type="hidden" name="retour" value="<?php echo $retour; ?>">
+                <input type="hidden" name="control" value="<?php echo $control; ?>">
+                <button type="submit" class="btn-payment">Carte bancaire</button>
             </form>
         </div>
     </div>
 </div>
 
-<script src="src/js/form-validation.js"></script>
-
-<?php require_once __DIR__ . '/includes/footer.php'; ?> 
+<?php require_once __DIR__ . '/includes/footer.php'; ?>

@@ -326,6 +326,74 @@
                 }
             },
             "statut": "confirm\u00e9"
+        },
+        {
+            "id": 15,
+            "transaction_id": "TR-20250511183223-2614",
+            "user_id": 12,
+            "voyage_id": 1,
+            "date_commande": "2025-05-11",
+            "date_depart": "2025-05-12",
+            "date_retour": "2025-05-22",
+            "nb_participants": 2,
+            "prix_total": 3608,
+            "options_choisies": {
+                "etape_1": {
+                    "activites": [
+                        {
+                            "nom": "Nuit dans le d\u00e9sert sous les \u00e9toiles",
+                            "prix": 80
+                        },
+                        {
+                            "nom": "Visite des kasbahs",
+                            "prix": 60
+                        },
+                        {
+                            "nom": "Cours de m\u00e9canique 4L",
+                            "prix": 120
+                        },
+                        {
+                            "nom": "D\u00eener traditionnel berb\u00e8re",
+                            "prix": 45
+                        }
+                    ]
+                }
+            },
+            "statut": "confirm\u00e9"
+        },
+        {
+            "id": 16,
+            "transaction_id": "TXN6820f07c6e0b9",
+            "user_id": 12,
+            "voyage_id": 2,
+            "date_commande": "2025-05-11",
+            "date_depart": "2025-05-22",
+            "date_retour": "2025-05-29",
+            "nb_participants": 1,
+            "prix_total": 1299,
+            "options_choisies": {
+                "etape_1": {
+                    "activites": []
+                }
+            },
+            "statut": "confirm\u00e9"
+        },
+        {
+            "id": 17,
+            "transaction_id": "TXN6820f4ad3eba7",
+            "user_id": 12,
+            "voyage_id": 2,
+            "date_commande": "2025-05-11",
+            "date_depart": "2025-05-21",
+            "date_retour": "2025-05-28",
+            "nb_participants": 1,
+            "prix_total": 1299,
+            "options_choisies": {
+                "etape_1": {
+                    "activites": []
+                }
+            },
+            "statut": "confirm\u00e9"
         }
     ]
 }
