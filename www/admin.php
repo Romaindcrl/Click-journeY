@@ -279,6 +279,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_role'])) {
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    // Appliquer le thème global depuis le localStorage
+    const globalTheme = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', globalTheme);
+    const themeToggleGlobal = document.getElementById('theme-toggle');
+    if (themeToggleGlobal) {
+        themeToggleGlobal.checked = globalTheme === 'dark';
+    }
+
     // Gestion du changement de rôle
     const roleSelects = document.querySelectorAll('.role-select');
     roleSelects.forEach(select => {

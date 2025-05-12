@@ -3,10 +3,10 @@
         {
             "id": 1,
             "login": "victor",
-            "password": "test",
+            "password": "testtest",
             "email": "victor.haegeman@gmail.com",
             "nom": "Haegeman",
-            "prenom": "Victor",
+            "prenom": "Victor a",
             "role": "admin",
             "permissions": [
                 "voir_profil",
@@ -82,7 +82,7 @@
             "email": "sophie.martin@gmail.com",
             "nom": "Martin",
             "prenom": "Sophie",
-            "role": "normal",
+            "role": "support",
             "permissions": [
                 "voir_profil",
                 "modifier_profil",
