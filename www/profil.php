@@ -158,6 +158,10 @@ $voyagesById = [];
 foreach ($voyages as $voyage) {
     $voyagesById[$voyage['id']] = $voyage;
 }
+// Charger les avis existants
+$reviewsJson = file_get_contents(__DIR__ . '/../data/avis.json');
+$reviewsData = json_decode($reviewsJson, true);
+$reviewsList = $reviewsData['avis'] ?? [];
 ?>
 
 <div class="page-container">
@@ -281,6 +285,16 @@ foreach ($voyages as $voyage) {
                         <?php
                         $voyage = $voyagesById[$commande['voyage_id']] ?? null;
                         if (!$voyage) continue;
+                        // Vérifier si l'utilisateur peut ajouter un avis
+                        $hasReviewed = false;
+                        if ($isOwner) {
+                            foreach ($reviewsList as $r) {
+                                if (isset($r['order_id']) && $r['order_id'] == $commande['id'] && $r['user_id'] == $userId) {
+                                    $hasReviewed = true;
+                                    break;
+                                }
+                            }
+                        }
                         ?>
                         <div class="order-card">
                             <div class="order-header">
@@ -318,6 +332,11 @@ foreach ($voyages as $voyage) {
                                 
                                 <div class="order-actions">
                                     <a href="voyage-details.php?id=<?php echo $commande['voyage_id']; ?>" class="btn btn-sm btn-primary">Voir le voyage</a>
+                                    <?php if ($isOwner && !$hasReviewed): ?>
+                                        <a href="add_review.php?order_id=<?php echo $commande['id']; ?>&voyage_id=<?php echo $commande['voyage_id']; ?>" class="btn btn-sm btn-secondary">Ajouter un avis</a>
+                                    <?php elseif ($hasReviewed): ?>
+                                        <span class="text-success">Avis déjà envoyé</span>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                         </div>

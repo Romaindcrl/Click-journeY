@@ -394,6 +394,57 @@
                 }
             },
             "statut": "confirm\u00e9"
+        },
+        {
+            "id": 18,
+            "transaction_id": "TXN6821b496e7407",
+            "user_id": 11,
+            "voyage_id": 2,
+            "date_commande": "2025-05-12",
+            "date_depart": "2025-05-16",
+            "date_retour": "2025-05-23",
+            "nb_participants": 1,
+            "prix_total": 1299,
+            "options_choisies": {
+                "etape_1": {
+                    "activites": []
+                }
+            },
+            "statut": "confirm\u00e9"
+        },
+        {
+            "id": 19,
+            "transaction_id": "TXN6821b57905955",
+            "user_id": 11,
+            "voyage_id": 2,
+            "date_commande": "2025-05-12",
+            "date_depart": "2025-05-24",
+            "date_retour": "2025-05-31",
+            "nb_participants": 1,
+            "prix_total": 1299,
+            "options_choisies": {
+                "etape_1": {
+                    "activites": []
+                }
+            },
+            "statut": "confirm\u00e9"
+        },
+        {
+            "id": 20,
+            "transaction_id": "TXN6821b5c182212",
+            "user_id": 11,
+            "voyage_id": 2,
+            "date_commande": "2025-05-12 10:48:19",
+            "date_depart": "2025-05-21",
+            "date_retour": "2025-05-28",
+            "nb_participants": 1,
+            "prix_total": 1299,
+            "options_choisies": {
+                "etape_1": {
+                    "activites": []
+                }
+            },
+            "statut": "confirm\u00e9"
         }
     ]
 }

@@ -22,7 +22,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $voyage_id = isset($_POST['voyage_id']) ? intval($_POST['voyage_id']) : 0;
     $date_depart = isset($_POST['date_depart']) ? $_POST['date_depart'] : '';
     $nb_participants = isset($_POST['nb_participants']) ? intval($_POST['nb_participants']) : 1;
-    $prix_total = isset($_POST['prix_total']) ? intval($_POST['prix_total']) : 0;
     
     if (empty($date_depart) || $voyage_id === 0) {
         $_SESSION['flash_message'] = 'Informations de réservation incomplètes.';
@@ -49,16 +48,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
     
-    // Récupérer les activités sélectionnées
+    // Calcul du prix total initial en fonction du nombre de participants
+    $prix_total = $voyage['prix'] * $nb_participants;
+    
+    // Récupérer le nombre de bénéficiaires par activité et recalculer le prix
     $activites = [];
-    if (isset($voyage['activites']) && is_array($voyage['activites'])) {
-        foreach ($voyage['activites'] as $index => $activite) {
-            $activiteId = 'activite_' . $index;
-            if (isset($_POST[$activiteId])) {
+    if (isset($_POST['activites_counts']) && is_array($_POST['activites_counts'])) {
+        foreach ($_POST['activites_counts'] as $index => $count) {
+            $i = intval($index);
+            $q = intval($count);
+            if ($q > 0 && isset($voyage['activites'][$i])) {
+                $act = $voyage['activites'][$i];
                 $activites[] = [
-                    'nom' => $activite['nom'],
-                    'prix' => $activite['prix']
+                    'nom' => $act['nom'],
+                    'prix' => $act['prix'],
+                    'count' => $q
                 ];
+                $prix_total += $act['prix'] * $q;
             }
         }
     }
@@ -156,12 +162,12 @@ require_once __DIR__ . '/includes/header.php';
                 </div>
                 <?php if (!empty($activites)): ?>
                 <div class="selected-activities">
-                    <h4>Activités sélectionnées</h4>
+                    <h4>Options sélectionnées</h4>
                     <ul>
                         <?php foreach ($activites as $activite): ?>
                         <li>
-                            <span class="activity-name"><?php echo htmlspecialchars($activite['nom']); ?></span>
-                            <span class="activity-price"><?php echo number_format($activite['prix'] * $nb_participants, 0, ',', ' '); ?> €</span>
+                            <span class="activity-name"><?php echo htmlspecialchars($activite['nom']); ?> (<?php echo $activite['count']; ?> voyageur<?php echo $activite['count'] > 1 ? 's' : ''; ?>)</span>
+                            <span class="activity-price"><?php echo number_format($activite['prix'] * $activite['count'], 0, ',', ' '); ?> €</span>
                         </li>
                         <?php endforeach; ?>
                     </ul>
@@ -178,7 +184,7 @@ require_once __DIR__ . '/includes/header.php';
                         <?php
                         $activitesTotal = 0;
                         foreach ($activites as $activite) {
-                            $activitesTotal += $activite['prix'] * $nb_participants;
+                            $activitesTotal += $activite['prix'] * $activite['count'];
                         }
                         ?>
                         <span><?php echo number_format($activitesTotal, 0, ',', ' '); ?> €</span>

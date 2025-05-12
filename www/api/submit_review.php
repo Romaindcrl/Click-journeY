@@ -3,7 +3,7 @@
 session_start();
 
 // Vérifier si l'utilisateur est connecté
-if (!isset($_SESSION['user_id'])) {
+if (!isset($_SESSION['user']) || !isset($_SESSION['user']['id'])) {
     header('Content-Type: application/json');
     echo json_encode(['success' => false, 'message' => 'Vous devez être connecté pour soumettre un avis']);
     exit;
@@ -16,9 +16,13 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
-// Récupérer les données JSON de la requête
-$json_data = file_get_contents('php://input');
-$data = json_decode($json_data, true);
+// Récupérer les données JSON de la requête ou utiliser $_POST pour les formulaires
+if (strpos($_SERVER['CONTENT_TYPE'] ?? '', 'application/json') !== false) {
+    $json_data = file_get_contents('php://input');
+    $data = json_decode($json_data, true);
+} else {
+    $data = $_POST;
+}
 
 // Vérifier que les données requises sont présentes
 if (!isset($data['order_id']) || !isset($data['voyage_id']) || !isset($data['rating']) || !isset($data['comment'])) {
@@ -50,20 +54,21 @@ if (empty($comment)) {
 // Chemin vers le fichier des avis
 $reviews_file = __DIR__ . '/../../data/avis.json';
 
-// Créer le fichier s'il n'existe pas
+// Créer le fichier s'il n'existe pas avec tableau 'avis'
 if (!file_exists($reviews_file)) {
-    file_put_contents($reviews_file, json_encode([]));
+    file_put_contents($reviews_file, json_encode(['avis' => []], JSON_PRETTY_PRINT));
 }
 
-// Lire les avis existants
-$reviews = json_decode(file_get_contents($reviews_file), true);
-if (!is_array($reviews)) {
-    $reviews = [];
+// Lire les avis existants et extraire le tableau 'avis'
+$data = json_decode(file_get_contents($reviews_file), true);
+if (!isset($data['avis']) || !is_array($data['avis'])) {
+    $data['avis'] = [];
 }
+$reviews = $data['avis'];
 
 // Vérifier si l'utilisateur a déjà donné un avis pour cette commande
 foreach ($reviews as $review) {
-    if ($review['order_id'] === $order_id && $review['user_id'] === $_SESSION['user_id']) {
+    if ($review['order_id'] === $order_id && $review['user_id'] === $_SESSION['user']['id']) {
         header('Content-Type: application/json');
         echo json_encode(['success' => false, 'message' => 'Vous avez déjà donné un avis pour cette commande']);
         exit;
@@ -71,21 +76,25 @@ foreach ($reviews as $review) {
 }
 
 // Préparer le nouvel avis
+$user = $_SESSION['user'];
 $new_review = [
     'id' => uniqid(),
-    'user_id' => $_SESSION['user_id'],
+    'user_id' => $user['id'],
+    'user_prenom' => $user['prenom'],
+    'user_nom' => $user['nom'],
     'order_id' => $order_id,
     'voyage_id' => $voyage_id,
-    'rating' => $rating,
-    'comment' => $comment,
-    'date' => date('Y-m-d H:i:s')
+    'note' => $rating,
+    'commentaire' => $comment,
+    'date' => date('Y-m-d H:i:s'),
+    'statut' => 'publié'
 ];
 
-// Ajouter l'avis
-$reviews[] = $new_review;
+// Ajouter l'avis au tableau 'avis'
+$data['avis'][] = $new_review;
 
 // Enregistrer les avis
-if (file_put_contents($reviews_file, json_encode($reviews, JSON_PRETTY_PRINT))) {
+if (file_put_contents($reviews_file, json_encode($data, JSON_PRETTY_PRINT))) {
     header('Content-Type: application/json');
     echo json_encode(['success' => true, 'message' => 'Avis enregistré avec succès']);
 } else {

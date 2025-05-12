@@ -16,7 +16,7 @@ $control_calcule = md5($api_key . '#' . $transaction . '#' . $montant . '#' . $v
 
 // Vérification d'intégrité
 if ($control !== $control_calcule) {
-    echo "<h1>Erreur : Vérification de l’intégrité échouée</h1>";
+    echo "<h1>Erreur : Vérification de l'intégrité échouée</h1>";
     echo "<pre>";
     echo "CONTROL REÇU   : " . htmlspecialchars($control) . "\n";
     echo "CONTROL CALCULÉ: " . htmlspecialchars($control_calcule) . "\n\n";
@@ -79,7 +79,7 @@ if ($statut === 'accepted') {
         'transaction_id' => $transaction,
         'user_id' => $user_id,
         'voyage_id' => $reservation['voyage_id'],
-        'date_commande' => date('Y-m-d'),
+        'date_commande' => date('Y-m-d H:i:s'),
         'date_depart' => $reservation['date_depart'],
         'date_retour' => $dateRetour,
         'nb_participants' => $reservation['nb_participants'],

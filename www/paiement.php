@@ -63,7 +63,10 @@ $dateRetourFormatted = DateTime::createFromFormat('Y-m-d', $dateRetour);
 $montant = number_format($prix_total, 2, '.', '');
 $transaction = uniqid('TXN');
 $vendeur = 'MIM_B';
-$retour = 'http://localhost/www/retour_paiement.php?session=' . session_id() . '&user=' . $_SESSION['user']['id'];
+$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+$host = $_SERVER['HTTP_HOST'];
+$basePath = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
+$retour = $protocol . '://' . $host . $basePath . '/retour_paiement.php?session=' . session_id() . '&user=' . $_SESSION['user']['id'];
 $api_key = getAPIKey($vendeur);
 $control = md5($api_key . '#' . $transaction . '#' . $montant . '#' . $vendeur . '#' . $retour . '#');
 

@@ -52,7 +52,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Vérifier et récupérer les données du formulaire
     $dateDepart = isset($_POST['date_depart']) ? $_POST['date_depart'] : '';
     $nbParticipants = isset($_POST['nb_participants']) ? intval($_POST['nb_participants']) : 1;
-    $prixTotal = isset($_POST['prix_total']) ? intval($_POST['prix_total']) : $voyage['prix'];
+    // Calcul du prix total initial en fonction du nombre de participants
+    $prixTotal = $voyage['prix'] * $nbParticipants;
     
     // Débogage - Vérifier les valeurs soumises
     error_log("Formulaire soumis: date=" . $dateDepart . ", participants=" . $nbParticipants . ", prix=" . $prixTotal);
@@ -62,16 +63,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['flash_type'] = 'error';
     } else {
         $activites = [];
-        
-        // Récupérer les activités sélectionnées
-        if (isset($voyage['activites']) && is_array($voyage['activites'])) {
-            foreach ($voyage['activites'] as $index => $activite) {
-                $activiteId = 'activite_' . $index;
-                if (isset($_POST[$activiteId])) {
+        // Récupérer le nombre de bénéficiaires par activité et recalculer le prix
+        if (isset($_POST['activites_counts']) && is_array($_POST['activites_counts'])) {
+            foreach ($_POST['activites_counts'] as $index => $count) {
+                $i = intval($index);
+                $q = intval($count);
+                if ($q > 0 && isset($voyage['activites'][$i])) {
+                    $act = $voyage['activites'][$i];
                     $activites[] = [
-                        'nom' => $activite['nom'],
-                        'prix' => $activite['prix']
+                        'nom' => $act['nom'],
+                        'prix' => $act['prix'],
+                        'count' => $q
                     ];
+                    $prixTotal += $act['prix'] * $q;
                 }
             }
         }
@@ -141,19 +145,13 @@ $tomorrow = date('Y-m-d', strtotime('+1 day'));
                 
                 <?php if (isset($voyage['activites']) && !empty($voyage['activites'])): ?>
                 <div class="form-section">
-                    <h3>Activités optionnelles</h3>
-                    <p class="section-description">Sélectionnez les activités que vous souhaitez ajouter à votre voyage :</p>
-                    
-                    <div class="activity-list">
-                        <?php foreach ($voyage['activites'] as $index => $activite): ?>
-                        <div class="activity-checkbox">
-                            <input type="checkbox" id="activite_<?= $index ?>" name="activite_<?= $index ?>" data-price="<?= $activite['prix'] ?>">
-                            <label for="activite_<?= $index ?>"><?= htmlspecialchars($activite['nom']) ?></label>
-                            <div class="activity-price"><?= number_format($activite['prix'], 0, ',', ' ') ?> €</div>
-                        </div>
-                        <?php endforeach; ?>
-                    </div>
+                    <h3>Options supplémentaires</h3>
+                    <p class="section-description">Pour chaque activité, indiquez combien de voyageurs souhaitent en bénéficier :</p>
+                    <div id="options-container"></div>
                 </div>
+                <script>
+                    window.ACTIVITES_DATA = <?= json_encode($voyage['activites']); ?>;
+                </script>
                 <?php endif; ?>
             
                 <div class="order-recap">
@@ -208,118 +206,4 @@ $tomorrow = date('Y-m-d', strtotime('+1 day'));
     <?php endif; ?>
 </div>
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const nbParticipantsSelect = document.getElementById('nb_participants');
-    const pricePerPerson = document.getElementById('price-per-person');
-    const nbParticipantsDisplay = document.getElementById('nb-participants');
-    const totalPriceDisplay = document.getElementById('total-price');
-    const totalPriceInput = document.getElementById('prix_total_input');
-    const activityCheckboxes = document.querySelectorAll('input[type="checkbox"][data-price]');
-    const selectedActivitiesContainer = document.getElementById('selected-activities-container');
-    const selectedActivitiesList = document.getElementById('selected-activities-list');
-    
-    if (!nbParticipantsSelect || !pricePerPerson || !nbParticipantsDisplay || !totalPriceDisplay || !totalPriceInput) {
-        console.error('One or more elements not found');
-        return;
-    }
-    
-    const basePrice = parseInt(pricePerPerson.getAttribute('data-base'), 10);
-    
-    // Formatter les nombres au format français
-    function formatPrice(price) {
-        return price.toLocaleString('fr-FR') + ' €';
-    }
-    
-    // Mettre à jour la liste des activités sélectionnées
-    function updateSelectedActivities() {
-        // Vider la liste
-        selectedActivitiesList.innerHTML = '';
-        
-        // Compteur pour savoir si des activités ont été sélectionnées
-        let activitiesSelected = false;
-        const participants = parseInt(nbParticipantsSelect.value, 10);
-        
-        // Parcourir toutes les cases à cocher
-        activityCheckboxes.forEach(checkbox => {
-            if (checkbox.checked) {
-                activitiesSelected = true;
-                const activityName = checkbox.nextElementSibling.textContent.trim();
-                const activityPrice = parseInt(checkbox.getAttribute('data-price'), 10);
-                const totalActivityPrice = activityPrice * participants;
-                
-                // Créer un élément pour l'activité
-                const activityItem = document.createElement('div');
-                activityItem.className = 'activity-item';
-                activityItem.innerHTML = `
-                    <div class="recap-item">
-                        <span>${activityName}</span>
-                        <strong>${formatPrice(totalActivityPrice)}</strong>
-                    </div>
-                `;
-                
-                // Ajouter l'élément à la liste
-                selectedActivitiesList.appendChild(activityItem);
-            }
-        });
-        
-        // Afficher ou masquer le conteneur en fonction des sélections
-        selectedActivitiesContainer.style.display = activitiesSelected ? 'block' : 'none';
-    }
-    
-    // Mettre à jour le prix total
-    function updateTotalPrice() {
-        const participants = parseInt(nbParticipantsSelect.value, 10);
-        
-        // Mettre à jour l'affichage du nombre de participants
-        nbParticipantsDisplay.textContent = participants;
-        
-        // Calculer le prix de base
-        let total = basePrice * participants;
-        
-        // Ajouter le prix des activités
-        activityCheckboxes.forEach(checkbox => {
-            if (checkbox.checked) {
-                const activityPrice = parseInt(checkbox.getAttribute('data-price'), 10);
-                total += activityPrice * participants;
-                
-                // Ajouter une classe pour l'animation
-                checkbox.closest('.activity-checkbox').classList.add('selected');
-            } else {
-                checkbox.closest('.activity-checkbox').classList.remove('selected');
-            }
-        });
-        
-        // Mettre à jour l'affichage du prix total
-        totalPriceDisplay.textContent = formatPrice(total);
-        
-        // Mettre à jour le champ caché
-        totalPriceInput.value = total;
-        
-        // Mettre à jour la liste des activités
-        updateSelectedActivities();
-    }
-    
-    // Ajouter les écouteurs d'événements
-    nbParticipantsSelect.addEventListener('change', updateTotalPrice);
-    
-    activityCheckboxes.forEach(checkbox => {
-        checkbox.addEventListener('change', updateTotalPrice);
-    });
-    
-    // Initialiser les calculs
-    updateTotalPrice();
-    
-    // Vérifier la soumission du formulaire
-    const form = document.getElementById('personnalisation-form');
-    form.addEventListener('submit', function(e) {
-        // Vérifier que la date est sélectionnée
-        const dateInput = document.getElementById('date_depart');
-        if (!dateInput.value) {
-            e.preventDefault();
-            alert('Veuillez sélectionner une date de départ.');
-            dateInput.focus();
-        }
-    });
-});
-</script> 
+<?php require_once __DIR__ . '/includes/footer.php'; ?> 
