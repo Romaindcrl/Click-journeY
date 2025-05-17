@@ -12,24 +12,6 @@
             "statut": "publi\u00e9"
         },
         {
-            "id": "6821bfd1c21d9",
-            "user_id": 11,
-            "order_id": "18",
-            "voyage_id": "2",
-            "rating": 5,
-            "comment": "test",
-            "date": "2025-05-12 11:30:57"
-        },
-        {
-            "id": "6821c18e8f770",
-            "user_id": 11,
-            "voyage_id": 2,
-            "order_id": 19,
-            "note": 5,
-            "comment": "test",
-            "date": "2025-05-12 11:38:22"
-        },
-        {
             "id": "6821c2701102d",
             "user_id": 11,
             "user_prenom": "Manon",
