@@ -1,0 +1,39 @@
+/* Styles spécifiques pour la page d'accueil */
+.destination-rating {
+    display: flex;
+    align-items: center;
+    margin: 0.5rem 0 1rem;
+}
+
+.destination-rating i {
+    color: #ffc107;
+    font-size: 1rem;
+    margin-right: 0.2rem;
+}
+
+.rating-count {
+    color: #6c757d;
+    font-size: 0.9rem;
+    margin-left: 0.5rem;
+}
+
+.testimonial-rating {
+    margin: 0.5rem 0;
+}
+
+.testimonial-rating i {
+    color: #e2e2e2;
+    font-size: 1rem;
+}
+
+.testimonial-rating i.active {
+    color: #ffc107;
+}
+
+[data-theme="dark"] .rating-count {
+    color: #aaa;
+}
+
+[data-theme="dark"] .testimonial-rating i:not(.active) {
+    color: #444;
+} 
