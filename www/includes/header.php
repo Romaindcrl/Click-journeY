@@ -31,6 +31,7 @@ $is_admin = $user_logged_in && $_SESSION['user']['role'] === 'admin';
     <!-- Feuilles de style -->
     <link rel="stylesheet" href="src/css/style.css">
     <link rel="stylesheet" href="src/css/header-specific.css">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="icon" href="src/images/logo.png" type="image/png">
 

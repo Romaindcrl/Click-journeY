@@ -5,7 +5,7 @@
             "login": "romaindcrl",
             "password": "testtest",
             "email": "romaindcrl@proton.me",
-            "nom": "DECRAND LARDIÈRE",
+            "nom": "DECRAND LARDI\u00c8RE",
             "prenom": "Romain",
             "role": "admin"
         },
@@ -97,12 +97,13 @@
             "email": "charlotte@gmail.com",
             "nom": "charlotte",
             "prenom": "charlotte",
-            "role": "support"
+            "role": "support",
+            "adresse": "Manent"
         }
     ],
     "roles": {
         "normal": {
-            "description": "Utilisateur standard du site pouvant consulter et réserver des voyages",
+            "description": "Utilisateur standard du site pouvant consulter et r\u00e9server des voyages",
             "permissions": [
                 "voir_profil",
                 "modifier_profil",
@@ -110,7 +111,7 @@
             ]
         },
         "vip": {
-            "description": "Utilisateur premium bénéficiant d'avantages et d'offres spéciales",
+            "description": "Utilisateur premium b\u00e9n\u00e9ficiant d'avantages et d'offres sp\u00e9ciales",
             "permissions": [
                 "voir_profil",
                 "modifier_profil",
@@ -119,7 +120,7 @@
             ]
         },
         "moderateur": {
-            "description": "Utilisateur pouvant modérer les avis et certains contenus du site",
+            "description": "Utilisateur pouvant mod\u00e9rer les avis et certains contenus du site",
             "permissions": [
                 "voir_profil",
                 "modifier_profil",
@@ -129,7 +130,7 @@
             ]
         },
         "support": {
-            "description": "Membre de l'équipe support client pouvant gérer les commandes et aider les utilisateurs",
+            "description": "Membre de l'\u00e9quipe support client pouvant g\u00e9rer les commandes et aider les utilisateurs",
             "permissions": [
                 "voir_profil",
                 "modifier_profil",
@@ -139,7 +140,7 @@
             ]
         },
         "admin": {
-            "description": "Administrateur du site avec accès complet à toutes les fonctionnalités",
+            "description": "Administrateur du site avec acc\u00e8s complet \u00e0 toutes les fonctionnalit\u00e9s",
             "permissions": [
                 "voir_profil",
                 "modifier_profil",

@@ -138,9 +138,6 @@ body {
 
 /* Header */
 header {
-    background-color: var(--header-bg);
-    padding: 0.5rem 0;
-    box-shadow: var(--shadow-sm);
     position: sticky;
     top: 0;
     z-index: 1000;
@@ -152,7 +149,6 @@ nav {
     align-items: center;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 1rem;
 }
 
 .logo-container {
@@ -171,41 +167,18 @@ nav {
     gap: 0.3rem;
 }
 
-.logo-img {
-    width: 20px;
-    height: 20px;
-    object-fit: contain;
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
-}
-
-.logo-text {
-    font-weight: 700;
-    font-size: 1.2rem;
-    color: #4169E1;
-}
-
 .nav-links {
     display: flex;
     list-style: none;
     margin: 0;
     padding: 0;
-    gap: 1rem;
     align-items: center;
 }
 
 .nav-links a {
-    color: var(--text-color);
     text-decoration: none;
     font-weight: 500;
-    padding: 0.3rem 0.5rem;
-    border-radius: 4px;
     transition: all 0.3s ease;
-    font-size: 0.9rem;
-}
-
-.nav-links a:hover {
-    color: #4169E1;
-    background-color: rgba(65, 105, 225, 0.1);
 }
 
 /* Boutons */
@@ -229,36 +202,6 @@ nav {
 .btn-primary:hover {
     background-color: var(--primary-hover);
     transform: translateY(-1px);
-}
-
-.btn-inscription {
-    background-color: #4169E1;
-    color: white;
-    border-radius: 50px;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 6px rgba(65, 105, 225, 0.2);
-    font-weight: 600;
-}
-
-.btn-inscription:hover {
-    background-color: #3251AC;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 8px rgba(65, 105, 225, 0.3);
-}
-
-.btn-connexion {
-    background-color: #4169E1;
-    color: white;
-    border-radius: 50px;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 6px rgba(65, 105, 225, 0.2);
-    font-weight: 600;
-}
-
-.btn-connexion:hover {
-    background-color: #3251AC;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 8px rgba(65, 105, 225, 0.3);
 }
 
 .btn-danger {

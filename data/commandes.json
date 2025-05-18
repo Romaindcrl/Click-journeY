@@ -40,7 +40,7 @@
                     ]
                 }
             },
-            "statut": "confirm\u00e9"
+            "statut": "confirmé"
         },
         {
             "id": 2,
@@ -62,7 +62,7 @@
                             "day": 1
                         },
                         {
-                            "nom": "D\u00e9gustation de vins locaux",
+                            "nom": "Dégustation de vins locaux",
                             "prix": 65,
                             "count": 1,
                             "day": 1
@@ -74,7 +74,7 @@
                             "day": 5
                         },
                         {
-                            "nom": "D\u00e9gustation de vins locaux",
+                            "nom": "Dégustation de vins locaux",
                             "prix": 65,
                             "count": 1,
                             "day": 5
@@ -82,7 +82,7 @@
                     ]
                 }
             },
-            "statut": "confirm\u00e9"
+            "statut": "confirmé"
         },
         {
             "id": 3,
@@ -106,7 +106,7 @@
                     ]
                 }
             },
-            "statut": "confirm\u00e9"
+            "statut": "confirmé"
         },
         {
             "id": 4,
@@ -142,7 +142,7 @@
                     ]
                 }
             },
-            "statut": "confirm\u00e9"
+            "statut": "confirmé"
         },
         {
             "id": 5,
@@ -158,19 +158,19 @@
                 "etape_1": {
                     "activites": [
                         {
-                            "nom": "Cours de cuisine proven\u00e7ale",
+                            "nom": "Cours de cuisine provençale",
                             "prix": 85,
                             "count": 1,
                             "day": 1
                         },
                         {
-                            "nom": "Visite de villages perch\u00e9s",
+                            "nom": "Visite de villages perchés",
                             "prix": 50,
                             "count": 1,
                             "day": 4
                         },
                         {
-                            "nom": "Cours de cuisine proven\u00e7ale",
+                            "nom": "Cours de cuisine provençale",
                             "prix": 85,
                             "count": 1,
                             "day": 4
@@ -178,7 +178,7 @@
                     ]
                 }
             },
-            "statut": "confirm\u00e9"
+            "statut": "confirmé"
         }
     ]
 }
