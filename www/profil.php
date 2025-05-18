@@ -8,8 +8,8 @@ require_once __DIR__ . '/check_auth.php';
 // Vérifier si l'utilisateur est connecté
 checkAuth();
 
-// ID de l'utilisateur connecté (si présent)
-$sessionUserId = $_SESSION['user']['id'] ?? null;
+// ID de l'utilisateur connecté (cast en integer)
+$sessionUserId = intval($_SESSION['user']['id'] ?? 0);
 // Récupérer l'ID de l'utilisateur à afficher
 $userId = isset($_GET['id']) ? intval($_GET['id']) : $sessionUserId;
 
@@ -55,7 +55,7 @@ $commandes = $commandesData['commandes'] ?? [];
 // Filtrer les commandes de l'utilisateur
 $userCommandes = [];
 foreach ($commandes as $commande) {
-    if ($commande['user_id'] === $userId) {
+    if (intval($commande['user_id']) === $userId) {
         $userCommandes[] = $commande;
     }
 }
@@ -310,28 +310,77 @@ $reviewsList = $reviewsData['avis'] ?? [];
 
                                 <?php if (!empty($commande['options_choisies'])): ?>
                                     <div class="order-options">
-                                        <p><strong>Options choisies:</strong></p>
-                                        <ul>
-                                            <?php foreach ($commande['options_choisies'] as $etapeId => $options): ?>
-                                                <li>
-                                                    <strong>Étape <?php echo str_replace('etape_', '', $etapeId); ?>:</strong>
-                                                    <div class="option-details">
-                                                        <?php
-                                                        if (isset($options['hebergement'])) echo '<span class="option-item"><strong>Hébergement:</strong> ' . htmlspecialchars($options['hebergement']) . '</span>';
-                                                        if (isset($options['restauration'])) echo '<span class="option-item"><strong>Restauration:</strong> ' . htmlspecialchars($options['restauration']) . '</span>';
-                                                        if (isset($options['activites']) && is_array($options['activites'])) echo '<span class="option-item"><strong>Activités:</strong> ' . count($options['activites']) . '</span>';
-                                                        ?>
-                                                    </div>
-                                                </li>
+                                        <button type="button" class="toggle-options" onclick="toggleOptions(<?= $commande['id']; ?>)">Voir les options</button>
+                                        <div class="options-content collapsed" id="options-<?= $commande['id']; ?>">
+                                            <?php
+                                            // Réorganiser les activités par jour
+                                            $activitesParJour = [];
+                                            $hebergementParJour = [];
+                                            $restaurationParJour = [];
+
+                                            // Parcourir toutes les options et les regrouper par jour
+                                            foreach ($commande['options_choisies'] as $etapeId => $options) {
+                                                $etapeDay = (int)str_replace('etape_', '', $etapeId) + 1;
+
+                                                // Stocke l'hébergement et la restauration dans le jour de l'étape
+                                                if (isset($options['hebergement'])) {
+                                                    $hebergementParJour[$etapeDay] = $options['hebergement'];
+                                                }
+
+                                                if (isset($options['restauration'])) {
+                                                    $restaurationParJour[$etapeDay] = $options['restauration'];
+                                                }
+
+                                                // Pour les activités, on utilise le jour spécifié ou le jour de l'étape
+                                                if (!empty($options['activites']) && is_array($options['activites'])) {
+                                                    foreach ($options['activites'] as $act) {
+                                                        $actDay = isset($act['day']) ? $act['day'] : $etapeDay;
+                                                        if (!isset($activitesParJour[$actDay])) {
+                                                            $activitesParJour[$actDay] = [];
+                                                        }
+                                                        $activitesParJour[$actDay][] = $act;
+                                                    }
+                                                }
+                                            }
+
+                                            // Fusion des jours de toutes les options pour avoir une liste complète
+                                            $tousLesJours = array_unique(array_merge(
+                                                array_keys($activitesParJour),
+                                                array_keys($hebergementParJour),
+                                                array_keys($restaurationParJour)
+                                            ));
+                                            sort($tousLesJours);
+
+                                            // Afficher les options par jour
+                                            foreach ($tousLesJours as $jour):
+                                            ?>
+                                                <div class="order-day-section">
+                                                    <h4>Jour <?= $jour; ?></h4>
+                                                    <ul>
+                                                        <?php if (isset($hebergementParJour[$jour])): ?>
+                                                            <li><strong>Hébergement:</strong> <?= htmlspecialchars($hebergementParJour[$jour]); ?></li>
+                                                        <?php endif; ?>
+
+                                                        <?php if (isset($restaurationParJour[$jour])): ?>
+                                                            <li><strong>Restauration:</strong> <?= htmlspecialchars($restaurationParJour[$jour]); ?></li>
+                                                        <?php endif; ?>
+
+                                                        <?php if (isset($activitesParJour[$jour])): ?>
+                                                            <?php foreach ($activitesParJour[$jour] as $act): ?>
+                                                                <li><?= htmlspecialchars($act['nom']); ?> (<?= $act['count']; ?>) - <?= number_format($act['prix'] * $act['count'], 0, ',', ' '); ?> €</li>
+                                                            <?php endforeach; ?>
+                                                        <?php endif; ?>
+                                                    </ul>
+                                                </div>
                                             <?php endforeach; ?>
-                                        </ul>
+                                        </div>
                                     </div>
                                 <?php endif; ?>
 
                                 <div class="order-actions">
                                     <a href="voyage-details.php?id=<?php echo $commande['voyage_id']; ?>" class="btn btn-sm btn-primary">Voir le voyage</a>
                                     <?php if ($isOwner && !$hasReviewed): ?>
-                                        <a href="add_review.php?order_id=<?php echo $commande['id']; ?>&voyage_id=<?php echo $commande['voyage_id']; ?>" class="btn btn-sm btn-secondary">Ajouter un avis</a>
+                                        <a href="add_review.php?order_id=<?php echo $commande['id']; ?>&voyage_id=<?php echo $commande['voyage_id']; ?>" class="btn btn-sm btn-primary" style="background-color: var(--lapis-lazuli); border: none; color: white;">Ajouter un avis</a>
                                     <?php elseif ($hasReviewed): ?>
                                         <span class="text-success">Avis déjà envoyé</span>
                                     <?php endif; ?>
@@ -351,7 +400,14 @@ $reviewsList = $reviewsData['avis'] ?? [];
         // Vos scripts existants (sans la partie modal des avis)
     });
 </script>
-
+<script>
+    function toggleOptions(id) {
+        var content = document.getElementById('options-' + id);
+        if (content) {
+            content.classList.toggle('collapsed');
+        }
+    }
+</script>
 <?php
 require_once __DIR__ . '/includes/footer.php';
 ?>

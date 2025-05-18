@@ -121,9 +121,14 @@ require_once __DIR__ . '/includes/header.php';
                             <h4>Activités sélectionnées</h4>
                             <ul>
                                 <?php foreach ($activites as $activite): ?>
+                                    <?php
+                                    $dayLabel = isset($activite['day']) ? 'Jour ' . $activite['day'] . ' - ' : '';
+                                    $count = $activite['count'];
+                                    $price = $activite['prix'] * $count;
+                                    ?>
                                     <li>
-                                        <span class="activity-name"><?php echo htmlspecialchars($activite['nom']); ?></span>
-                                        <span class="activity-price"><?php echo number_format($activite['prix'] * $nb_participants, 0, ',', ' '); ?> €</span>
+                                        <span class="activity-name"><?php echo htmlspecialchars($dayLabel . $activite['nom'] . ' (' . $count . 'x)'); ?></span>
+                                        <span class="activity-price"><?php echo number_format($price, 0, ',', ' '); ?> €</span>
                                     </li>
                                 <?php endforeach; ?>
                             </ul>
@@ -142,7 +147,7 @@ require_once __DIR__ . '/includes/header.php';
                                 <?php
                                 $activitesTotal = 0;
                                 foreach ($activites as $activite) {
-                                    $activitesTotal += $activite['prix'] * $nb_participants;
+                                    $activitesTotal += $activite['prix'] * $activite['count'];
                                 }
                                 ?>
                                 <span><?php echo number_format($activitesTotal, 0, ',', ' '); ?> €</span>
