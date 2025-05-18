@@ -107,6 +107,78 @@
                 }
             },
             "statut": "confirm\u00e9"
+        },
+        {
+            "id": 4,
+            "transaction_id": "TXN682a2633b1c68",
+            "user_id": 10,
+            "voyage_id": 2,
+            "date_commande": "2025-05-18 20:26:05",
+            "date_depart": "2025-05-22",
+            "date_retour": "2025-05-29",
+            "nb_participants": 1,
+            "prix_total": 1504,
+            "options_choisies": {
+                "etape_1": {
+                    "activites": [
+                        {
+                            "nom": "Passage des cols alpins",
+                            "prix": 90,
+                            "count": 1,
+                            "day": 1
+                        },
+                        {
+                            "nom": "Visite de villages montagnards",
+                            "prix": 40,
+                            "count": 1,
+                            "day": 1
+                        },
+                        {
+                            "nom": "Atelier photo en montagne",
+                            "prix": 75,
+                            "count": 1,
+                            "day": 5
+                        }
+                    ]
+                }
+            },
+            "statut": "confirm\u00e9"
+        },
+        {
+            "id": 5,
+            "transaction_id": "TXN682a2665ddfab",
+            "user_id": 10,
+            "voyage_id": 3,
+            "date_commande": "2025-05-18 20:26:54",
+            "date_depart": "2025-05-23",
+            "date_retour": "2025-05-31",
+            "nb_participants": 3,
+            "prix_total": 3817,
+            "options_choisies": {
+                "etape_1": {
+                    "activites": [
+                        {
+                            "nom": "Cours de cuisine proven\u00e7ale",
+                            "prix": 85,
+                            "count": 1,
+                            "day": 1
+                        },
+                        {
+                            "nom": "Visite de villages perch\u00e9s",
+                            "prix": 50,
+                            "count": 1,
+                            "day": 4
+                        },
+                        {
+                            "nom": "Cours de cuisine proven\u00e7ale",
+                            "prix": 85,
+                            "count": 1,
+                            "day": 4
+                        }
+                    ]
+                }
+            },
+            "statut": "confirm\u00e9"
         }
     ]
 }

@@ -255,7 +255,7 @@ $tomorrow = date('Y-m-d', strtotime('+1 day'));
                         </div>
 
                         <input type="hidden" id="prix_total_input" name="prix_total" value="<?= $voyage['prix'] ?>">
-                        <button type="submit" class="btn-reserver">Récapitulaif de la commande</button>
+                        <button type="submit" class="btn-reserver">Récapitulatif de la commande</button>
 
                         <div class="text-center mt-3">
                             <a href="voyages.php" class="btn btn-link">Retour aux voyages</a>

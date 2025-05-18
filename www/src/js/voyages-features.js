@@ -2,41 +2,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const sortSelect = document.getElementById('sort-select');
     const voyagesGrid = document.getElementById('voyages-grid');
 
-    if (sortSelect && voyagesGrid) {
-        sortSelect.addEventListener('change', function() {
-            sortVoyages(this.value);
-        });
-    }
-
-    function sortVoyages(sortValue) {
-        const voyages = Array.from(voyagesGrid.querySelectorAll('.voyage-card'));
-
-        voyages.sort((a, b) => {
-            switch (sortValue) {
-                case 'nom-asc':
-                    return a.dataset.nom.localeCompare(b.dataset.nom);
-                case 'nom-desc':
-                    return b.dataset.nom.localeCompare(a.dataset.nom);
-                case 'prix-asc':
-                    return parseFloat(a.dataset.prix) - parseFloat(b.dataset.prix);
-                case 'prix-desc':
-                    return parseFloat(b.dataset.prix) - parseFloat(a.dataset.prix);
-                case 'duree-asc':
-                    return parseInt(a.dataset.duree) - parseInt(b.dataset.duree);
-                case 'duree-desc':
-                    return parseInt(b.dataset.duree) - parseInt(a.dataset.duree);
-                default:
-                    return 0;
-            }
-        });
-
-        // Vider la grille
-        voyagesGrid.innerHTML = '';
-
-        // Réinsérer les éléments triés
-        voyages.forEach(voyage => voyagesGrid.appendChild(voyage));
-    }
-
     // Assurer que les liens fonctionnent correctement
     const allButtons = document.querySelectorAll('.btn-details, .btn-reserve');
 

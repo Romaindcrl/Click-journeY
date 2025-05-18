@@ -3,12 +3,154 @@
         {
             "id": 1,
             "login": "romaindcrl",
-            "password": "Testtest",
+            "password": "testtest",
             "email": "romaindcrl@proton.me",
-            "nom": "DECRAND",
+            "nom": "DECRAND LARDIÈRE",
             "prenom": "Romain",
-            "role": "admin",
-            "adresse": "Cergy Ville"
+            "role": "admin"
+        },
+        {
+            "id": 2,
+            "login": "Victor",
+            "password": "ClickJourney",
+            "email": "victor@gmail.com",
+            "nom": "Haegeman",
+            "prenom": "Victor",
+            "role": "normal"
+        },
+        {
+            "id": 3,
+            "login": "admin",
+            "password": "testtest",
+            "email": "admin@gmail.com",
+            "nom": "Admin",
+            "prenom": "Admin",
+            "role": "admin"
+        },
+        {
+            "id": 4,
+            "login": "vip",
+            "password": "testtest",
+            "email": "vip@gmail.com",
+            "nom": "Vip",
+            "prenom": "Vip",
+            "role": "vip"
+        },
+        {
+            "id": 5,
+            "login": "moderateur",
+            "password": "testtest",
+            "email": "moderateur@gmail.com",
+            "nom": "moderateur",
+            "prenom": "moderateur",
+            "role": "moderateur"
+        },
+        {
+            "id": 6,
+            "login": "support",
+            "password": "testtest",
+            "email": "support@gmail.com",
+            "nom": "support",
+            "prenom": "support",
+            "role": "support"
+        },
+        {
+            "id": 7,
+            "login": "Manon",
+            "password": "testtest",
+            "email": "manon@gmail.com",
+            "nom": "Manon",
+            "prenom": "Manon",
+            "role": "normal"
+        },
+        {
+            "id": 8,
+            "login": "Dieu",
+            "password": "testtest",
+            "email": "dieu@gmail.com",
+            "nom": "Dieu",
+            "prenom": "Dieu",
+            "role": "admin"
+        },
+        {
+            "id": 9,
+            "login": "Sidney",
+            "password": "testtest",
+            "email": "sidney@gmail.com",
+            "nom": "Sidney",
+            "prenom": "Sidney",
+            "role": "normal"
+        },
+        {
+            "id": 10,
+            "login": "Mathias",
+            "password": "testtest",
+            "email": "mathias@gmail.com",
+            "nom": "Mathias",
+            "prenom": "Mathias",
+            "role": "vip"
+        },
+        {
+            "id": 11,
+            "login": "Charlotte",
+            "password": "testtest",
+            "email": "charlotte@gmail.com",
+            "nom": "charlotte",
+            "prenom": "charlotte",
+            "role": "support"
         }
-    ]
+    ],
+    "roles": {
+        "normal": {
+            "description": "Utilisateur standard du site pouvant consulter et réserver des voyages",
+            "permissions": [
+                "voir_profil",
+                "modifier_profil",
+                "reserver_voyage"
+            ]
+        },
+        "vip": {
+            "description": "Utilisateur premium bénéficiant d'avantages et d'offres spéciales",
+            "permissions": [
+                "voir_profil",
+                "modifier_profil",
+                "reserver_voyage",
+                "acces_offres_speciales"
+            ]
+        },
+        "moderateur": {
+            "description": "Utilisateur pouvant modérer les avis et certains contenus du site",
+            "permissions": [
+                "voir_profil",
+                "modifier_profil",
+                "reserver_voyage",
+                "gerer_avis",
+                "voir_statistiques"
+            ]
+        },
+        "support": {
+            "description": "Membre de l'équipe support client pouvant gérer les commandes et aider les utilisateurs",
+            "permissions": [
+                "voir_profil",
+                "modifier_profil",
+                "reserver_voyage",
+                "gerer_commandes",
+                "voir_utilisateurs"
+            ]
+        },
+        "admin": {
+            "description": "Administrateur du site avec accès complet à toutes les fonctionnalités",
+            "permissions": [
+                "voir_profil",
+                "modifier_profil",
+                "reserver_voyage",
+                "gerer_utilisateurs",
+                "gerer_voyages",
+                "gerer_avis",
+                "gerer_commandes",
+                "acces_statistiques",
+                "acces_configuration"
+            ]
+        }
+    }
 }

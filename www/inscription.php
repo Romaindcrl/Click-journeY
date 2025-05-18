@@ -94,9 +94,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $users[] = $newUser;
 
-            // Enregistrer dans le format d'origine (avec clé "users" si nécessaire)
-            // Enregistrer dans le format attendu : objet racine avec clé "users"
-            $newJson = json_encode(['users' => $users], JSON_PRETTY_PRINT);
+            // Préserver les rôles et autres clés existantes
+            $jsonData['users'] = $users;
+            $newJson = json_encode($jsonData, JSON_PRETTY_PRINT);
             if (file_put_contents($usersFile, $newJson) !== false) {
                 header('Location: connexion.php?success=1');
                 exit();

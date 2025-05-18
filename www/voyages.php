@@ -44,6 +44,31 @@ if (!empty($searchTerm)) {
     $filteredVoyages = $voyages;
 }
 
+// Faire le tri des voyages côté serveur
+$sortValue = isset($_GET['sort']) ? $_GET['sort'] : 'nom-asc';
+if (!empty($sortValue)) {
+    switch ($sortValue) {
+        case 'nom-asc':
+            usort($filteredVoyages, fn($a, $b) => strcmp($a['nom'], $b['nom']));
+            break;
+        case 'nom-desc':
+            usort($filteredVoyages, fn($a, $b) => strcmp($b['nom'], $a['nom']));
+            break;
+        case 'prix-asc':
+            usort($filteredVoyages, fn($a, $b) => $a['prix'] <=> $b['prix']);
+            break;
+        case 'prix-desc':
+            usort($filteredVoyages, fn($a, $b) => $b['prix'] <=> $a['prix']);
+            break;
+        case 'duree-asc':
+            usort($filteredVoyages, fn($a, $b) => ($a['duree'] ?? 7) <=> ($b['duree'] ?? 7));
+            break;
+        case 'duree-desc':
+            usort($filteredVoyages, fn($a, $b) => ($b['duree'] ?? 7) <=> ($a['duree'] ?? 7));
+            break;
+    }
+}
+
 // Pagination
 $itemsPerPage = 9;
 $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
@@ -81,17 +106,20 @@ $paginatedVoyages = array_slice($filteredVoyages, $offset, $itemsPerPage);
             <p>Essayez d'autres mots-clés ou <a href="voyages.php">consultez tous nos voyages</a>.</p>
         </div>
     <?php else: ?>
-        <div class="sort-options">
+        <form action="voyages.php" method="GET" class="sort-options" id="sort-form">
             <label for="sort-select">Trier par:</label>
-            <select id="sort-select">
-                <option value="nom-asc">Nom (A-Z)</option>
-                <option value="nom-desc">Nom (Z-A)</option>
-                <option value="prix-asc">Prix (croissant)</option>
-                <option value="prix-desc">Prix (décroissant)</option>
-                <option value="duree-asc">Durée (croissante)</option>
-                <option value="duree-desc">Durée (décroissante)</option>
+            <select id="sort-select" name="sort" onchange="document.getElementById('sort-form').submit()">
+                <option value="nom-asc" <?= $sortValue === 'nom-asc' ? 'selected' : '' ?>>Nom (A-Z)</option>
+                <option value="nom-desc" <?= $sortValue === 'nom-desc' ? 'selected' : '' ?>>Nom (Z-A)</option>
+                <option value="prix-asc" <?= $sortValue === 'prix-asc' ? 'selected' : '' ?>>Prix (croissant)</option>
+                <option value="prix-desc" <?= $sortValue === 'prix-desc' ? 'selected' : '' ?>>Prix (décroissant)</option>
+                <option value="duree-asc" <?= $sortValue === 'duree-asc' ? 'selected' : '' ?>>Durée (croissante)</option>
+                <option value="duree-desc" <?= $sortValue === 'duree-desc' ? 'selected' : '' ?>>Durée (décroissante)</option>
             </select>
-        </div>
+            <?php if (!empty($searchTerm)): ?>
+                <input type="hidden" name="q" value="<?php echo htmlspecialchars($searchTerm); ?>">
+            <?php endif; ?>
+        </form>
 
         <div class="voyages-grid" id="voyages-grid">
             <?php foreach ($paginatedVoyages as $voyage): ?>
