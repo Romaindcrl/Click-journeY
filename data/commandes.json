@@ -1,5 +1,130 @@
 {
     "commandes": [
-
+        {
+            "id": 1,
+            "transaction_id": "TXN682a18760917c",
+            "user_id": 1,
+            "voyage_id": 2,
+            "date_commande": "2025-05-18 19:27:28",
+            "date_depart": "2025-05-21",
+            "date_retour": "2025-05-28",
+            "nb_participants": 2,
+            "prix_total": 3128,
+            "options_choisies": {
+                "etape_1": {
+                    "activites": [
+                        {
+                            "nom": "Passage des cols alpins",
+                            "prix": 90,
+                            "count": 4,
+                            "day": 1
+                        },
+                        {
+                            "nom": "Fondue en refuge",
+                            "prix": 55,
+                            "count": 1,
+                            "day": 1
+                        },
+                        {
+                            "nom": "Visite de villages montagnards",
+                            "prix": 40,
+                            "count": 1,
+                            "day": 7
+                        },
+                        {
+                            "nom": "Atelier photo en montagne",
+                            "prix": 75,
+                            "count": 1,
+                            "day": 7
+                        }
+                    ]
+                }
+            },
+            "statut": "confirm\u00e9"
+        },
+        {
+            "id": 2,
+            "transaction_id": "TXN682a1bab5832a",
+            "user_id": 1,
+            "voyage_id": 2,
+            "date_commande": "2025-05-18 19:41:09",
+            "date_depart": "2025-05-29",
+            "date_retour": "2025-06-05",
+            "nb_participants": 1,
+            "prix_total": 1529,
+            "options_choisies": {
+                "etape_1": {
+                    "activites": [
+                        {
+                            "nom": "Fondue en refuge",
+                            "prix": 55,
+                            "count": 2,
+                            "day": 1
+                        },
+                        {
+                            "nom": "Visite de villages montagnards",
+                            "prix": 40,
+                            "count": 3,
+                            "day": 1
+                        }
+                    ]
+                }
+            },
+            "statut": "confirm\u00e9"
+        },
+        {
+            "id": 3,
+            "transaction_id": "TXN682a1bab5832a",
+            "user_id": 1,
+            "voyage_id": 9,
+            "date_commande": "2025-05-18 19:41:09",
+            "date_depart": "2025-05-28",
+            "date_retour": "2025-06-07",
+            "nb_participants": 5,
+            "prix_total": 10885,
+            "options_choisies": {
+                "etape_1": {
+                    "activites": [
+                        {
+                            "nom": "Ch\u00e2teau hant\u00e9",
+                            "prix": 65,
+                            "count": 1,
+                            "day": 1
+                        },
+                        {
+                            "nom": "Randonn\u00e9e dans les Highlands",
+                            "prix": 70,
+                            "count": 1,
+                            "day": 1
+                        },
+                        {
+                            "nom": "Observation de phoques",
+                            "prix": 90,
+                            "count": 1,
+                            "day": 1
+                        },
+                        {
+                            "nom": "Visite de distillerie",
+                            "prix": 85,
+                            "count": 18,
+                            "day": 7
+                        },
+                        {
+                            "nom": "Ch\u00e2teau hant\u00e9",
+                            "prix": 65,
+                            "count": 1,
+                            "day": 7
+                        },
+                        {
+                            "nom": "Randonn\u00e9e dans les Highlands",
+                            "prix": 70,
+                            "count": 1,
+                            "day": 7
+                        }
+                    ]
+                }
+            },
+            "statut": "confirm\u00e9"
+        }
     ]
 }

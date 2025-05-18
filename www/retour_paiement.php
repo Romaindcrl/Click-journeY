@@ -40,10 +40,6 @@ if ($statut === 'accepted') {
 
     // Récupérer les réservations du panier
     $reservations = $_SESSION['reservations'];
-    // Pour l'instant, on traite la première réservation (ou adapter pour plusieurs)
-    $reservation = reset($reservations);
-
-    $user_id = intval($user_id);
 
     // Charger les données des voyages
     $voyagesFile = __DIR__ . '/../data/voyages.json';
@@ -56,19 +52,7 @@ if ($statut === 'accepted') {
     $voyagesData = json_decode($voyagesJson, true);
     $voyages = $voyagesData['voyages'] ?? [];
 
-    // Trouver le voyage sélectionné
-    $voyage = null;
-    foreach ($voyages as $v) {
-        if ($v['id'] == $reservation['voyage_id']) {
-            $voyage = $v;
-            break;
-        }
-    }
-
-    $duree = $voyage['duree'] ?? 7;
-    $dateRetour = date('Y-m-d', strtotime($reservation['date_depart'] . ' + ' . $duree . ' days'));
-
-    // Charger les commandes
+    // Charger les commandes existantes
     $commandesFile = __DIR__ . '/../data/commandes.json';
     $commandes = [];
     if (file_exists($commandesFile)) {
@@ -77,26 +61,41 @@ if ($statut === 'accepted') {
         $commandes = $commandesData['commandes'] ?? [];
     }
 
-    // Créer une nouvelle commande
-    $nouvelleCommande = [
-        'id' => count($commandes) + 1,
-        'transaction_id' => $transaction,
-        'user_id' => $user_id,
-        'voyage_id' => $reservation['voyage_id'],
-        'date_commande' => date('Y-m-d H:i:s'),
-        'date_depart' => $reservation['date_depart'],
-        'date_retour' => $dateRetour,
-        'nb_participants' => $reservation['nb_participants'],
-        'prix_total' => $reservation['prix_total'],
-        'options_choisies' => [
-            'etape_1' => [
-                'activites' => $reservation['activites'] ?? []
-            ]
-        ],
-        'statut' => 'confirmé'
-    ];
+    $user_id = intval($user_id);
 
-    $commandes[] = $nouvelleCommande;
+    // Créer une commande pour chaque réservation
+    foreach ($reservations as $reservation) {
+        // Trouver le voyage sélectionné
+        $voyage = null;
+        foreach ($voyages as $v) {
+            if ($v['id'] == $reservation['voyage_id']) {
+                $voyage = $v;
+                break;
+            }
+        }
+        $duree = $voyage['duree'] ?? 7;
+        $dateRetour = date('Y-m-d', strtotime($reservation['date_depart'] . ' + ' . $duree . ' days'));
+
+        $nouvelleCommande = [
+            'id' => count($commandes) + 1,
+            'transaction_id' => $transaction,
+            'user_id' => $user_id,
+            'voyage_id' => $reservation['voyage_id'],
+            'date_commande' => date('Y-m-d H:i:s'),
+            'date_depart' => $reservation['date_depart'],
+            'date_retour' => $dateRetour,
+            'nb_participants' => $reservation['nb_participants'],
+            'prix_total' => $reservation['prix_total'],
+            'options_choisies' => [
+                'etape_1' => [
+                    'activites' => $reservation['activites'] ?? []
+                ]
+            ],
+            'statut' => 'confirmé'
+        ];
+        $commandes[] = $nouvelleCommande;
+    }
+
     file_put_contents($commandesFile, json_encode(['commandes' => $commandes], JSON_PRETTY_PRINT));
 
     // Nettoyer la session de réservation
@@ -104,8 +103,8 @@ if ($statut === 'accepted') {
     $_SESSION['flash_message'] = 'Paiement validé avec succès !';
     $_SESSION['flash_type'] = 'success';
 
-    // Rediriger vers la page de confirmation
-    header('Location: confirmation.php?id=' . $nouvelleCommande['id']);
+    // Rediriger vers la page de confirmation avec la transaction
+    header('Location: confirmation.php?transaction=' . urlencode($transaction));
     exit;
 } else {
     $_SESSION['flash_message'] = 'Paiement refusé. Veuillez réessayer.';
