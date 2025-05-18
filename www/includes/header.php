@@ -45,7 +45,10 @@ $is_admin = $user_logged_in && $_SESSION['user']['role'] === 'admin';
     <link rel="stylesheet" href="src/css/header-specific.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="icon" href="src/images/logo.png" type="image/png">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="src/css/profil.css">
+    <link rel="stylesheet" href="src/css/form-validation.css">
+    <link rel="stylesheet" href="src/css/add-review.css">
 </head>
 
 <body>

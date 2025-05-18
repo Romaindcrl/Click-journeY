@@ -1,0 +1,101 @@
+:root {
+  --rich-black: #041728;
+  --lapis-lazuli: #2d5977;
+  --air-blue: #65A4CA;
+  --white: #FFFFFF;
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.page-container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.add-review-card {
+  background: var(--white);
+  border-radius: 12px;
+  box-shadow: var(--shadow-md);
+  padding: 2rem;
+  border: 1px solid rgba(101, 164, 202, 0.1);
+}
+
+.page-title {
+  font-family: 'Amarante', serif;
+  color: var(--lapis-lazuli);
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--rich-black);
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 0.9rem 1rem;
+  border: 1px solid var(--air-blue);
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: 'Poppins', sans-serif;
+  box-sizing: border-box;
+  background-color: var(--white);
+  color: var(--rich-black);
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--lapis-lazuli);
+  box-shadow: 0 0 0 3px rgba(45, 89, 119, 0.1);
+}
+
+.btn-primary {
+  background-color: var(--lapis-lazuli);
+  color: var(--white);
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+  background-color: #224760;
+  transform: translateY(-2px);
+}
+
+/* Styles pour étoiles cliquables */
+.rating-stars {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: center; /* Ajusté pour un meilleur centrage des étoiles */
+  gap: 0.5rem;
+}
+
+.rating-stars input {
+  display: none;
+}
+
+.rating-stars label {
+  font-size: 2.5rem;
+  color: var(--air-blue); /* Couleur initiale des étoiles */
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.rating-stars input:checked~label,
+.rating-stars label:hover,
+.rating-stars label:hover~label {
+  color: var(--lapis-lazuli); /* Couleur des étoiles sélectionnées/survolées */
+} 

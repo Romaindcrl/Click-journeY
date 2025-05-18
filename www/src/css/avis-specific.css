@@ -1,0 +1,54 @@
+/* Style spécifique à la page d'avis */
+.page-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+    font-family: 'Poppins', sans-serif;
+}
+
+.page-title {
+    font-family: 'Amarante', serif;
+    color: var(--rich-black);
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 2.5rem;
+    position: relative;
+    padding-bottom: 0.75rem;
+}
+
+.page-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--lapis-lazuli), var(--air-blue));
+    border-radius: 3px;
+}
+
+.btn-primary {
+    background-color: var(--lapis-lazuli);
+    color: white;
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    display: inline-block;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+}
+
+.btn-primary:hover {
+    background-color: #224760;
+    transform: translateY(-3px);
+    box-shadow: 0 4px 10px rgba(45, 89, 119, 0.2);
+}
+
+.centered-button {
+    text-align: center;
+    margin-top: 2rem;
+} 

@@ -250,42 +250,13 @@ $tomorrow = date('Y-m-d', strtotime('+1 day'));
                         </div>
 
                         <input type="hidden" id="prix_total_input" name="prix_total" value="<?= $voyage['prix'] ?>">
-                        <button type="submit" class="btn btn-primary btn-reserver"><?php echo $editing ? 'Enregistrer les modifications' : 'Passer au paiement'; ?></button>
+                        <button type="submit" class="btn-reserver">Passer au paiement</button>
 
                         <div class="text-center mt-3">
                             <a href="voyages.php" class="btn btn-link">Retour aux voyages</a>
                         </div>
                     </div>
                 </form>
-                <script>
-                    function toggleDay(dayIndex) {
-                        const content = document.getElementById('day-content-' + dayIndex);
-                        const header = content.previousElementSibling;
-                        const icon = header.querySelector('.toggle-icon');
-
-                        if (content.classList.contains('collapsed')) {
-                            content.classList.remove('collapsed');
-                            icon.textContent = '▼';
-                        } else {
-                            content.classList.add('collapsed');
-                            icon.textContent = '►';
-                        }
-                    }
-
-                    // Initialiser les icônes correctement
-                    document.addEventListener('DOMContentLoaded', function() {
-                        const contents = document.querySelectorAll('.day-content');
-                        contents.forEach(content => {
-                            const header = content.previousElementSibling;
-                            const icon = header.querySelector('.toggle-icon');
-                            if (content.classList.contains('collapsed')) {
-                                icon.textContent = '►';
-                            } else {
-                                icon.textContent = '▼';
-                            }
-                        });
-                    });
-                </script>
             </div>
         </div>
     <?php else: ?>

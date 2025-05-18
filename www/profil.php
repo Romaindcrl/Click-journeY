@@ -394,20 +394,4 @@ $reviewsList = $reviewsData['avis'] ?? [];
     </div>
 </div>
 
-<script src="src/js/form-validation.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Vos scripts existants (sans la partie modal des avis)
-    });
-</script>
-<script>
-    function toggleOptions(id) {
-        var content = document.getElementById('options-' + id);
-        if (content) {
-            content.classList.toggle('collapsed');
-        }
-    }
-</script>
-<?php
-require_once __DIR__ . '/includes/footer.php';
-?>
+<?php require_once __DIR__ . '/includes/footer.php'; ?>

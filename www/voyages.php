@@ -66,11 +66,9 @@ $paginatedVoyages = array_slice($filteredVoyages, $offset, $itemsPerPage);
     <?php endif; ?>
 
     <?php if (empty($filteredVoyages)): ?>
-        <div class="no-results">
-            <p>Aucun voyage ne correspond à votre recherche.</p>
-            <?php if (!empty($searchTerm)): ?>
-                <p>Essayez avec d'autres mots-clés ou <a href="voyages.php">consultez tous nos voyages</a>.</p>
-            <?php endif; ?>
+        <div class="no-voyages">
+            <p>Aucun voyage ne correspond à votre recherche "<?php echo htmlspecialchars($searchTerm); ?>".</p>
+            <p>Essayez d'autres mots-clés ou <a href="voyages.php">consultez tous nos voyages</a>.</p>
         </div>
     <?php else: ?>
         <div class="sort-options">
@@ -158,114 +156,4 @@ $paginatedVoyages = array_slice($filteredVoyages, $offset, $itemsPerPage);
     <?php endif; ?>
 </div>
 
-<style>
-    /* Variables CSS from admin.css needed for pagination */
-    :root {
-        --lapis-lazuli: #2d5977;
-        --air-blue: #65A4CA;
-        --white: #FFFFFF;
-    }
-
-    /* Pagination styles from admin.css */
-    .pagination {
-        display: flex;
-        justify-content: center;
-        margin-top: 2rem;
-        gap: 0.5rem;
-    }
-
-    .page-link {
-        display: inline-block;
-        padding: 0.5rem 1rem;
-        border: 1px solid var(--air-blue);
-        border-radius: 6px;
-        text-decoration: none;
-        color: var(--lapis-lazuli);
-        background-color: var(--white);
-        transition: all 0.2s ease;
-        font-weight: 500;
-    }
-
-    .page-link:hover {
-        background-color: var(--lapis-lazuli);
-        color: var(--white);
-        /* Ensure text is white on hover as per admin.css behavior */
-        border-color: var(--lapis-lazuli);
-    }
-
-    .page-link.active {
-        background-color: var(--lapis-lazuli);
-        color: var(--white);
-        /* Ensure text is white for active link */
-        border-color: var(--lapis-lazuli);
-    }
-</style>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const sortSelect = document.getElementById('sort-select');
-        const voyagesGrid = document.getElementById('voyages-grid');
-
-        if (sortSelect && voyagesGrid) {
-            sortSelect.addEventListener('change', function() {
-                sortVoyages(this.value);
-            });
-        }
-
-        function sortVoyages(sortValue) {
-            const voyages = Array.from(voyagesGrid.querySelectorAll('.voyage-card'));
-
-            voyages.sort((a, b) => {
-                switch (sortValue) {
-                    case 'nom-asc':
-                        return a.dataset.nom.localeCompare(b.dataset.nom);
-                    case 'nom-desc':
-                        return b.dataset.nom.localeCompare(a.dataset.nom);
-                    case 'prix-asc':
-                        return parseFloat(a.dataset.prix) - parseFloat(b.dataset.prix);
-                    case 'prix-desc':
-                        return parseFloat(b.dataset.prix) - parseFloat(a.dataset.prix);
-                    case 'duree-asc':
-                        return parseInt(a.dataset.duree) - parseInt(b.dataset.duree);
-                    case 'duree-desc':
-                        return parseInt(b.dataset.duree) - parseInt(a.dataset.duree);
-                    default:
-                        return 0;
-                }
-            });
-
-            // Vider la grille
-            voyagesGrid.innerHTML = '';
-
-            // Réinsérer les éléments triés
-            voyages.forEach(voyage => voyagesGrid.appendChild(voyage));
-        }
-
-        // Assurer que les liens fonctionnent correctement
-        const allButtons = document.querySelectorAll('.btn-details, .btn-reserve');
-
-        // Ajouter un écouteur d'événements pour chaque bouton
-        allButtons.forEach(button => {
-            button.addEventListener('click', function(e) {
-                // Obtenir l'URL
-                const url = this.getAttribute('href');
-
-                // Rediriger vers l'URL
-                window.location.href = url;
-
-                // Ajouter un log pour déboguer
-                console.log('Navigation vers: ' + url);
-            });
-        });
-
-        // Initial sort if a sort option is selected (e.g., after page load with query params)
-        if (sortSelect) {
-            // Let PHP handle the initial state based on paginated data.
-            // Client-side sort will only apply to the current page's items.
-        }
-    });
-</script>
-
-<?php
-require_once __DIR__ . '/includes/footer.php';
-?>
+<?php require_once __DIR__ . '/includes/footer.php'; ?>

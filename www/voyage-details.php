@@ -515,23 +515,4 @@ function formatDate($date)
     </div>
 </div>
 
-<script>
-    // Script pour s'assurer que les boutons de réservation fonctionnent correctement
-    document.addEventListener('DOMContentLoaded', function() {
-        // Activer les boutons de réservation
-        const bookingButtons = document.querySelectorAll('a[href^="personnalisation.php"]');
-        bookingButtons.forEach(button => {
-            button.addEventListener('click', function(e) {
-                e.preventDefault();
-                const url = this.getAttribute('href');
-                console.log('Redirection vers:', url);
-                window.location.href = url;
-            });
-        });
-
-        // Debug
-        console.log('Nombre de boutons de réservation trouvés:', bookingButtons.length);
-    });
-</script>
-
 <?php require_once __DIR__ . '/includes/footer.php'; ?>

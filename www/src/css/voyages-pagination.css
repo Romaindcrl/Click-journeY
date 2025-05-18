@@ -1,0 +1,40 @@
+/* Variables CSS from admin.css needed for pagination */
+:root {
+    --lapis-lazuli: #2d5977;
+    --air-blue: #65A4CA;
+    --white: #FFFFFF;
+}
+
+/* Pagination styles from admin.css */
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+    gap: 0.5rem;
+}
+
+.page-link {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--air-blue);
+    border-radius: 6px;
+    text-decoration: none;
+    color: var(--lapis-lazuli);
+    background-color: var(--white);
+    transition: all 0.2s ease;
+    font-weight: 500;
+}
+
+.page-link:hover {
+    background-color: var(--lapis-lazuli);
+    color: var(--white);
+    /* Ensure text is white on hover as per admin.css behavior */
+    border-color: var(--lapis-lazuli);
+}
+
+.page-link.active {
+    background-color: var(--lapis-lazuli);
+    color: var(--white);
+    /* Ensure text is white for active link */
+    border-color: var(--lapis-lazuli);
+} 
