@@ -66,6 +66,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_role'])) {
     header('Location: admin.php');
     exit;
 }
+
+// Traitement de la suppression d'un utilisateur et de ses commandes
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_user'])) {
+    $userId = intval($_POST['user_id'] ?? 0);
+    // Supprimer l'utilisateur
+    $usersFile = __DIR__ . '/../data/users.json';
+    $usersJson = file_get_contents($usersFile);
+    $usersData = json_decode($usersJson, true);
+    $usersList = $usersData['users'] ?? [];
+    $usersList = array_filter($usersList, function ($u) use ($userId) {
+        return $u['id'] !== $userId;
+    });
+    $usersData['users'] = array_values($usersList);
+    file_put_contents($usersFile, json_encode($usersData, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+    // Supprimer les commandes associées
+    $cmdFile = __DIR__ . '/../data/commandes.json';
+    if (file_exists($cmdFile)) {
+        $cmdJson = file_get_contents($cmdFile);
+        $cmdData = json_decode($cmdJson, true);
+        $cmds = $cmdData['commandes'] ?? [];
+        $cmds = array_filter($cmds, function ($c) use ($userId) {
+            return $c['user_id'] !== $userId;
+        });
+        $cmdData['commandes'] = array_values($cmds);
+        file_put_contents($cmdFile, json_encode($cmdData, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+    }
+    // Message flash et redirection
+    $_SESSION['flash_message'] = "L'utilisateur #$userId et ses commandes ont été supprimés.";
+    $_SESSION['flash_type'] = 'success';
+    header('Location: admin.php');
+    exit;
+}
 ?>
 
 <div class="admin-container">
@@ -108,7 +140,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_role'])) {
                         <th>Email</th>
                         <th>Rôle</th>
                         <th>Statut</th>
-                        <th>Dernière connexion</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -143,11 +174,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_role'])) {
                                         <?php echo $user['statut'] ?? 'actif'; ?>
                                     </span>
                                 </td>
-                                <td><?php echo htmlspecialchars($user['derniere_connexion'] ?? 'Jamais'); ?></td>
                                 <td>
                                     <div class="action-buttons">
                                         <a href="profil.php?id=<?php echo $user['id']; ?>" class="btn btn-sm btn-primary">Voir</a>
-                                        <button class="btn btn-sm btn-danger delete-user" data-user-id="<?php echo $user['id']; ?>">Supprimer</button>
+                                        <form method="POST" action="admin.php" style="display:inline">
+                                            <input type="hidden" name="user_id" value="<?php echo $user['id']; ?>">
+                                            <input type="hidden" name="delete_user" value="1">
+                                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer l\'utilisateur #<?php echo $user['id']; ?> ?');">Supprimer</button>
+                                        </form>
                                     </div>
                                 </td>
                             </tr>

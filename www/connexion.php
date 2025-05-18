@@ -36,6 +36,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['connexion'])) {
             $usersJson = file_get_contents($usersFile);
             $data = json_decode($usersJson, true);
 
+            // Normaliser les données pour gérer un tableau racine d'utilisateurs
+            if (is_array($data) && !isset($data['users'])) {
+                $data = ['users' => $data];
+            }
+
             // Vérification que le décodage JSON a réussi et que la clé 'users' existe
             if ($data === null || !isset($data['users']) || !is_array($data['users'])) {
                 $error = 'Erreur système. Veuillez contacter l\'administrateur.';

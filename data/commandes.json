@@ -1,40 +1,5 @@
 {
     "commandes": [
-        {
-            "id": 1,
-            "transaction_id": "TXN6829ff806d1bf",
-            "user_id": 1,
-            "voyage_id": 2,
-            "date_commande": "2025-05-18 17:40:57",
-            "date_depart": "2025-05-28",
-            "date_retour": "2025-06-04",
-            "nb_participants": 3,
-            "prix_total": 4457,
-            "options_choisies": {
-                "etape_1": {
-                    "activites": [
-                        {
-                            "nom": "Passage des cols alpins",
-                            "prix": 90,
-                            "count": 2,
-                            "day": 1
-                        },
-                        {
-                            "nom": "Fondue en refuge",
-                            "prix": 55,
-                            "count": 2,
-                            "day": 1
-                        },
-                        {
-                            "nom": "Passage des cols alpins",
-                            "prix": 90,
-                            "count": 3,
-                            "day": 5
-                        }
-                    ]
-                }
-            },
-            "statut": "confirm\u00e9"
-        }
+
     ]
 }

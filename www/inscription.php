@@ -19,7 +19,8 @@ if (!file_exists($dataDir)) {
 
 // Créer le fichier users.json s'il n'existe pas
 if (!file_exists($usersFile)) {
-    file_put_contents($usersFile, json_encode([], JSON_PRETTY_PRINT));
+    // Initialiser avec un objet contenant la clé "users"
+    file_put_contents($usersFile, json_encode(['users' => []], JSON_PRETTY_PRINT));
     chmod($usersFile, 0777);
 }
 
@@ -52,7 +53,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = 'Le mot de passe doit contenir au moins 6 caractères';
     } else {
         // Lire le fichier users.json en conservant la structure éventuelle
-        $jsonData = json_decode(file_get_contents($usersFile), true) ?: [];
+        $fileContent = file_get_contents($usersFile);
+        $jsonData = json_decode($fileContent, true);
+        if (!is_array($jsonData)) {
+            $jsonData = [];
+        }
         if (isset($jsonData['users']) && is_array($jsonData['users'])) {
             $users = $jsonData['users'];
         } else {
@@ -90,12 +95,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $users[] = $newUser;
 
             // Enregistrer dans le format d'origine (avec clé "users" si nécessaire)
-            if (isset($jsonData['users']) && is_array($jsonData['users'])) {
-                $jsonData['users'] = $users;
-                $newJson = json_encode($jsonData, JSON_PRETTY_PRINT);
-            } else {
-                $newJson = json_encode($users, JSON_PRETTY_PRINT);
-            }
+            // Enregistrer dans le format attendu : objet racine avec clé "users"
+            $newJson = json_encode(['users' => $users], JSON_PRETTY_PRINT);
             if (file_put_contents($usersFile, $newJson) !== false) {
                 header('Location: connexion.php?success=1');
                 exit();

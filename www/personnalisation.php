@@ -200,7 +200,7 @@ $tomorrow = date('Y-m-d', strtotime('+1 day'));
                             <p class="section-description">Pour chaque jour, indiquez combien de voyageurs souhaitent bénéficier des activités :</p>
                             <?php for ($day = 1; $day <= $duree; $day++): ?>
                                 <div class="day-section">
-                                    <div class="day-header" onclick="toggleDay(<?= $day - 1 ?>)">
+                                    <div class="day-header">
                                         <h4>Jour <?= $day ?></h4>
                                         <span class="toggle-icon">▼</span>
                                     </div>
@@ -210,11 +210,13 @@ $tomorrow = date('Y-m-d', strtotime('+1 day'));
                                 </div>
                             <?php endfor; ?>
                         </div>
-                        <script>
-                            window.ACTIVITES_DATA = <?= json_encode($voyage['activites']); ?>;
-                            window.DUREE = <?= $duree ?>;
-                            window.INITIAL_COUNTS = <?= json_encode($nestedCounts); ?>;
-                        </script>
+                        <div id="personnalisation-data"
+                            data-activites="<?= htmlspecialchars(json_encode($voyage['activites']), ENT_QUOTES, 'UTF-8') ?>"
+                            data-duree="<?= htmlspecialchars((string)$duree, ENT_QUOTES, 'UTF-8') ?>"
+                            data-initial-counts="<?= htmlspecialchars(json_encode($nestedCounts), ENT_QUOTES, 'UTF-8') ?>">
+                        </div>
+                        <script src="src/js/personnalisation-data.js"></script>
+                        <script src="src/js/personnalisation-toggle.js"></script>
                     <?php endif; ?>
 
                     <div class="order-recap">
