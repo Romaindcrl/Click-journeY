@@ -2,26 +2,20 @@
     "commandes": [
         {
             "id": 1,
-            "transaction_id": "TXN682a18760917c",
+            "transaction_id": "TXN682a1c1607ffd",
             "user_id": 1,
             "voyage_id": 2,
-            "date_commande": "2025-05-18 19:27:28",
-            "date_depart": "2025-05-21",
-            "date_retour": "2025-05-28",
+            "date_commande": "2025-05-18 19:42:56",
+            "date_depart": "2025-05-23",
+            "date_retour": "2025-05-30",
             "nb_participants": 2,
-            "prix_total": 3128,
+            "prix_total": 2933,
             "options_choisies": {
                 "etape_1": {
                     "activites": [
                         {
                             "nom": "Passage des cols alpins",
                             "prix": 90,
-                            "count": 4,
-                            "day": 1
-                        },
-                        {
-                            "nom": "Fondue en refuge",
-                            "prix": 55,
                             "count": 1,
                             "day": 1
                         },
@@ -29,11 +23,17 @@
                             "nom": "Visite de villages montagnards",
                             "prix": 40,
                             "count": 1,
-                            "day": 7
+                            "day": 1
                         },
                         {
                             "nom": "Atelier photo en montagne",
                             "prix": 75,
+                            "count": 2,
+                            "day": 1
+                        },
+                        {
+                            "nom": "Fondue en refuge",
+                            "prix": 55,
                             "count": 1,
                             "day": 7
                         }
@@ -44,28 +44,40 @@
         },
         {
             "id": 2,
-            "transaction_id": "TXN682a1bab5832a",
+            "transaction_id": "TXN682a1df960530",
             "user_id": 1,
-            "voyage_id": 2,
-            "date_commande": "2025-05-18 19:41:09",
-            "date_depart": "2025-05-29",
-            "date_retour": "2025-06-05",
+            "voyage_id": 3,
+            "date_commande": "2025-05-18 19:51:00",
+            "date_depart": "2025-05-30",
+            "date_retour": "2025-06-07",
             "nb_participants": 1,
-            "prix_total": 1529,
+            "prix_total": 1409,
             "options_choisies": {
                 "etape_1": {
                     "activites": [
                         {
-                            "nom": "Fondue en refuge",
-                            "prix": 55,
-                            "count": 2,
+                            "nom": "Baignade dans les calanques",
+                            "prix": 40,
+                            "count": 1,
                             "day": 1
                         },
                         {
-                            "nom": "Visite de villages montagnards",
-                            "prix": 40,
-                            "count": 3,
+                            "nom": "D\u00e9gustation de vins locaux",
+                            "prix": 65,
+                            "count": 1,
                             "day": 1
+                        },
+                        {
+                            "nom": "Baignade dans les calanques",
+                            "prix": 40,
+                            "count": 1,
+                            "day": 5
+                        },
+                        {
+                            "nom": "D\u00e9gustation de vins locaux",
+                            "prix": 65,
+                            "count": 1,
+                            "day": 5
                         }
                     ]
                 }
@@ -74,52 +86,22 @@
         },
         {
             "id": 3,
-            "transaction_id": "TXN682a1bab5832a",
+            "transaction_id": "TXN682a1df960530",
             "user_id": 1,
-            "voyage_id": 9,
-            "date_commande": "2025-05-18 19:41:09",
-            "date_depart": "2025-05-28",
-            "date_retour": "2025-06-07",
-            "nb_participants": 5,
-            "prix_total": 10885,
+            "voyage_id": 5,
+            "date_commande": "2025-05-18 19:51:00",
+            "date_depart": "2025-05-22",
+            "date_retour": "2025-05-31",
+            "nb_participants": 1,
+            "prix_total": 1659,
             "options_choisies": {
                 "etape_1": {
                     "activites": [
                         {
-                            "nom": "Ch\u00e2teau hant\u00e9",
-                            "prix": 65,
+                            "nom": "Spectacle de flamenco",
+                            "prix": 60,
                             "count": 1,
                             "day": 1
-                        },
-                        {
-                            "nom": "Randonn\u00e9e dans les Highlands",
-                            "prix": 70,
-                            "count": 1,
-                            "day": 1
-                        },
-                        {
-                            "nom": "Observation de phoques",
-                            "prix": 90,
-                            "count": 1,
-                            "day": 1
-                        },
-                        {
-                            "nom": "Visite de distillerie",
-                            "prix": 85,
-                            "count": 18,
-                            "day": 7
-                        },
-                        {
-                            "nom": "Ch\u00e2teau hant\u00e9",
-                            "prix": 65,
-                            "count": 1,
-                            "day": 7
-                        },
-                        {
-                            "nom": "Randonn\u00e9e dans les Highlands",
-                            "prix": 70,
-                            "count": 1,
-                            "day": 7
                         }
                     ]
                 }

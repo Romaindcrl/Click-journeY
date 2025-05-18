@@ -153,7 +153,15 @@ if (file_exists($avisFile)) {
                     if (isset($avis['statut']) && $avis['statut'] === 'publié'): ?>
                         <div class="testimonial">
                             <div class="testimonial-content">
-                                <p>"<?php echo htmlspecialchars(substr($avis['commentaire'], 0, 150)); ?>..."</p>
+                                <?php
+                                // D'abord, décoder les entités HTML
+                                $commentaireDecode = html_entity_decode($avis['commentaire'], ENT_QUOTES | ENT_HTML5, 'UTF-8');
+                                // Prendre le sous-ensemble désiré
+                                $commentaireSubstr = substr($commentaireDecode, 0, 150);
+                                // Ensuite, appliquer htmlspecialchars pour un affichage sécurisé
+                                $commentaireSecurise = htmlspecialchars($commentaireSubstr, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+                                ?>
+                                <p>"<?php echo $commentaireSecurise; ?>..."</p>
                             </div>
                             <div class="testimonial-rating">
                                 <?php for ($i = 1; $i <= 5; $i++): ?>

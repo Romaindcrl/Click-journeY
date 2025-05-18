@@ -5,7 +5,11 @@ ob_start();
 // Inclure le header et les fonctions d'authentification
 require_once __DIR__ . '/includes/header.php';
 require_once __DIR__ . '/check_auth.php';
+?>
+<link rel="stylesheet" href="src/css/add-review.css">
 
+
+<?php
 // Vérifier si l'utilisateur est connecté
 checkAuth();
 

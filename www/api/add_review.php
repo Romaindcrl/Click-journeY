@@ -55,7 +55,7 @@ $avis = [];
 if (file_exists($avisFilePath)) {
     $avisContent = file_get_contents($avisFilePath);
     $avis = json_decode($avisContent, true);
-    
+
     if (!is_array($avis)) {
         $avis = [];
     }
@@ -91,4 +91,4 @@ if (file_put_contents($avisFilePath, json_encode($avis, JSON_PRETTY_PRINT))) {
         'success' => false,
         'message' => 'Erreur lors de l\'enregistrement de l\'avis'
     ]);
-} 
+}

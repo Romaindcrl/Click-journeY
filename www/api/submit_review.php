@@ -101,4 +101,3 @@ if (file_put_contents($reviews_file, json_encode($data, JSON_PRETTY_PRINT))) {
     header('Content-Type: application/json');
     echo json_encode(['success' => false, 'message' => 'Erreur lors de l\'enregistrement de l\'avis']);
 }
-?> 

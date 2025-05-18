@@ -163,7 +163,13 @@ uasort($avisByVoyage, function ($a, $b) {
 
                                     <?php if (!empty($unAvis['commentaire'])): ?>
                                         <div class="review-comment">
-                                            <p><?php echo nl2br(htmlspecialchars($unAvis['commentaire'])); ?></p>
+                                            <?php
+                                            // D'abord, décoder les entités HTML qui pourraient être dans la chaîne du JSON
+                                            $commentaireDecode = html_entity_decode($unAvis['commentaire'], ENT_QUOTES | ENT_HTML5, 'UTF-8');
+                                            // Ensuite, appliquer htmlspecialchars pour un affichage sécurisé
+                                            $commentaireSecurise = htmlspecialchars($commentaireDecode, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+                                            ?>
+                                            <p><?php echo nl2br($commentaireSecurise); ?></p>
                                         </div>
                                     <?php endif; ?>
                                 </div>
