@@ -54,10 +54,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nbParticipants = isset($_POST['nb_participants']) ? intval($_POST['nb_participants']) : 1;
     // Calcul du prix total initial en fonction du nombre de participants
     $prixTotal = $voyage['prix'] * $nbParticipants;
-    
+
     // Débogage - Vérifier les valeurs soumises
     error_log("Formulaire soumis: date=" . $dateDepart . ", participants=" . $nbParticipants . ", prix=" . $prixTotal);
-    
+
     if (empty($dateDepart)) {
         $_SESSION['flash_message'] = 'Veuillez sélectionner une date de départ.';
         $_SESSION['flash_type'] = 'error';
@@ -79,7 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
             }
         }
-        
+
         // Stocker les informations de réservation dans la session
         $_SESSION['reservation'] = [
             'voyage_id' => $voyageId,
@@ -90,10 +90,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'activites' => $activites,
             'prix_total' => $prixTotal
         ];
-        
+
         // Débogage - Vérifier la session avant redirection
         error_log("Session reservation créée. Redirection vers paiement.php");
-        
+
         // Rediriger vers la page de paiement
         header('Location: paiement.php');
         exit;
@@ -113,97 +113,97 @@ $tomorrow = date('Y-m-d', strtotime('+1 day'));
 
 <div class="page-container">
     <h1 class="page-title">Personnalisez votre voyage</h1>
-    
+
     <?php if ($voyage): ?>
-    <div class="personnalisation-container">
-        <div class="voyage-details">
-            <img src="<?= htmlspecialchars($voyage['image']) ?>" alt="<?= htmlspecialchars($voyage['nom']) ?>" class="voyage-image">
-            
-            <h2 class="voyage-title"><?= htmlspecialchars($voyage['nom']) ?></h2>
-            <p class="voyage-description"><?= htmlspecialchars($voyage['description']) ?></p>
-            
-            <form id="personnalisation-form" method="post" action="panier.php">
-                <input type="hidden" name="voyage_id" value="<?= $voyageId ?>">
-                
-                <div class="form-section">
-                    <h3>Informations de base</h3>
-                    
-                    <div class="input-group">
-                        <label for="date_depart">Date de départ:</label>
-                        <input type="date" id="date_depart" name="date_depart" class="form-control" min="<?= $tomorrow ?>" required aria-describedby="date-help">
-                        <small id="date-help" class="form-text">Sélectionnez une date à partir de demain</small>
+        <div class="personnalisation-container">
+            <div class="voyage-details">
+                <img src="<?= htmlspecialchars($voyage['image']) ?>" alt="<?= htmlspecialchars($voyage['nom']) ?>" class="voyage-image">
+
+                <h2 class="voyage-title"><?= htmlspecialchars($voyage['nom']) ?></h2>
+                <p class="voyage-description"><?= htmlspecialchars($voyage['description']) ?></p>
+
+                <form id="personnalisation-form" method="post" action="panier.php">
+                    <input type="hidden" name="voyage_id" value="<?= $voyageId ?>">
+
+                    <div class="form-section">
+                        <h3>Informations de base</h3>
+
+                        <div class="input-group">
+                            <label for="date_depart">Date de départ:</label>
+                            <input type="date" id="date_depart" name="date_depart" class="form-control" min="<?= $tomorrow ?>" required aria-describedby="date-help">
+                            <small id="date-help" class="form-text">Sélectionnez une date à partir de demain</small>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="nb_participants">Nombre de participants:</label>
+                            <select id="nb_participants" name="nb_participants" class="form-control" aria-describedby="participants-help">
+                                <?= $participantsOptions ?>
+                            </select>
+                            <small id="participants-help" class="form-text">Le prix sera ajusté en fonction du nombre de participants</small>
+                        </div>
                     </div>
-                    
-                    <div class="input-group">
-                        <label for="nb_participants">Nombre de participants:</label>
-                        <select id="nb_participants" name="nb_participants" class="form-control" aria-describedby="participants-help">
-                            <?= $participantsOptions ?>
-                        </select>
-                        <small id="participants-help" class="form-text">Le prix sera ajusté en fonction du nombre de participants</small>
-                    </div>
-                </div>
-                
-                <?php if (isset($voyage['activites']) && !empty($voyage['activites'])): ?>
-                <div class="form-section">
-                    <h3>Options supplémentaires</h3>
-                    <p class="section-description">Pour chaque activité, indiquez combien de voyageurs souhaitent en bénéficier :</p>
-                    <div id="options-container"></div>
-                </div>
-                <script>
-                    window.ACTIVITES_DATA = <?= json_encode($voyage['activites']); ?>;
-                </script>
-                <?php endif; ?>
-            
-                <div class="order-recap">
-                    <h3 class="recap-title">Récapitulatif de votre voyage</h3>
-                    
-                    <div class="recap-content">
-                        <div class="recap-item">
-                            <span>Voyage</span>
-                            <strong><?= htmlspecialchars($voyage['nom']) ?></strong>
+
+                    <?php if (isset($voyage['activites']) && !empty($voyage['activites'])): ?>
+                        <div class="form-section">
+                            <h3>Options supplémentaires</h3>
+                            <p class="section-description">Pour chaque activité, indiquez combien de voyageurs souhaitent en bénéficier :</p>
+                            <div id="options-container"></div>
                         </div>
-                        
-                        <div class="recap-item">
-                            <span>Prix de base</span>
-                            <strong id="price-per-person" data-base="<?= $voyage['prix'] ?>"><?= number_format($voyage['prix'], 0, ',', ' ') ?> €</strong>
-                        </div>
-                        
-                        <div class="recap-item">
-                            <span>Participants</span>
-                            <strong><span id="nb-participants">1</span></strong>
-                        </div>
-                        
-                        <!-- Affichage dynamique des activités sélectionnées -->
-                        <div id="selected-activities-container" style="display: none; margin-top: 1rem;">
-                            <h4>Activités sélectionnées</h4>
-                            <div id="selected-activities-list">
-                                <!-- Les activités sélectionnées seront affichées ici par JavaScript -->
+                        <script>
+                            window.ACTIVITES_DATA = <?= json_encode($voyage['activites']); ?>;
+                        </script>
+                    <?php endif; ?>
+
+                    <div class="order-recap">
+                        <h3 class="recap-title">Récapitulatif de votre voyage</h3>
+
+                        <div class="recap-content">
+                            <div class="recap-item">
+                                <span>Voyage</span>
+                                <strong><?= htmlspecialchars($voyage['nom']) ?></strong>
+                            </div>
+
+                            <div class="recap-item">
+                                <span>Prix de base</span>
+                                <strong id="price-per-person" data-base="<?= $voyage['prix'] ?>"><?= number_format($voyage['prix'], 0, ',', ' ') ?> €</strong>
+                            </div>
+
+                            <div class="recap-item">
+                                <span>Participants</span>
+                                <strong><span id="nb-participants">1</span></strong>
+                            </div>
+
+                            <!-- Affichage dynamique des activités sélectionnées -->
+                            <div id="selected-activities-container" style="display: none; margin-top: 1rem;">
+                                <h4>Activités sélectionnées</h4>
+                                <div id="selected-activities-list">
+                                    <!-- Les activités sélectionnées seront affichées ici par JavaScript -->
+                                </div>
+                            </div>
+
+                            <div class="recap-separator"></div>
+
+                            <div class="recap-item total-price">
+                                <span>Prix total</span>
+                                <strong><span id="total-price"><?= number_format($voyage['prix'], 0, ',', ' ') ?> €</span></strong>
                             </div>
                         </div>
-                        
-                        <div class="recap-separator"></div>
-                        
-                        <div class="recap-item total-price">
-                            <span>Prix total</span>
-                            <strong><span id="total-price"><?= number_format($voyage['prix'], 0, ',', ' ') ?> €</span></strong>
+
+                        <input type="hidden" id="prix_total_input" name="prix_total" value="<?= $voyage['prix'] ?>">
+                        <button type="submit" class="btn btn-primary btn-reserver">Passer au paiement</button>
+
+                        <div class="text-center mt-3">
+                            <a href="voyages.php" class="btn btn-link">Retour aux voyages</a>
                         </div>
                     </div>
-                    
-                    <input type="hidden" id="prix_total_input" name="prix_total" value="<?= $voyage['prix'] ?>">
-                    <button type="submit" class="btn btn-primary btn-reserver">Passer au paiement</button>
-                    
-                    <div class="text-center mt-3">
-                        <a href="voyages.php" class="btn btn-link">Retour aux voyages</a>
-                    </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
-    </div>
     <?php else: ?>
-    <div class="alert alert-danger">
-        Voyage non trouvé. <a href="voyages.php">Retour à la liste des voyages</a>
-    </div>
+        <div class="alert alert-danger">
+            Voyage non trouvé. <a href="voyages.php">Retour à la liste des voyages</a>
+        </div>
     <?php endif; ?>
 </div>
 
-<?php require_once __DIR__ . '/includes/footer.php'; ?> 
+<?php require_once __DIR__ . '/includes/footer.php'; ?>

@@ -90,17 +90,17 @@ if (!is_array($voyagesData) || !isset($voyagesData['voyages'])) {
 foreach ($commandes as $cmd) {
     if ($cmd['id'] === $commandeId) {
         $voyageId = $cmd['voyage_id'];
-        
+
         // Calculer les nouvelles moyennes d'évaluation pour ce voyage
         $totalRatings = 0;
         $sumRatings = 0;
         $voyageComments = [];
-        
+
         foreach ($commandes as $c) {
             if (isset($c['voyage_id']) && $c['voyage_id'] === $voyageId && isset($c['evaluation'])) {
                 $totalRatings++;
                 $sumRatings += $c['evaluation']['note'];
-                
+
                 // Ajouter le commentaire à la liste (maximum 5 commentaires)
                 if (count($voyageComments) < 5) {
                     $voyageComments[] = [
@@ -111,7 +111,7 @@ foreach ($commandes as $cmd) {
                 }
             }
         }
-        
+
         // Mettre à jour les évaluations du voyage
         foreach ($voyagesData['voyages'] as &$voyage) {
             if ($voyage['id'] === $voyageId) {
@@ -123,7 +123,7 @@ foreach ($commandes as $cmd) {
                 break;
             }
         }
-        
+
         break;
     }
 }
@@ -137,4 +137,4 @@ if (file_put_contents($voyagesFile, json_encode($voyagesData, JSON_PRETTY_PRINT)
 // Réponse réussie
 header('Content-Type: application/json');
 echo json_encode(['success' => true, 'message' => 'Évaluation enregistrée avec succès']);
-exit; 
+exit;

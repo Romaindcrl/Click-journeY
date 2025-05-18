@@ -76,7 +76,7 @@ require_once __DIR__ . '/includes/header.php';
 
 <div class="page-container">
     <h1 class="page-title">Paiement</h1>
-    
+
     <div class="payment-container">
         <div class="payment-summary">
             <div class="card-header">
@@ -90,7 +90,7 @@ require_once __DIR__ . '/includes/header.php';
                     <div class="trip-details">
                         <h3><?php echo htmlspecialchars($voyage['nom']); ?></h3>
                         <p><?php echo htmlspecialchars(substr($voyage['description'], 0, 100)); ?>...</p>
-                        
+
                         <div class="trip-info">
                             <div class="info-item">
                                 <i class="fas fa-calendar-alt"></i>
@@ -109,38 +109,38 @@ require_once __DIR__ . '/includes/header.php';
                 </div>
 
                 <?php if (!empty($activites)): ?>
-                <div class="selected-activities">
-                    <h4>Activités sélectionnées</h4>
-                    <ul>
-                        <?php foreach ($activites as $activite): ?>
-                        <li>
-                            <span class="activity-name"><?php echo htmlspecialchars($activite['nom']); ?></span>
-                            <span class="activity-price"><?php echo number_format($activite['prix'] * $nb_participants, 0, ',', ' '); ?> €</span>
-                        </li>
-                        <?php endforeach; ?>
-                    </ul>
-                </div>
+                    <div class="selected-activities">
+                        <h4>Activités sélectionnées</h4>
+                        <ul>
+                            <?php foreach ($activites as $activite): ?>
+                                <li>
+                                    <span class="activity-name"><?php echo htmlspecialchars($activite['nom']); ?></span>
+                                    <span class="activity-price"><?php echo number_format($activite['prix'] * $nb_participants, 0, ',', ' '); ?> €</span>
+                                </li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </div>
                 <?php endif; ?>
-                
+
                 <div class="price-summary">
                     <div class="price-item">
                         <span>Prix du voyage (<?php echo $nb_participants; ?> personne<?php echo $nb_participants > 1 ? 's' : ''; ?>)</span>
                         <span><?php echo number_format($voyage['prix'] * $nb_participants, 0, ',', ' '); ?> €</span>
                     </div>
-                    
+
                     <?php if (!empty($activites)): ?>
-                    <div class="price-item">
-                        <span>Options additionnelles</span>
-                        <?php
-                        $activitesTotal = 0;
-                        foreach ($activites as $activite) {
-                            $activitesTotal += $activite['prix'] * $nb_participants;
-                        }
-                        ?>
-                        <span><?php echo number_format($activitesTotal, 0, ',', ' '); ?> €</span>
-                    </div>
+                        <div class="price-item">
+                            <span>Options additionnelles</span>
+                            <?php
+                            $activitesTotal = 0;
+                            foreach ($activites as $activite) {
+                                $activitesTotal += $activite['prix'] * $nb_participants;
+                            }
+                            ?>
+                            <span><?php echo number_format($activitesTotal, 0, ',', ' '); ?> €</span>
+                        </div>
                     <?php endif; ?>
-                    
+
                     <div class="price-item total">
                         <span>Total</span>
                         <span><?php echo number_format($prix_total, 0, ',', ' '); ?> €</span>

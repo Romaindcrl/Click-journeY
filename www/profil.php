@@ -67,7 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_profile'])) {
     $user['prenom'] = isset($_POST['prenom']) ? trim($_POST['prenom']) : $user['prenom'];
     $user['email'] = isset($_POST['email']) ? trim($_POST['email']) : $user['email'];
     $user['adresse'] = isset($_POST['adresse']) ? trim($_POST['adresse']) : $user['adresse'];
-    
+
     // Mettre à jour l'utilisateur dans le tableau
     foreach ($users as $key => $u) {
         if ($u['id'] === $userId) {
@@ -75,20 +75,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_profile'])) {
             break;
         }
     }
-    
+
     // Enregistrer les modifications
     $usersData['users'] = $users;
     file_put_contents(__DIR__ . '/../data/users.json', json_encode($usersData, JSON_PRETTY_PRINT));
-    
+
     // Mettre à jour la session si c'est l'utilisateur courant
     if ($isOwner) {
         $_SESSION['user'] = $user;
     }
-    
+
     // Ajouter un message flash
     $_SESSION['flash_message'] = "Profil mis à jour avec succès.";
     $_SESSION['flash_type'] = 'success';
-    
+
     // Rediriger pour éviter la double soumission
     header('Location: profil.php' . ($isOwner ? '' : '?id=' . $userId));
     exit;
@@ -99,7 +99,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_password'])) {
     $oldPassword = $_POST['old_password'];
     $newPassword = $_POST['new_password'];
     $confirmPassword = $_POST['confirm_password'];
-    
+
     // Vérifier que le nouveau mot de passe correspond à la confirmation
     if ($newPassword !== $confirmPassword) {
         $_SESSION['flash_message'] = "Les mots de passe ne correspondent pas.";
@@ -109,13 +109,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_password'])) {
     elseif (strlen($newPassword) < 8) {
         $_SESSION['flash_message'] = "Le mot de passe doit contenir au moins 8 caractères.";
         $_SESSION['flash_type'] = 'error';
-    }
-    else {
+    } else {
         // Vérifier l'ancien mot de passe
-        if ($oldPassword === $user['password']) {            
+        if ($oldPassword === $user['password']) {
             // Mettre à jour le mot de passe
             $user['password'] = $newPassword;
-            
+
             // Mettre à jour l'utilisateur dans le tableau
             foreach ($users as $key => $u) {
                 if ($u['id'] === $userId) {
@@ -123,26 +122,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_password'])) {
                     break;
                 }
             }
-            
+
             // Enregistrer les modifications
             $usersData['users'] = $users;
             file_put_contents(__DIR__ . '/../data/users.json', json_encode($usersData, JSON_PRETTY_PRINT));
-            
+
             // Mettre à jour la session si c'est l'utilisateur courant
             if ($isOwner) {
                 $_SESSION['user'] = $user;
             }
-            
+
             // Ajouter un message flash
             $_SESSION['flash_message'] = "Mot de passe mis à jour avec succès.";
             $_SESSION['flash_type'] = 'success';
-        }
-        else {
+        } else {
             $_SESSION['flash_message'] = "Ancien mot de passe incorrect.";
             $_SESSION['flash_type'] = 'error';
         }
     }
-    
+
     // Rediriger pour éviter la double soumission
     header('Location: profil.php' . ($isOwner ? '' : '?id=' . $userId));
     exit;
@@ -171,11 +169,11 @@ $reviewsList = $reviewsData['avis'] ?? [];
             <span class="vip-badge" title="Utilisateur VIP">⭐</span>
         <?php endif; ?>
     </h1>
-    
+
     <div class="profile-container">
         <div class="profile-section user-info">
             <h2>Informations personnelles</h2>
-            
+
             <form id="profil-form" method="post" action="profil.php<?php echo $isOwner ? '' : '?id=' . $userId; ?>">
                 <div class="editable-field">
                     <label for="nom">Nom</label>
@@ -192,7 +190,7 @@ $reviewsList = $reviewsData['avis'] ?? [];
                         </button>
                     </div>
                 </div>
-                
+
                 <div class="editable-field">
                     <label for="prenom">Prénom</label>
                     <input type="text" id="prenom" name="prenom" value="<?php echo htmlspecialchars($user['prenom']); ?>" disabled>
@@ -208,7 +206,7 @@ $reviewsList = $reviewsData['avis'] ?? [];
                         </button>
                     </div>
                 </div>
-                
+
                 <div class="editable-field">
                     <label for="email">Email</label>
                     <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($user['email']); ?>" pattern="[^\s@]+@[^\s@]+\.[^\s@]+" title="Veuillez entrer une adresse email valide" disabled>
@@ -224,7 +222,7 @@ $reviewsList = $reviewsData['avis'] ?? [];
                         </button>
                     </div>
                 </div>
-                
+
                 <div class="editable-field">
                     <label for="adresse">Adresse</label>
                     <input type="text" id="adresse" name="adresse" value="<?php echo htmlspecialchars($user['adresse'] ?? ''); ?>" disabled>
@@ -240,40 +238,40 @@ $reviewsList = $reviewsData['avis'] ?? [];
                         </button>
                     </div>
                 </div>
-                
+
                 <input type="hidden" name="update_profile" value="1">
                 <button type="submit" class="btn btn-primary submit-btn">Enregistrer les modifications</button>
             </form>
         </div>
-        
+
         <div class="profile-section password-section">
             <h2>Changer de mot de passe</h2>
-            
+
             <form method="post" action="profil.php<?php echo $isOwner ? '' : '?id=' . $userId; ?>" class="password-form">
                 <div class="form-group editable-field">
                     <label for="old_password">Ancien mot de passe</label>
                     <input type="password" id="old_password" name="old_password" required>
                 </div>
-                
+
                 <div class="form-group editable-field">
                     <label for="new_password">Nouveau mot de passe</label>
                     <input type="password" id="new_password" name="new_password" required data-max-length="20">
                 </div>
-                
+
                 <div class="form-group editable-field">
                     <label for="confirm_password">Confirmez le mot de passe</label>
                     <input type="password" id="confirm_password" name="confirm_password" required>
                 </div>
-                
+
                 <div class="form-actions">
                     <button type="submit" name="update_password" value="1" class="btn btn-primary">Changer le mot de passe</button>
                 </div>
             </form>
         </div>
-        
+
         <div class="profile-section orders-section">
             <h2>Mes voyages</h2>
-            
+
             <?php if (empty($userCommandes)): ?>
                 <p class="no-orders">Aucun voyage n'a encore été réservé.</p>
                 <div class="centered-button">
@@ -303,13 +301,13 @@ $reviewsList = $reviewsData['avis'] ?? [];
                                     <?php echo $commande['statut']; ?>
                                 </span>
                             </div>
-                            
+
                             <div class="order-details">
                                 <p><strong>Date de commande:</strong> <?php echo date('d/m/Y', strtotime($commande['date_commande'])); ?></p>
                                 <p><strong>Date de départ:</strong> <?php echo date('d/m/Y', strtotime($commande['date_depart'])); ?></p>
                                 <p><strong>Nombre de participants:</strong> <?php echo $commande['nb_participants']; ?></p>
                                 <p><strong>Prix total:</strong> <?php echo number_format($commande['prix_total'], 0, ',', ' '); ?> €</p>
-                                
+
                                 <?php if (!empty($commande['options_choisies'])): ?>
                                     <div class="order-options">
                                         <p><strong>Options choisies:</strong></p>
@@ -318,7 +316,7 @@ $reviewsList = $reviewsData['avis'] ?? [];
                                                 <li>
                                                     <strong>Étape <?php echo str_replace('etape_', '', $etapeId); ?>:</strong>
                                                     <div class="option-details">
-                                                        <?php 
+                                                        <?php
                                                         if (isset($options['hebergement'])) echo '<span class="option-item"><strong>Hébergement:</strong> ' . htmlspecialchars($options['hebergement']) . '</span>';
                                                         if (isset($options['restauration'])) echo '<span class="option-item"><strong>Restauration:</strong> ' . htmlspecialchars($options['restauration']) . '</span>';
                                                         if (isset($options['activites']) && is_array($options['activites'])) echo '<span class="option-item"><strong>Activités:</strong> ' . count($options['activites']) . '</span>';
@@ -329,7 +327,7 @@ $reviewsList = $reviewsData['avis'] ?? [];
                                         </ul>
                                     </div>
                                 <?php endif; ?>
-                                
+
                                 <div class="order-actions">
                                     <a href="voyage-details.php?id=<?php echo $commande['voyage_id']; ?>" class="btn btn-sm btn-primary">Voir le voyage</a>
                                     <?php if ($isOwner && !$hasReviewed): ?>
@@ -349,11 +347,11 @@ $reviewsList = $reviewsData['avis'] ?? [];
 
 <script src="src/js/form-validation.js"></script>
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Vos scripts existants (sans la partie modal des avis)
-});
+    document.addEventListener('DOMContentLoaded', function() {
+        // Vos scripts existants (sans la partie modal des avis)
+    });
 </script>
 
 <?php
 require_once __DIR__ . '/includes/footer.php';
-?> 
+?>

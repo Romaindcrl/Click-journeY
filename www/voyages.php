@@ -21,7 +21,7 @@ if (!empty($searchTerm)) {
             $filteredVoyages[] = $voyage;
             continue;
         }
-        
+
         // Recherche dans les activités
         foreach ($voyage['activites'] as $activite) {
             if (stripos($activite['nom'], $searchTerm) !== false) {
@@ -37,7 +37,7 @@ if (!empty($searchTerm)) {
 
 <div class="page-container">
     <h1 class="page-title">Nos Voyages</h1>
-    
+
     <div class="search-form">
         <form action="voyages.php" method="GET">
             <div class="search-input">
@@ -46,14 +46,14 @@ if (!empty($searchTerm)) {
             </div>
         </form>
     </div>
-    
+
     <?php if (!empty($searchTerm)): ?>
         <div class="search-results-header">
             <h2>Résultats pour "<?php echo htmlspecialchars($searchTerm); ?>"</h2>
             <p><?php echo count($filteredVoyages); ?> voyage(s) trouvé(s)</p>
         </div>
     <?php endif; ?>
-    
+
     <?php if (empty($filteredVoyages)): ?>
         <div class="no-results">
             <p>Aucun voyage ne correspond à votre recherche.</p>
@@ -73,45 +73,45 @@ if (!empty($searchTerm)) {
                 <option value="duree-desc">Durée (décroissante)</option>
             </select>
         </div>
-        
+
         <div class="voyages-grid" id="voyages-grid">
             <?php foreach ($filteredVoyages as $voyage): ?>
-                <div class="voyage-card" 
-                     data-nom="<?php echo htmlspecialchars($voyage['nom']); ?>"
-                     data-prix="<?php echo $voyage['prix']; ?>"
-                     data-duree="<?php echo isset($voyage['duree']) ? $voyage['duree'] : 7; ?>">
-                    <img src="<?php echo htmlspecialchars($voyage['image']); ?>" 
-                         alt="<?php echo htmlspecialchars($voyage['nom']); ?>" 
-                         class="voyage-image">
-                    
+                <div class="voyage-card"
+                    data-nom="<?php echo htmlspecialchars($voyage['nom']); ?>"
+                    data-prix="<?php echo $voyage['prix']; ?>"
+                    data-duree="<?php echo isset($voyage['duree']) ? $voyage['duree'] : 7; ?>">
+                    <img src="<?php echo htmlspecialchars($voyage['image']); ?>"
+                        alt="<?php echo htmlspecialchars($voyage['nom']); ?>"
+                        class="voyage-image">
+
                     <div class="voyage-content">
                         <h3 class="voyage-title"><?php echo htmlspecialchars($voyage['nom']); ?></h3>
                         <p class="voyage-description"><?php echo htmlspecialchars($voyage['description']); ?></p>
-                        
+
                         <div class="voyage-info">
                             <div class="voyage-price">
                                 À partir de <?= number_format($voyage['prix'], 0, ',', ' ') ?> <span>€</span>
                             </div>
-                            
+
                             <div class="voyage-duree">
                                 <i class="fas fa-clock"></i>
                                 <span><?= isset($voyage['duree']) ? $voyage['duree'] : 7 ?> jours</span>
                             </div>
                         </div>
-                        
+
                         <div class="voyage-activities">
                             <h4>Activités incluses :</h4>
                             <ul>
                                 <?php foreach ($voyage['activites'] as $activite): ?>
                                     <li>
-                                        <?php echo htmlspecialchars($activite['nom']); ?> 
+                                        <?php echo htmlspecialchars($activite['nom']); ?>
                                         <small>(+<?php echo number_format($activite['prix'], 0, ',', ' '); ?> €)</small>
                                     </li>
                                 <?php endforeach; ?>
                             </ul>
                         </div>
                     </div>
-                    
+
                     <div class="voyage-footer">
                         <div class="voyage-buttons">
                             <a href="voyage-details.php?id=<?= $voyage['id'] ?>" class="btn-details">Voir détails</a>
@@ -129,64 +129,64 @@ if (!empty($searchTerm)) {
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const sortSelect = document.getElementById('sort-select');
-    const voyagesGrid = document.getElementById('voyages-grid');
-    
-    if (sortSelect && voyagesGrid) {
-        sortSelect.addEventListener('change', function() {
-            sortVoyages(this.value);
-        });
-    }
-    
-    function sortVoyages(sortValue) {
-        const voyages = Array.from(voyagesGrid.querySelectorAll('.voyage-card'));
-        
-        voyages.sort((a, b) => {
-            switch (sortValue) {
-                case 'nom-asc':
-                    return a.dataset.nom.localeCompare(b.dataset.nom);
-                case 'nom-desc':
-                    return b.dataset.nom.localeCompare(a.dataset.nom);
-                case 'prix-asc':
-                    return parseFloat(a.dataset.prix) - parseFloat(b.dataset.prix);
-                case 'prix-desc':
-                    return parseFloat(b.dataset.prix) - parseFloat(a.dataset.prix);
-                case 'duree-asc':
-                    return parseInt(a.dataset.duree) - parseInt(b.dataset.duree);
-                case 'duree-desc':
-                    return parseInt(b.dataset.duree) - parseInt(a.dataset.duree);
-                default:
-                    return 0;
-            }
-        });
-        
-        // Vider la grille
-        voyagesGrid.innerHTML = '';
-        
-        // Réinsérer les éléments triés
-        voyages.forEach(voyage => voyagesGrid.appendChild(voyage));
-    }
-    
-    // Assurer que les liens fonctionnent correctement
-    const allButtons = document.querySelectorAll('.btn-details, .btn-reserve');
-    
-    // Ajouter un écouteur d'événements pour chaque bouton
-    allButtons.forEach(button => {
-        button.addEventListener('click', function(e) {
-            // Obtenir l'URL
-            const url = this.getAttribute('href');
-            
-            // Rediriger vers l'URL
-            window.location.href = url;
-            
-            // Ajouter un log pour déboguer
-            console.log('Navigation vers: ' + url);
+    document.addEventListener('DOMContentLoaded', function() {
+        const sortSelect = document.getElementById('sort-select');
+        const voyagesGrid = document.getElementById('voyages-grid');
+
+        if (sortSelect && voyagesGrid) {
+            sortSelect.addEventListener('change', function() {
+                sortVoyages(this.value);
+            });
+        }
+
+        function sortVoyages(sortValue) {
+            const voyages = Array.from(voyagesGrid.querySelectorAll('.voyage-card'));
+
+            voyages.sort((a, b) => {
+                switch (sortValue) {
+                    case 'nom-asc':
+                        return a.dataset.nom.localeCompare(b.dataset.nom);
+                    case 'nom-desc':
+                        return b.dataset.nom.localeCompare(a.dataset.nom);
+                    case 'prix-asc':
+                        return parseFloat(a.dataset.prix) - parseFloat(b.dataset.prix);
+                    case 'prix-desc':
+                        return parseFloat(b.dataset.prix) - parseFloat(a.dataset.prix);
+                    case 'duree-asc':
+                        return parseInt(a.dataset.duree) - parseInt(b.dataset.duree);
+                    case 'duree-desc':
+                        return parseInt(b.dataset.duree) - parseInt(a.dataset.duree);
+                    default:
+                        return 0;
+                }
+            });
+
+            // Vider la grille
+            voyagesGrid.innerHTML = '';
+
+            // Réinsérer les éléments triés
+            voyages.forEach(voyage => voyagesGrid.appendChild(voyage));
+        }
+
+        // Assurer que les liens fonctionnent correctement
+        const allButtons = document.querySelectorAll('.btn-details, .btn-reserve');
+
+        // Ajouter un écouteur d'événements pour chaque bouton
+        allButtons.forEach(button => {
+            button.addEventListener('click', function(e) {
+                // Obtenir l'URL
+                const url = this.getAttribute('href');
+
+                // Rediriger vers l'URL
+                window.location.href = url;
+
+                // Ajouter un log pour déboguer
+                console.log('Navigation vers: ' + url);
+            });
         });
     });
-});
 </script>
 
 <?php
 require_once __DIR__ . '/includes/footer.php';
-?> 
+?>

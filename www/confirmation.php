@@ -133,13 +133,13 @@ require_once __DIR__ . '/includes/header.php';
                     <p><strong>Prix de base:</strong> <?= number_format($voyage['prix'], 2, ',', ' '); ?> €</p>
                     <?php if (!empty($activites)): ?>
                         <p><strong>Options supplémentaires:</strong>
-                        <?php 
+                            <?php
                             $totalOptions = 0;
                             foreach ($activites as $a) {
                                 $totalOptions += $a['prix'] * $commande['nb_participants'];
                             }
                             echo number_format($totalOptions, 2, ',', ' ');
-                        ?> €</p>
+                            ?> €</p>
                     <?php endif; ?>
                     <p><strong>Nombre de participants:</strong> <?= $commande['nb_participants']; ?></p>
                 </div>
