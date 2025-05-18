@@ -6,8 +6,8 @@ checkAuth();
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Vérifier si c'est une demande de suppression du panier
     if (isset($_POST['action']) && $_POST['action'] === 'vider_panier') {
-        // Supprimer la réservation de la session
-        unset($_SESSION['reservation']);
+        // Supprimer toutes les réservations du panier
+        unset($_SESSION['reservations']);
 
         // Message de confirmation
         $_SESSION['flash_message'] = 'Votre panier a été vidé.';
@@ -70,7 +70,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Stocker la réservation en session
-    $_SESSION['reservation'] = [
+    if (!isset($_SESSION['reservations']) || !is_array($_SESSION['reservations'])) {
+        $_SESSION['reservations'] = [];
+    }
+    $_SESSION['reservations'][] = [
         'voyage_id' => $voyage_id,
         'voyage_nom' => $voyage['nom'],
         'voyage_image' => $voyage['image'],
@@ -85,21 +88,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exit;
 }
 
-// Vérifier la présence d'une réservation en cours
-if (!isset($_SESSION['reservation'])) {
+// Vérifier la présence d'un panier en cours
+if (!isset($_SESSION['reservations']) || empty($_SESSION['reservations'])) {
     $_SESSION['flash_message'] = 'Aucun voyage dans le panier.';
     $_SESSION['flash_type'] = 'error';
     header('Location: voyages.php');
     exit;
 }
 
-// Récupérer les données de réservation
-$reservation = $_SESSION['reservation'];
-$voyage_id = $reservation['voyage_id'];
-$date_depart = $reservation['date_depart'];
-$nb_participants = $reservation['nb_participants'];
-$activites = $reservation['activites'] ?? [];
-$prix_total = $reservation['prix_total'];
+// Récupérer les réservations du panier
+$reservations = $_SESSION['reservations'];
 
 // Charger les données du voyage
 $voyagesFile = __DIR__ . '/../data/voyages.json';
@@ -110,21 +108,6 @@ $voyagesJson = file_get_contents($voyagesFile);
 $voyagesData = json_decode($voyagesJson, true);
 $voyages = $voyagesData['voyages'] ?? [];
 
-// Rechercher le voyage correspondant
-$voyage = null;
-foreach ($voyages as $v) {
-    if ($v['id'] == $voyage_id) {
-        $voyage = $v;
-        break;
-    }
-}
-
-// Calculer la date de retour prévue
-$duree = $voyage['duree'] ?? 7;
-$dateRetour = date('Y-m-d', strtotime($date_depart . ' + ' . $duree . ' days'));
-$dateDepartFormatted = DateTime::createFromFormat('Y-m-d', $date_depart);
-$dateRetourFormatted = DateTime::createFromFormat('Y-m-d', $dateRetour);
-
 // Inclure le header
 require_once __DIR__ . '/includes/header.php';
 ?>
@@ -132,71 +115,92 @@ require_once __DIR__ . '/includes/header.php';
 <div class="page-container">
     <h1 class="page-title">Panier</h1>
     <div class="payment-container">
-        <div class="payment-summary">
-            <div class="card-header">
-                <h2>Récapitulatif de votre réservation</h2>
-            </div>
-            <div class="card-body">
-                <div class="trip-summary">
-                    <div class="trip-image">
-                        <img src="<?php echo htmlspecialchars($voyage['image']); ?>" alt="<?php echo htmlspecialchars($voyage['nom']); ?>">
-                    </div>
-                    <div class="trip-details">
-                        <h3><?php echo htmlspecialchars($voyage['nom']); ?></h3>
-                        <p><?php echo htmlspecialchars(substr($voyage['description'], 0, 100)); ?>...</p>
-                        <div class="trip-info">
-                            <div class="info-item">
-                                <i class="fas fa-calendar-alt"></i>
-                                <span>Départ: <?php echo $dateDepartFormatted->format('d/m/Y'); ?></span>
-                            </div>
-                            <div class="info-item">
-                                <i class="fas fa-calendar-check"></i>
-                                <span>Retour: <?php echo $dateRetourFormatted->format('d/m/Y'); ?></span>
-                            </div>
-                            <div class="info-item">
-                                <i class="fas fa-users"></i>
-                                <span>Participants: <?php echo $nb_participants; ?></span>
+        <?php foreach ($reservations as $reservation): ?>
+            <?php
+            $voyage_id = $reservation['voyage_id'];
+            $date_depart = $reservation['date_depart'];
+            $nb_participants = $reservation['nb_participants'];
+            $activites = $reservation['activites'] ?? [];
+            $prix_total = $reservation['prix_total'];
+
+            $voyage = null;
+            foreach ($voyages as $v) {
+                if ($v['id'] == $voyage_id) {
+                    $voyage = $v;
+                    break;
+                }
+            }
+            $duree = $voyage['duree'] ?? 7;
+            $dateRetour = date('Y-m-d', strtotime($date_depart . ' + ' . $duree . ' days'));
+            $dateDepartFormatted = DateTime::createFromFormat('Y-m-d', $date_depart);
+            $dateRetourFormatted = DateTime::createFromFormat('Y-m-d', $dateRetour);
+            ?>
+            <div class="payment-summary">
+                <div class="card-header">
+                    <h2>Récapitulatif de votre réservation</h2>
+                </div>
+                <div class="card-body">
+                    <div class="trip-summary">
+                        <div class="trip-image">
+                            <img src="<?php echo htmlspecialchars($voyage['image']); ?>" alt="<?php echo htmlspecialchars($voyage['nom']); ?>">
+                        </div>
+                        <div class="trip-details">
+                            <h3><?php echo htmlspecialchars($voyage['nom']); ?></h3>
+                            <p><?php echo htmlspecialchars(substr($voyage['description'], 0, 100)); ?>...</p>
+                            <div class="trip-info">
+                                <div class="info-item">
+                                    <i class="fas fa-calendar-alt"></i>
+                                    <span>Départ: <?php echo $dateDepartFormatted->format('d/m/Y'); ?></span>
+                                </div>
+                                <div class="info-item">
+                                    <i class="fas fa-calendar-check"></i>
+                                    <span>Retour: <?php echo $dateRetourFormatted->format('d/m/Y'); ?></span>
+                                </div>
+                                <div class="info-item">
+                                    <i class="fas fa-users"></i>
+                                    <span>Participants: <?php echo $nb_participants; ?></span>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <?php if (!empty($activites)): ?>
-                    <div class="selected-activities">
-                        <h4>Options sélectionnées</h4>
-                        <ul>
-                            <?php foreach ($activites as $activite): ?>
-                                <li>
-                                    <span class="activity-name"><?php echo htmlspecialchars($activite['nom']); ?> (<?php echo $activite['count']; ?> voyageur<?php echo $activite['count'] > 1 ? 's' : ''; ?>)</span>
-                                    <span class="activity-price"><?php echo number_format($activite['prix'] * $activite['count'], 0, ',', ' '); ?> €</span>
-                                </li>
-                            <?php endforeach; ?>
-                        </ul>
-                    </div>
-                <?php endif; ?>
-                <div class="price-summary">
-                    <div class="price-item">
-                        <span>Prix du voyage (<?php echo $nb_participants; ?> personne<?php echo $nb_participants > 1 ? 's' : ''; ?>)</span>
-                        <span><?php echo number_format($voyage['prix'] * $nb_participants, 0, ',', ' '); ?> €</span>
                     </div>
                     <?php if (!empty($activites)): ?>
-                        <div class="price-item">
-                            <span>Options additionnelles</span>
-                            <?php
-                            $activitesTotal = 0;
-                            foreach ($activites as $activite) {
-                                $activitesTotal += $activite['prix'] * $activite['count'];
-                            }
-                            ?>
-                            <span><?php echo number_format($activitesTotal, 0, ',', ' '); ?> €</span>
+                        <div class="selected-activities">
+                            <h4>Options sélectionnées</h4>
+                            <ul>
+                                <?php foreach ($activites as $activite): ?>
+                                    <li>
+                                        <span class="activity-name"><?php echo htmlspecialchars($activite['nom']); ?> (<?php echo $activite['count']; ?> voyageur<?php echo $activite['count'] > 1 ? 's' : ''; ?>)</span>
+                                        <span class="activity-price"><?php echo number_format($activite['prix'] * $activite['count'], 0, ',', ' '); ?> €</span>
+                                    </li>
+                                <?php endforeach; ?>
+                            </ul>
                         </div>
                     <?php endif; ?>
-                    <div class="price-item total">
-                        <span>Total</span>
-                        <span><?php echo number_format($prix_total, 0, ',', ' '); ?> €</span>
+                    <div class="price-summary">
+                        <div class="price-item">
+                            <span>Prix du voyage (<?php echo $nb_participants; ?> personne<?php echo $nb_participants > 1 ? 's' : ''; ?>)</span>
+                            <span><?php echo number_format($voyage['prix'] * $nb_participants, 0, ',', ' '); ?> €</span>
+                        </div>
+                        <?php if (!empty($activites)): ?>
+                            <div class="price-item">
+                                <span>Options additionnelles</span>
+                                <?php
+                                $activitesTotal = 0;
+                                foreach ($activites as $activite) {
+                                    $activitesTotal += $activite['prix'] * $activite['count'];
+                                }
+                                ?>
+                                <span><?php echo number_format($activitesTotal, 0, ',', ' '); ?> €</span>
+                            </div>
+                        <?php endif; ?>
+                        <div class="price-item total">
+                            <span>Total</span>
+                            <span><?php echo number_format($prix_total, 0, ',', ' '); ?> €</span>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        <?php endforeach; ?>
         <div class="cart-actions" style="margin-top: 1rem; text-align: center;">
             <div class="cart-buttons">
                 <a href="paiement.php" class="btn btn-primary">Passer au paiement</a>

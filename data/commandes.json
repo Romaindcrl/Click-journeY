@@ -483,6 +483,29 @@
                 }
             },
             "statut": "confirm\u00e9"
+        },
+        {
+            "id": 22,
+            "transaction_id": "TXN6829e9a96bd94",
+            "user_id": 1,
+            "voyage_id": 2,
+            "date_commande": "2025-05-18 16:07:59",
+            "date_depart": "2025-05-23",
+            "date_retour": "2025-05-30",
+            "nb_participants": 1,
+            "prix_total": 1389,
+            "options_choisies": {
+                "etape_1": {
+                    "activites": [
+                        {
+                            "nom": "Passage des cols alpins",
+                            "prix": 90,
+                            "count": 1
+                        }
+                    ]
+                }
+            },
+            "statut": "confirm\u00e9"
         }
     ]
 }

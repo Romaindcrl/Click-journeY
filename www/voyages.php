@@ -33,6 +33,17 @@ if (!empty($searchTerm)) {
 } else {
     $filteredVoyages = $voyages;
 }
+
+// Pagination
+$itemsPerPage = 9;
+$currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+if ($currentPage < 1) {
+    $currentPage = 1;
+}
+$totalVoyages = count($filteredVoyages);
+$totalPages = ceil($totalVoyages / $itemsPerPage);
+$offset = ($currentPage - 1) * $itemsPerPage;
+$paginatedVoyages = array_slice($filteredVoyages, $offset, $itemsPerPage);
 ?>
 
 <div class="page-container">
@@ -75,7 +86,7 @@ if (!empty($searchTerm)) {
         </div>
 
         <div class="voyages-grid" id="voyages-grid">
-            <?php foreach ($filteredVoyages as $voyage): ?>
+            <?php foreach ($paginatedVoyages as $voyage): ?>
                 <div class="voyage-card"
                     data-nom="<?php echo htmlspecialchars($voyage['nom']); ?>"
                     data-prix="<?php echo $voyage['prix']; ?>"
@@ -125,8 +136,70 @@ if (!empty($searchTerm)) {
                 </div>
             <?php endforeach; ?>
         </div>
+
+        <?php if ($totalPages > 1): ?>
+            <div class="pagination">
+                <?php if ($currentPage > 1): ?>
+                    <a href="?<?php echo http_build_query(array_merge($_GET, ['page' => $currentPage - 1])); ?>" class="page-link">&laquo; Précédent</a>
+                <?php endif; ?>
+
+                <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                    <a href="?<?php echo http_build_query(array_merge($_GET, ['page' => $i])); ?>"
+                        class="page-link <?php echo ($i == $currentPage) ? 'active' : ''; ?>">
+                        <?php echo $i; ?>
+                    </a>
+                <?php endfor; ?>
+
+                <?php if ($currentPage < $totalPages): ?>
+                    <a href="?<?php echo http_build_query(array_merge($_GET, ['page' => $currentPage + 1])); ?>" class="page-link">Suivant &raquo;</a>
+                <?php endif; ?>
+            </div>
+        <?php endif; ?>
     <?php endif; ?>
 </div>
+
+<style>
+    /* Variables CSS from admin.css needed for pagination */
+    :root {
+        --lapis-lazuli: #2d5977;
+        --air-blue: #65A4CA;
+        --white: #FFFFFF;
+    }
+
+    /* Pagination styles from admin.css */
+    .pagination {
+        display: flex;
+        justify-content: center;
+        margin-top: 2rem;
+        gap: 0.5rem;
+    }
+
+    .page-link {
+        display: inline-block;
+        padding: 0.5rem 1rem;
+        border: 1px solid var(--air-blue);
+        border-radius: 6px;
+        text-decoration: none;
+        color: var(--lapis-lazuli);
+        background-color: var(--white);
+        transition: all 0.2s ease;
+        font-weight: 500;
+    }
+
+    .page-link:hover {
+        background-color: var(--lapis-lazuli);
+        color: var(--white);
+        /* Ensure text is white on hover as per admin.css behavior */
+        border-color: var(--lapis-lazuli);
+    }
+
+    .page-link.active {
+        background-color: var(--lapis-lazuli);
+        color: var(--white);
+        /* Ensure text is white for active link */
+        border-color: var(--lapis-lazuli);
+    }
+</style>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -184,6 +257,12 @@ if (!empty($searchTerm)) {
                 console.log('Navigation vers: ' + url);
             });
         });
+
+        // Initial sort if a sort option is selected (e.g., after page load with query params)
+        if (sortSelect) {
+            // Let PHP handle the initial state based on paginated data.
+            // Client-side sort will only apply to the current page's items.
+        }
     });
 </script>
 

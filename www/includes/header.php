@@ -46,53 +46,6 @@ $is_admin = $user_logged_in && $_SESSION['user']['role'] === 'admin';
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="icon" href="src/images/logo.png" type="image/png">
 
-    <!-- Scripts -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-    <!-- Correction navigation -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Fonction principale pour corriger les liens
-            function fixAllNavigation() {
-                // Trouver tous les liens dans le document
-                var links = document.getElementsByTagName('a');
-
-                // Parcourir chaque lien et appliquer le correctif
-                for (var i = 0; i < links.length; i++) {
-                    var link = links[i];
-                    var href = link.getAttribute('href');
-
-                    // Ne traiter que les liens internes et valides
-                    if (href && !href.startsWith('http') && !href.startsWith('#')) {
-                        // Créer une fonction de clic personnalisée pour chaque lien
-                        link.onclick = (function(url) {
-                            return function(e) {
-                                e.preventDefault();
-                                // Déboguer le lien utilisé
-                                console.log("Navigation vers: " + url);
-                                // Utiliser setTimeout pour éviter tout problème
-                                setTimeout(function() {
-                                    window.location.href = url;
-                                }, 10);
-                                return false;
-                            };
-                        })(href);
-                    }
-                }
-            }
-
-            // Exécuter immédiatement
-            fixAllNavigation();
-
-            // Réexécuter après un court délai
-            setTimeout(fixAllNavigation, 200);
-
-            // Et à nouveau après le chargement complet
-            window.onload = function() {
-                setTimeout(fixAllNavigation, 500);
-            };
-        });
-    </script>
 </head>
 
 <body>
@@ -148,7 +101,15 @@ $is_admin = $user_logged_in && $_SESSION['user']['role'] === 'admin';
                 <li><a href="index.php" <?php echo ($current_page === 'index.php') ? 'style="font-weight: 600; color: #2d5977;"' : ''; ?>>Accueil</a></li>
                 <li><a href="voyages.php" <?php echo ($current_page === 'voyages.php') ? 'style="font-weight: 600; color: #2d5977;"' : ''; ?>>Voyages</a></li>
                 <li><a href="avis.php" <?php echo ($current_page === 'avis.php') ? 'style="font-weight: 600; color: #2d5977;"' : ''; ?>>Avis voyageurs</a></li>
-                <li><a href="panier.php" <?php echo ($current_page === 'panier.php') ? 'style="font-weight: 600; color: #2d5977;"' : ''; ?>><i class="fas fa-shopping-cart"></i><?php if (isset($_SESSION['reservation'])): ?><span class="cart-count"> (1)</span><?php else: ?> Panier<?php endif; ?></a></li>
+                <li><a href="panier.php" <?php echo ($current_page === 'panier.php') ? 'style="font-weight: 600; color: #2d5977;"' : ''; ?>><i class="fas fa-shopping-cart"></i>
+                        <?php
+                        $cartCount = isset($_SESSION['reservations']) && is_array($_SESSION['reservations']) ? count($_SESSION['reservations']) : 0;
+                        if ($cartCount > 0): ?>
+                            <span class="cart-count">(<?php echo $cartCount; ?>)</span>
+                        <?php else: ?>
+                            Panier
+                        <?php endif; ?>
+                    </a></li>
 
                 <?php if ($user_logged_in): ?>
                     <li><a href="profil.php" <?php echo ($current_page === 'profil.php') ? 'style="font-weight: 600; color: #2d5977;"' : ''; ?>>
