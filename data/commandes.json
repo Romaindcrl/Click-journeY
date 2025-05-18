@@ -506,6 +506,83 @@
                 }
             },
             "statut": "confirm\u00e9"
+        },
+        {
+            "id": 23,
+            "transaction_id": "TXN6829ea5708428",
+            "user_id": 1,
+            "voyage_id": 2,
+            "date_commande": "2025-05-18 16:10:46",
+            "date_depart": "2025-05-29",
+            "date_retour": "2025-06-05",
+            "nb_participants": 1,
+            "prix_total": 1389,
+            "options_choisies": {
+                "etape_1": {
+                    "activites": [
+                        {
+                            "nom": "Passage des cols alpins",
+                            "prix": 90,
+                            "count": 1
+                        }
+                    ]
+                }
+            },
+            "statut": "confirm\u00e9"
+        },
+        {
+            "id": 24,
+            "transaction_id": "TXN6829f4ce12382",
+            "user_id": 1,
+            "voyage_id": 2,
+            "date_commande": "2025-05-18 16:55:59",
+            "date_depart": "2025-05-25",
+            "date_retour": "2025-06-01",
+            "nb_participants": 2,
+            "prix_total": 3328,
+            "options_choisies": {
+                "etape_1": {
+                    "activites": [
+                        {
+                            "nom": "Passage des cols alpins",
+                            "prix": 90,
+                            "count": 4,
+                            "day": 1
+                        },
+                        {
+                            "nom": "Visite de villages montagnards",
+                            "prix": 40,
+                            "count": 1,
+                            "day": 1
+                        },
+                        {
+                            "nom": "Atelier photo en montagne",
+                            "prix": 75,
+                            "count": 1,
+                            "day": 1
+                        },
+                        {
+                            "nom": "Passage des cols alpins",
+                            "prix": 90,
+                            "count": 1,
+                            "day": 2
+                        },
+                        {
+                            "nom": "Fondue en refuge",
+                            "prix": 55,
+                            "count": 1,
+                            "day": 2
+                        },
+                        {
+                            "nom": "Fondue en refuge",
+                            "prix": 55,
+                            "count": 2,
+                            "day": 6
+                        }
+                    ]
+                }
+            },
+            "statut": "confirm\u00e9"
         }
     ]
 }

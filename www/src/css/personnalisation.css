@@ -646,4 +646,65 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+/* Also apply to new per-day containers */
+.options-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.day-section {
+    margin-bottom: 1.5rem;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.day-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    background-color: var(--accent-color);
+    color: white;
+    cursor: pointer;
+}
+
+.day-header h4 {
+    margin: 0;
+    font-family: 'Amarante', serif;
+    font-size: 1.1rem;
+}
+
+.toggle-icon {
+    font-size: 12px;
+    transition: transform 0.3s ease;
+}
+
+.day-content {
+    max-height: 500px;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    background-color: rgba(255, 255, 255, 0.5);
+    padding: 10px;
+}
+
+.day-content.collapsed {
+    max-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+[data-theme="dark"] .day-section {
+    border-color: #333;
+}
+
+[data-theme="dark"] .day-header {
+    background-color: #224760;
+}
+
+[data-theme="dark"] .day-content {
+    background-color: rgba(26, 26, 26, 0.7);
 } 

@@ -51,37 +51,59 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Calcul du prix total initial en fonction du nombre de participants
     $prix_total = $voyage['prix'] * $nb_participants;
 
-    // Récupérer le nombre de bénéficiaires par activité et recalculer le prix
+    // Récupérer le nombre de bénéficiaires par activité et recalculer le prix pour chaque jour
     $activites = [];
     if (isset($_POST['activites_counts']) && is_array($_POST['activites_counts'])) {
-        foreach ($_POST['activites_counts'] as $index => $count) {
-            $i = intval($index);
-            $q = intval($count);
-            if ($q > 0 && isset($voyage['activites'][$i])) {
-                $act = $voyage['activites'][$i];
-                $activites[] = [
-                    'nom' => $act['nom'],
-                    'prix' => $act['prix'],
-                    'count' => $q
-                ];
-                $prix_total += $act['prix'] * $q;
+        foreach ($_POST['activites_counts'] as $dayIdx => $countsForDay) {
+            if (is_array($countsForDay)) {
+                foreach ($countsForDay as $index => $count) {
+                    $i = intval($index);
+                    $q = intval($count);
+                    if ($q > 0 && isset($voyage['activites'][$i])) {
+                        $act = $voyage['activites'][$i];
+                        $activites[] = [
+                            'nom' => $act['nom'],
+                            'prix' => $act['prix'],
+                            'count' => $q,
+                            'day' => intval($dayIdx) + 1
+                        ];
+                        $prix_total += $act['prix'] * $q;
+                    }
+                }
             }
         }
     }
 
-    // Stocker la réservation en session
-    if (!isset($_SESSION['reservations']) || !is_array($_SESSION['reservations'])) {
-        $_SESSION['reservations'] = [];
+    // Stocker ou modifier la réservation en session
+    if (isset($_POST['action']) && $_POST['action'] === 'modifier_reservation' && isset($_POST['index'])) {
+        $idx = intval($_POST['index']);
+        $_SESSION['reservations'][$idx] = [
+            'voyage_id' => $voyage_id,
+            'voyage_nom' => $voyage['nom'],
+            'voyage_image' => $voyage['image'],
+            'date_depart' => $date_depart,
+            'nb_participants' => $nb_participants,
+            'activites' => $activites,
+            'prix_total' => $prix_total
+        ];
+        $_SESSION['flash_message'] = 'Votre réservation a été modifiée.';
+        $_SESSION['flash_type'] = 'success';
+    } else {
+        if (!isset($_SESSION['reservations']) || !is_array($_SESSION['reservations'])) {
+            $_SESSION['reservations'] = [];
+        }
+        $_SESSION['reservations'][] = [
+            'voyage_id' => $voyage_id,
+            'voyage_nom' => $voyage['nom'],
+            'voyage_image' => $voyage['image'],
+            'date_depart' => $date_depart,
+            'nb_participants' => $nb_participants,
+            'activites' => $activites,
+            'prix_total' => $prix_total
+        ];
+        $_SESSION['flash_message'] = 'Voyage ajouté au panier.';
+        $_SESSION['flash_type'] = 'success';
     }
-    $_SESSION['reservations'][] = [
-        'voyage_id' => $voyage_id,
-        'voyage_nom' => $voyage['nom'],
-        'voyage_image' => $voyage['image'],
-        'date_depart' => $date_depart,
-        'nb_participants' => $nb_participants,
-        'activites' => $activites,
-        'prix_total' => $prix_total
-    ];
 
     // Rediriger en GET pour afficher le panier
     header('Location: panier.php');
@@ -115,7 +137,7 @@ require_once __DIR__ . '/includes/header.php';
 <div class="page-container">
     <h1 class="page-title">Panier</h1>
     <div class="payment-container">
-        <?php foreach ($reservations as $reservation): ?>
+        <?php foreach ($reservations as $index => $reservation): ?>
             <?php
             $voyage_id = $reservation['voyage_id'];
             $date_depart = $reservation['date_depart'];
@@ -168,8 +190,9 @@ require_once __DIR__ . '/includes/header.php';
                             <h4>Options sélectionnées</h4>
                             <ul>
                                 <?php foreach ($activites as $activite): ?>
+                                    <?php $dayText = isset($activite['day']) ? 'Jour ' . $activite['day'] . ' - ' : ''; ?>
                                     <li>
-                                        <span class="activity-name"><?php echo htmlspecialchars($activite['nom']); ?> (<?php echo $activite['count']; ?> voyageur<?php echo $activite['count'] > 1 ? 's' : ''; ?>)</span>
+                                        <span class="activity-name"><?php echo htmlspecialchars($dayText . $activite['nom']); ?> (<?php echo $activite['count']; ?>)</span>
                                         <span class="activity-price"><?php echo number_format($activite['prix'] * $activite['count'], 0, ',', ' '); ?> €</span>
                                     </li>
                                 <?php endforeach; ?>
@@ -197,6 +220,10 @@ require_once __DIR__ . '/includes/header.php';
                             <span>Total</span>
                             <span><?php echo number_format($prix_total, 0, ',', ' '); ?> €</span>
                         </div>
+                    </div>
+                    <!-- Bouton Modifier pour chaque réservation -->
+                    <div class="trip-actions" style="margin-top: 1rem;">
+                        <a href="personnalisation.php?id=<?php echo $voyage_id; ?>&amp;index=<?php echo $index; ?>" class="btn btn-secondary">Modifier</a>
                     </div>
                 </div>
             </div>

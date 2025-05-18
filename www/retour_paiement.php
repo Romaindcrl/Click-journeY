@@ -32,13 +32,17 @@ if ($control !== $control_calcule) {
 
 // Vérification du statut de paiement
 if ($statut === 'accepted') {
-    // Vérifier que les données nécessaires existent
-    if (!isset($_SESSION['reservation']) || !$user_id) {
+    // Vérifier que le panier n'est pas vide et que l'utilisateur est présent
+    if (!isset($_SESSION['reservations']) || empty($_SESSION['reservations']) || !$user_id) {
         echo "<h1>Erreur</h1><p>Session expirée ou identifiant utilisateur manquant.</p>";
         exit;
     }
 
-    $reservation = $_SESSION['reservation'];
+    // Récupérer les réservations du panier
+    $reservations = $_SESSION['reservations'];
+    // Pour l'instant, on traite la première réservation (ou adapter pour plusieurs)
+    $reservation = reset($reservations);
+
     $user_id = intval($user_id);
 
     // Charger les données des voyages
@@ -96,7 +100,7 @@ if ($statut === 'accepted') {
     file_put_contents($commandesFile, json_encode(['commandes' => $commandes], JSON_PRETTY_PRINT));
 
     // Nettoyer la session de réservation
-    unset($_SESSION['reservation']);
+    unset($_SESSION['reservations']);
     $_SESSION['flash_message'] = 'Paiement validé avec succès !';
     $_SESSION['flash_type'] = 'success';
 

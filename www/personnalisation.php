@@ -3,6 +3,19 @@ require_once __DIR__ . '/check_auth.php';
 checkAuth();
 require_once __DIR__ . '/includes/header.php';
 
+// Détection du mode modification
+$editing = false;
+$editIndex = null;
+$initialDate = '';
+$initialNbParticipants = 1;
+if (isset($_GET['index']) && isset($_SESSION['reservations'][$_GET['index']])) {
+    $editing = true;
+    $editIndex = intval($_GET['index']);
+    $reservationSession = $_SESSION['reservations'][$editIndex];
+    $initialDate = $reservationSession['date_depart'];
+    $initialNbParticipants = $reservationSession['nb_participants'];
+}
+
 // Vérifier si le paramètre id est présent dans l'URL
 $voyageId = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
@@ -47,6 +60,27 @@ if (!$voyage) {
     exit;
 }
 
+// Préparation des comptes d'activités initiales en modification (par jour et activité)
+if ($editing) {
+    $duree = $voyage['duree'] ?? 7;
+    $numActs = count($voyage['activites']);
+    $nestedCounts = [];
+    for ($dayIdx = 0; $dayIdx < $duree; $dayIdx++) {
+        $nestedCounts[$dayIdx] = array_fill(0, $numActs, 0);
+    }
+    foreach ($reservationSession['activites'] as $rAct) {
+        $dayIdx = intval($rAct['day']) - 1;
+        foreach ($voyage['activites'] as $i => $act) {
+            if ($act['nom'] === $rAct['nom']) {
+                $nestedCounts[$dayIdx][$i] = intval($rAct['count']);
+                break;
+            }
+        }
+    }
+} else {
+    $nestedCounts = [];
+}
+
 // Traitement du formulaire
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Vérifier et récupérer les données du formulaire
@@ -63,19 +97,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['flash_type'] = 'error';
     } else {
         $activites = [];
-        // Récupérer le nombre de bénéficiaires par activité et recalculer le prix
+        // Récupérer le nombre de bénéficiaires par activité et recalculer le prix pour chaque jour
         if (isset($_POST['activites_counts']) && is_array($_POST['activites_counts'])) {
-            foreach ($_POST['activites_counts'] as $index => $count) {
-                $i = intval($index);
-                $q = intval($count);
-                if ($q > 0 && isset($voyage['activites'][$i])) {
-                    $act = $voyage['activites'][$i];
-                    $activites[] = [
-                        'nom' => $act['nom'],
-                        'prix' => $act['prix'],
-                        'count' => $q
-                    ];
-                    $prixTotal += $act['prix'] * $q;
+            foreach ($_POST['activites_counts'] as $dayIdx => $countsForDay) {
+                if (is_array($countsForDay)) {
+                    foreach ($countsForDay as $index => $count) {
+                        $i = intval($index);
+                        $q = intval($count);
+                        if ($q > 0 && isset($voyage['activites'][$i])) {
+                            $act = $voyage['activites'][$i];
+                            $activites[] = [
+                                'nom' => $act['nom'],
+                                'prix' => $act['prix'],
+                                'count' => $q,
+                                'day' => intval($dayIdx) + 1
+                            ];
+                            $prixTotal += $act['prix'] * $q;
+                        }
+                    }
                 }
             }
         }
@@ -103,7 +142,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 // Générer les options pour le nombre de participants
 $participantsOptions = '';
 for ($i = 1; $i <= 10; $i++) {
-    $selected = ($i === 1) ? 'selected' : '';
+    if ($editing) {
+        $selected = ($i === $initialNbParticipants) ? 'selected' : '';
+    } else {
+        $selected = ($i === 1) ? 'selected' : '';
+    }
     $participantsOptions .= '<option value="' . $i . '" ' . $selected . '>' . $i . '</option>';
 }
 
@@ -112,7 +155,7 @@ $tomorrow = date('Y-m-d', strtotime('+1 day'));
 ?>
 
 <div class="page-container">
-    <h1 class="page-title">Personnalisez votre voyage</h1>
+    <h1 class="page-title"><?= $editing ? 'Modifier votre voyage' : 'Personnalisez votre voyage' ?></h1>
 
     <?php if ($voyage): ?>
         <div class="personnalisation-container">
@@ -123,6 +166,10 @@ $tomorrow = date('Y-m-d', strtotime('+1 day'));
                 <p class="voyage-description"><?= htmlspecialchars($voyage['description']) ?></p>
 
                 <form id="personnalisation-form" method="post" action="panier.php">
+                    <?php if ($editing): ?>
+                        <input type="hidden" name="action" value="modifier_reservation">
+                        <input type="hidden" name="index" value="<?= $editIndex ?>">
+                    <?php endif; ?>
                     <input type="hidden" name="voyage_id" value="<?= $voyageId ?>">
 
                     <div class="form-section">
@@ -130,7 +177,7 @@ $tomorrow = date('Y-m-d', strtotime('+1 day'));
 
                         <div class="input-group">
                             <label for="date_depart">Date de départ:</label>
-                            <input type="date" id="date_depart" name="date_depart" class="form-control" min="<?= $tomorrow ?>" required aria-describedby="date-help">
+                            <input type="date" id="date_depart" name="date_depart" class="form-control" min="<?= $tomorrow ?>" value="<?= htmlspecialchars($initialDate) ?>" required aria-describedby="date-help">
                             <small id="date-help" class="form-text">Sélectionnez une date à partir de demain</small>
                         </div>
 
@@ -144,13 +191,26 @@ $tomorrow = date('Y-m-d', strtotime('+1 day'));
                     </div>
 
                     <?php if (isset($voyage['activites']) && !empty($voyage['activites'])): ?>
+                        <?php $duree = $voyage['duree'] ?? 7; ?>
                         <div class="form-section">
                             <h3>Options supplémentaires</h3>
-                            <p class="section-description">Pour chaque activité, indiquez combien de voyageurs souhaitent en bénéficier :</p>
-                            <div id="options-container"></div>
+                            <p class="section-description">Pour chaque jour, indiquez combien de voyageurs souhaitent bénéficier des activités :</p>
+                            <?php for ($day = 1; $day <= $duree; $day++): ?>
+                                <div class="day-section">
+                                    <div class="day-header" onclick="toggleDay(<?= $day - 1 ?>)">
+                                        <h4>Jour <?= $day ?></h4>
+                                        <span class="toggle-icon">▼</span>
+                                    </div>
+                                    <div class="day-content <?= ($day > 1) ? 'collapsed' : '' ?>" id="day-content-<?= $day - 1 ?>">
+                                        <div class="options-container" data-day-index="<?= $day - 1 ?>"></div>
+                                    </div>
+                                </div>
+                            <?php endfor; ?>
                         </div>
                         <script>
                             window.ACTIVITES_DATA = <?= json_encode($voyage['activites']); ?>;
+                            window.DUREE = <?= $duree ?>;
+                            window.INITIAL_COUNTS = <?= json_encode($nestedCounts); ?>;
                         </script>
                     <?php endif; ?>
 
@@ -190,13 +250,42 @@ $tomorrow = date('Y-m-d', strtotime('+1 day'));
                         </div>
 
                         <input type="hidden" id="prix_total_input" name="prix_total" value="<?= $voyage['prix'] ?>">
-                        <button type="submit" class="btn btn-primary btn-reserver">Passer au paiement</button>
+                        <button type="submit" class="btn btn-primary btn-reserver"><?php echo $editing ? 'Enregistrer les modifications' : 'Passer au paiement'; ?></button>
 
                         <div class="text-center mt-3">
                             <a href="voyages.php" class="btn btn-link">Retour aux voyages</a>
                         </div>
                     </div>
                 </form>
+                <script>
+                    function toggleDay(dayIndex) {
+                        const content = document.getElementById('day-content-' + dayIndex);
+                        const header = content.previousElementSibling;
+                        const icon = header.querySelector('.toggle-icon');
+
+                        if (content.classList.contains('collapsed')) {
+                            content.classList.remove('collapsed');
+                            icon.textContent = '▼';
+                        } else {
+                            content.classList.add('collapsed');
+                            icon.textContent = '►';
+                        }
+                    }
+
+                    // Initialiser les icônes correctement
+                    document.addEventListener('DOMContentLoaded', function() {
+                        const contents = document.querySelectorAll('.day-content');
+                        contents.forEach(content => {
+                            const header = content.previousElementSibling;
+                            const icon = header.querySelector('.toggle-icon');
+                            if (content.classList.contains('collapsed')) {
+                                icon.textContent = '►';
+                            } else {
+                                icon.textContent = '▼';
+                            }
+                        });
+                    });
+                </script>
             </div>
         </div>
     <?php else: ?>

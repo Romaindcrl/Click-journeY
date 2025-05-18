@@ -15,73 +15,72 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Supprimer gestion statique des options des voyageurs et ajouter génération dynamique
     const activitiesData = window.ACTIVITES_DATA || [];
-    const optionsContainer = document.getElementById('options-container');
+    const optionsContainers = Array.from(document.querySelectorAll('.options-container'));
     const selectedActivitiesContainer = document.getElementById('selected-activities-container');
     const selectedActivitiesList = document.getElementById('selected-activities-list');
 
-    // Générer les contrôles de sélection du nombre de bénéficiaires pour chaque activité
+    // Générer les contrôles de sélection pour chaque jour et chaque activité sans limite max
     function renderOptions() {
-        optionsContainer.innerHTML = '';
-        const participants = parseInt(nbParticipantsSelect.value, 10);
-        activitiesData.forEach((activite, index) => {
-            const itemDiv = document.createElement('div');
-            itemDiv.classList.add('option-item');
-            const label = document.createElement('label');
-            label.setAttribute('for', 'activite_count_' + index);
-            label.textContent = activite.nom;
-            itemDiv.appendChild(label);
-            const controlsDiv = document.createElement('div');
-            controlsDiv.classList.add('option-controls');
-            const minusButton = document.createElement('button');
-            minusButton.textContent = '-';
-            minusButton.type = 'button'; // Important pour éviter la soumission du formulaire
-            minusButton.addEventListener('click', function() {
-                const input = this.nextElementSibling;
-                let currentValue = parseInt(input.value, 10);
-                if (currentValue > 0) {
-                    input.value = currentValue - 1;
-                    updateTotalPrice();
-                }
-            });
-            controlsDiv.appendChild(minusButton);
-            const quantityInput = document.createElement('input');
-            quantityInput.type = 'number';
-            quantityInput.id = 'activite_count_' + index;
-            quantityInput.name = 'activites_counts[' + index + ']';
-            quantityInput.value = 0;
-            quantityInput.min = 0;
-            quantityInput.max = participants;
-            quantityInput.setAttribute('data-price', activite.prix);
-            quantityInput.readOnly = true; // Rendre le champ readonly pour forcer l'utilisation des boutons
-            quantityInput.classList.add('quantity-input');
-            quantityInput.addEventListener('change', updateTotalPrice);
-            controlsDiv.appendChild(quantityInput);
-            const plusButton = document.createElement('button');
-            plusButton.textContent = '+';
-            plusButton.type = 'button'; // Important pour éviter la soumission du formulaire
-            plusButton.addEventListener('click', function() {
-                const input = this.previousElementSibling;
-                let currentValue = parseInt(input.value, 10);
-                if (currentValue < parseInt(input.max, 10)) {
+        optionsContainers.forEach(container => {
+            container.innerHTML = '';
+            const dayIndex = parseInt(container.getAttribute('data-day-index'), 10);
+            activitiesData.forEach((activite, index) => {
+                const itemDiv = document.createElement('div');
+                itemDiv.classList.add('option-item');
+                const label = document.createElement('label');
+                label.setAttribute('for', 'activite_' + dayIndex + '_' + index);
+                label.textContent = activite.nom;
+                itemDiv.appendChild(label);
+                const controlsDiv = document.createElement('div');
+                controlsDiv.classList.add('option-controls');
+                const minusButton = document.createElement('button');
+                minusButton.textContent = '-';
+                minusButton.type = 'button';
+                minusButton.addEventListener('click', function() {
+                    const input = this.nextElementSibling;
+                    let currentValue = parseInt(input.value, 10);
+                    if (currentValue > 0) {
+                        input.value = currentValue - 1;
+                        updateTotalPrice();
+                    }
+                });
+                controlsDiv.appendChild(minusButton);
+                const quantityInput = document.createElement('input');
+                quantityInput.type = 'number';
+                quantityInput.id = 'activite_' + dayIndex + '_' + index;
+                quantityInput.name = 'activites_counts[' + dayIndex + '][' + index + ']';
+                quantityInput.value = 0;
+                quantityInput.min = 0;
+                quantityInput.setAttribute('data-price', activite.prix);
+                quantityInput.readOnly = true;
+                quantityInput.classList.add('quantity-input');
+                quantityInput.addEventListener('change', updateTotalPrice);
+                controlsDiv.appendChild(quantityInput);
+                const plusButton = document.createElement('button');
+                plusButton.textContent = '+';
+                plusButton.type = 'button';
+                plusButton.addEventListener('click', function() {
+                    const input = this.previousElementSibling;
+                    let currentValue = parseInt(input.value, 10);
                     input.value = currentValue + 1;
                     updateTotalPrice();
-                }
+                });
+                controlsDiv.appendChild(plusButton);
+                itemDiv.appendChild(controlsDiv);
+                const priceDiv = document.createElement('div');
+                priceDiv.classList.add('activity-price');
+                priceDiv.textContent = new Intl.NumberFormat('fr-FR').format(activite.prix) + ' €';
+                itemDiv.appendChild(priceDiv);
+                container.appendChild(itemDiv);
             });
-            controlsDiv.appendChild(plusButton);
-            itemDiv.appendChild(controlsDiv);
-            const priceDiv = document.createElement('div');
-            priceDiv.classList.add('activity-price');
-            priceDiv.textContent = new Intl.NumberFormat('fr-FR').format(activite.prix) + ' €';
-            itemDiv.appendChild(priceDiv);
-            optionsContainer.appendChild(itemDiv);
         });
     }
 
-    // Calculer et mettre à jour le prix total en fonction des sélections
+    // Calculer et mettre à jour le prix total en fonction des sélections sur tous les jours
     function updateTotalPrice() {
         const participants = parseInt(nbParticipantsSelect.value, 10);
         let total = basePrice * participants;
-        const quantityInputs = optionsContainer.querySelectorAll('.quantity-input');
+        const quantityInputs = document.querySelectorAll('.quantity-input');
         quantityInputs.forEach(input => {
             const qty = parseInt(input.value, 10);
             const price = parseInt(input.getAttribute('data-price'), 10);
@@ -97,7 +96,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function updateSelectedActivities() {
         selectedActivitiesList.innerHTML = '';
         let anySelected = false;
-        const quantityInputs = optionsContainer.querySelectorAll('.quantity-input');
+        const quantityInputs = document.querySelectorAll('.quantity-input');
         quantityInputs.forEach((input, index) => {
             const qty = parseInt(input.value, 10);
             if (qty > 0) {
@@ -143,5 +142,17 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialisation
     renderOptions();
+    // Pré-remplissage des activités en mode modification
+    if (window.INITIAL_COUNTS && Array.isArray(window.INITIAL_COUNTS)) {
+        renderOptions();
+        window.INITIAL_COUNTS.forEach((dayCounts, dayIdx) => {
+            if (Array.isArray(dayCounts)) {
+                dayCounts.forEach((cnt, i) => {
+                    const input = document.getElementById(`activite_${dayIdx}_${i}`);
+                    if (input) input.value = cnt;
+                });
+            }
+        });
+    }
     updateTotalPrice();
 }); 
