@@ -108,3 +108,46 @@ _Ce document sera mis à jour au fur et à mesure de l'avancement du projet._
   - **Solution :** Centralisation de la logique d'authentification dans `check_auth.php` et utilisation cohérente des sessions `$_SESSION`.
 - **Problème :** Synchronisation des structures de données JSON entre les différentes fonctionnalités.
   - **Solution :** Définition claire du schéma JSON dans `database_model.md` et communication constante entre les membres.
+
+ 
+# Phase 3
+
+- **Date de début :** 10/05/2025  
+- **Date de fin :** 18/05/2025  
+
+---
+
+## Répartition des Tâches
+
+### Victor HAEGEMAN  
+1. Mise en place du **changement de charte graphique** (modes clair / sombre) : ajout d’une palette sombre complète et d’un bouton “☀️ / 🌙” qui charge le bon fichier CSS sans rechargement, avec conservation du choix dans un cookie.  
+2. Refonte de la **documentation graphique** : extension de `graphic.md` avec la palette, la typographie et les usages du thème sombre.
+3. **recalcul instantané du prix** sur la page détail voyage et intégration de la **fonctionnalité panier** dans le flux de personnalisation.
+---
+
+### Romain DECRAND LARDIERE  
+1. **Validation côté client** de tous les formulaires (inscription, connexion, personnalisation) : contrôles en temps réel, messages d’erreur inline, compteur de caractères et blocage de l’envoi HTTP tant que le formulaire n’est pas conforme.  
+2. Amélioration **UX** : icône “œil” pour afficher/masquer les mots de passe et tooltips dans l’interface admin pour les adresses e-mail.  
+3. Mise en place de **messages d’erreur ** raffinement de la regex e-mail.
+---
+
+### Mathias DA COSTA SILVA  
+1. **Édition inline du profil** : champs grisés par défaut, activation individuelle, boutons Valider / Annuler et apparition conditionnelle du bouton “Soumettre” sans rechargement.  
+2. **Simulation d’attente** dans l’admin : grisement des contrôles pendant 3 s avec spinner avant ré-activation, préparation de la future mise à jour serveur.  
+3. **Tri dynamique** des résultats de recherche (date, prix, durée, étapes).
+
+---
+
+## Organisation et Collaboration
+
+- Travail **ensemble sur le même poste** la majeure partie du temps : conception, code et tests menés à trois.  
+- **Pair-programming** quotidien et relectures croisées avant chaque commit.  
+
+---
+
+## Problèmes Rencontrés et Solutions
+
+| Problème rencontré | Solution apportée |
+|--------------------|-------------------|
+| **Problème sur les avis** Les caractères spéciaux étaient mal décodées dans l'affichage.
+| **Le panier se vidait** tout seul lors de la navigation. | Passage du stockage du panier des cookies à la session serveur, sauvegarde à chaque étape et contrôle d’intégrité avant affichage. |
