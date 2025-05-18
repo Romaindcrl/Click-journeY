@@ -7,7 +7,6 @@
     <script src="src/js/theme-switcher.js"></script>
     <script src="src/js/form-validation.js"></script>
     <script src="src/js/profil-features.js"></script>
-    <script src="src/js/personnalisation-toggle.js"></script>
     </body>
 
     </html>

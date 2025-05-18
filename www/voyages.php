@@ -1,5 +1,15 @@
+<head>
+    <link rel="stylesheet" href="src/css/voyages.css">
+    <link rel="stylesheet" href="src/css/form-validation.css">
+    <link rel="stylesheet" href="src/css/voyages-pagination.css">
+</head>
 <?php
 require_once __DIR__ . '/includes/header.php';
+?>
+<link rel="stylesheet" href="src/css/voyages.css">
+<link rel="stylesheet" href="src/css/voyages-pagination.css">
+<link rel="stylesheet" href="src/css/search.css">
+<?php
 
 // Récupérer le terme de recherche
 $searchTerm = isset($_GET['q']) ? trim($_GET['q']) : '';

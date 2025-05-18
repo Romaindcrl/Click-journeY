@@ -60,6 +60,8 @@ $control = md5($api_key . '#' . $transaction . '#' . $montant . '#' . $vendeur .
 // Inclure l'en-tête HTML
 require_once __DIR__ . '/includes/header.php';
 ?>
+<link rel="stylesheet" href="src/css/paiement.css">
+<link rel="stylesheet" href="src/css/form-validation.css">
 
 <div class="page-container">
     <h1 class="page-title">Paiement</h1>

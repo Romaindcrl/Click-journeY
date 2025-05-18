@@ -17,7 +17,7 @@
 .page-container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 2rem 1rem;
+  padding: 2rem 0;
   font-family: 'Poppins', sans-serif;
 }
 
@@ -61,6 +61,7 @@
   flex-direction: column;
   height: auto;
   min-height: 580px;
+  min-width: 350px;
   position: relative;
   margin-bottom: 20px;
   border: 1px solid rgba(101, 164, 202, 0.1);

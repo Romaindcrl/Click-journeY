@@ -17,13 +17,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['connexion'])) {
     } else {
         $login = ''; // Assurer que $login est toujours défini
     }
-    
+
     if (isset($_POST['password'])) {
         $password = trim($_POST['password']);
     } else {
         $password = ''; // Assurer que $password est toujours défini
     }
-    
+
     if (empty($login) || empty($password)) {
         $error = 'Veuillez remplir tous les champs';
     } else {
@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['connexion'])) {
             // Lecture du fichier users.json
             $usersJson = file_get_contents($usersFile);
             $data = json_decode($usersJson, true);
-            
+
             // Vérification que le décodage JSON a réussi et que la clé 'users' existe
             if ($data === null || !isset($data['users']) || !is_array($data['users'])) {
                 $error = 'Erreur système. Veuillez contacter l\'administrateur.';
@@ -49,17 +49,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['connexion'])) {
                         break;
                     }
                 }
-                
+
                 if ($user && $password === $user['password']) {
                     // Stockage de l'utilisateur dans la session
                     $_SESSION['user'] = $user;
-                    
+
                     // Message de succès
                     $_SESSION['flash'] = [
                         'type' => 'success',
                         'message' => 'Connexion réussie !'
                     ];
-                    
+
                     // Si connexion réussie et qu'il y a une redirection en attente
                     if (isset($_SESSION['redirect_after_login'])) {
                         $redirect = $_SESSION['redirect_after_login'];
@@ -80,6 +80,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['connexion'])) {
 
 require_once __DIR__ . '/includes/header.php';
 ?>
+<link rel="stylesheet" href="src/css/auth.css">
+<link rel="stylesheet" href="src/css/form-validation.css">
 
 <div class="page-container">
     <div class="auth-container">
@@ -95,7 +97,7 @@ require_once __DIR__ . '/includes/header.php';
             <?php if ($error): ?>
                 <div class="alert alert-danger"><?php echo htmlspecialchars($error); ?></div>
             <?php endif; ?>
-            
+
             <div class="social-login">
                 <div class="social-login-text">Connectez-vous avec</div>
                 <div class="social-buttons">
@@ -107,30 +109,30 @@ require_once __DIR__ . '/includes/header.php';
                     <span>Ou connectez vous avec votre compte</span>
                 </div>
             </div>
-            
+
             <form method="POST" novalidate>
                 <div class="auth-form-group">
-                    <input type="text" 
-                           id="login" 
-                           name="login" 
-                           value="<?php echo htmlspecialchars($login); ?>"
-                           placeholder="Login" 
-                           autocomplete="username"
-                           required>
+                    <input type="text"
+                        id="login"
+                        name="login"
+                        value="<?php echo htmlspecialchars($login); ?>"
+                        placeholder="Login"
+                        autocomplete="username"
+                        required>
                 </div>
-                
+
                 <div class="auth-form-group">
-                    <input type="password" 
-                           id="password" 
-                           name="password" 
-                           placeholder="Mot de passe" 
-                           autocomplete="current-password"
-                           required>
+                    <input type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Mot de passe"
+                        autocomplete="current-password"
+                        required>
                     <div class="password-options">
                         <a href="#" class="forgot-password">Mot de passe oublié</a>
                     </div>
                 </div>
-                
+
                 <div class="auth-form-actions">
                     <button type="submit" name="connexion" class="btn-auth btn-login">Se connecter</button>
                 </div>
@@ -145,4 +147,4 @@ require_once __DIR__ . '/includes/header.php';
 
 <?php
 require_once __DIR__ . '/includes/footer.php';
-?> 
+?>

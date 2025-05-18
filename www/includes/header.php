@@ -30,25 +30,10 @@ $is_admin = $user_logged_in && $_SESSION['user']['role'] === 'admin';
 
     <!-- Feuilles de style -->
     <link rel="stylesheet" href="src/css/style.css">
-    <link rel="stylesheet" href="src/css/reviews.css">
-    <link rel="stylesheet" href="src/css/confirmation.css">
-    <link rel="stylesheet" href="src/css/auth.css">
-    <link rel="stylesheet" href="src/css/home.css">
-    <link rel="stylesheet" href="src/css/voyages.css">
-    <link rel="stylesheet" href="src/css/voyage-details.css">
-    <link rel="stylesheet" href="src/css/search.css">
-    <link rel="stylesheet" href="src/css/profile.css">
-    <link rel="stylesheet" href="src/css/personnalisation.css">
-    <link rel="stylesheet" href="src/css/paiement.css">
-    <link rel="stylesheet" href="src/css/cards.css">
-    <link rel="stylesheet" href="src/css/index-specific.css">
     <link rel="stylesheet" href="src/css/header-specific.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="icon" href="src/images/logo.png" type="image/png">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="stylesheet" href="src/css/profil.css">
-    <link rel="stylesheet" href="src/css/form-validation.css">
-    <link rel="stylesheet" href="src/css/add-review.css">
+
 </head>
 
 <body>
@@ -152,23 +137,8 @@ $is_admin = $user_logged_in && $_SESSION['user']['role'] === 'admin';
         </div>
     <?php endif; ?>
 
-    <script>
-        // Gestion du thème
-        const themeToggle = document.getElementById('theme-toggle');
-        const htmlElement = document.documentElement;
+    <script src="src/js/dark-theme.js"></script>
 
-        // Vérifier le thème stocké ou utiliser le thème clair par défaut
-        const currentTheme = localStorage.getItem('theme') || 'light';
-        htmlElement.setAttribute('data-theme', currentTheme);
-        themeToggle.checked = currentTheme === 'dark';
-
-        // Changer le thème lorsque l'utilisateur clique sur le toggle
-        themeToggle.addEventListener('change', function() {
-            const theme = this.checked ? 'dark' : 'light';
-            htmlElement.setAttribute('data-theme', theme);
-            localStorage.setItem('theme', theme);
-        });
-    </script>
 </body>
 
 </html>

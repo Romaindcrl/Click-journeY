@@ -46,6 +46,10 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+
+    // Initialise la gestion de l'API de paiement.
+    // La fonction processPaymentAPI() vérifie elle-même l'existence de son formulaire cible.
+    processPaymentAPI();
 });
 
 /**
@@ -723,13 +727,4 @@ function processPaymentAPI() {
             submitButton.textContent = 'Finaliser le paiement';
         });
     });
-}
-
-// Initialiser les fonctions lorsque le document est chargé
-document.addEventListener('DOMContentLoaded', function() {
-    setupPasswordVisibility();
-    setupCharCounter();
-    setupLiveValidation();
-    setupLivePaymentValidation();
-    processPaymentAPI();
-}); 
+} 

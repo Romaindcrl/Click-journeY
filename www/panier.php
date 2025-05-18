@@ -133,6 +133,8 @@ $voyages = $voyagesData['voyages'] ?? [];
 // Inclure le header
 require_once __DIR__ . '/includes/header.php';
 ?>
+<link rel="stylesheet" href="src/css/cards.css">
+<link rel="stylesheet" href="src/css/paiement.css">
 
 <div class="page-container">
     <h1 class="page-title">Panier</h1>

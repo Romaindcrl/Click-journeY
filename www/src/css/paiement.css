@@ -353,6 +353,49 @@ select.form-control {
     transform: translateY(-2px);
 }
 
+/* Styles pour les boutons selon la charte graphique */
+.btn-secondary {
+    background-color: #2d5977; /* Lapis Lazuli selon la charte graphique */
+    color: white;
+    border: none;
+    padding: 0.5rem 1.25rem;
+    border-radius: 50px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    text-decoration: none;
+}
+
+.btn-secondary:hover {
+    background-color: #236090; /* Variante plus foncée pour l'effet hover */
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn-link {
+    color: #2d5977; /* Lapis Lazuli pour le texte */
+    background-color: transparent;
+    border: 1px solid #2d5977;
+    padding: 0.5rem 1.25rem;
+    border-radius: 50px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-link:hover {
+    background-color: rgba(45, 89, 119, 0.1); /* Lapis Lazuli avec transparence */
+    transform: translateY(-2px);
+}
+
 @media (min-width: 768px) {
     .cart-buttons {
         flex-direction: row;

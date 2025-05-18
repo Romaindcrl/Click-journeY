@@ -161,7 +161,7 @@ $reviewsJson = file_get_contents(__DIR__ . '/../data/avis.json');
 $reviewsData = json_decode($reviewsJson, true);
 $reviewsList = $reviewsData['avis'] ?? [];
 ?>
-
+<link rel="stylesheet" href="src/css/profile.css">
 <div class="page-container">
     <h1 class="page-title">
         <?php echo $isOwner ? 'Mon profil' : 'Profil de ' . htmlspecialchars($user['prenom'] . ' ' . $user['nom']); ?>

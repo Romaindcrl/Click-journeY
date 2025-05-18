@@ -62,6 +62,7 @@ $activites = $commande['options_choisies']['etape_1']['activites'] ?? [];
 
 require_once __DIR__ . '/includes/header.php';
 ?>
+<link rel="stylesheet" href="src/css/confirmation.css">
 
 <div class="page-container">
     <div class="confirmation-header">

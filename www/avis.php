@@ -1,5 +1,10 @@
 <?php
 require_once __DIR__ . '/includes/header.php';
+?>
+<link rel="stylesheet" href="src/css/reviews.css">
+<link rel="stylesheet" href="src/css/avis-specific.css">
+<link rel="stylesheet" href="src/css/add-review.css">
+<?php
 
 // Charger les avis
 $avisFile = __DIR__ . '/../data/avis.json';

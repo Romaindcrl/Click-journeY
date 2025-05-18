@@ -4,6 +4,9 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 require_once __DIR__ . '/includes/header.php';
+?>
+<link rel="stylesheet" href="src/css/voyage-details.css">
+<?php
 
 // Vérifier si l'ID du voyage est présent
 if (!isset($_GET['id']) || empty($_GET['id'])) {

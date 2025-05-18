@@ -2,6 +2,9 @@
 require_once __DIR__ . '/check_auth.php';
 checkAuth();
 require_once __DIR__ . '/includes/header.php';
+?>
+<link rel="stylesheet" href="src/css/personnalisation.css">
+<?php
 
 // Détection du mode modification
 $editing = false;
@@ -250,7 +253,7 @@ $tomorrow = date('Y-m-d', strtotime('+1 day'));
                         </div>
 
                         <input type="hidden" id="prix_total_input" name="prix_total" value="<?= $voyage['prix'] ?>">
-                        <button type="submit" class="btn-reserver">Passer au paiement</button>
+                        <button type="submit" class="btn-reserver">Récapitulaif de la commande</button>
 
                         <div class="text-center mt-3">
                             <a href="voyages.php" class="btn btn-link">Retour aux voyages</a>

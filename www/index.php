@@ -1,5 +1,9 @@
 <?php
 require_once __DIR__ . '/includes/header.php';
+?>
+<link rel="stylesheet" href="src/css/home.css">
+<link rel="stylesheet" href="src/css/index-specific.css">
+<?php
 
 // Lecture du fichier voyages.json
 $voyagesJson = file_get_contents(__DIR__ . '/../data/voyages.json');
